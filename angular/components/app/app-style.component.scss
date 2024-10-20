@@ -1,0 +1,37 @@
+@import "../../style/global-variables";
+@import "../../style/global-mixins";
+@import "../../style/global-variables";
+@import "../../style/global-placeholders";
+
+h1 {
+    font-size: $h1-font-size;
+    @include basic-margin-padding(0, 0);
+}
+h2 {
+    font-size: $h2-font-size;
+    @include basic-margin-padding(0, 0);
+}
+h3 {
+    font-size: $h3-font-size;
+    @include basic-margin-padding(0, 0);
+}
+h4 {
+    font-size: $h4-font-size;
+    @include basic-margin-padding(0, 0);
+}
+h5 {
+    font-size: $h5-font-size;
+    @include basic-margin-padding(0, 0);
+}
+h6 {
+    font-size: $h6-font-size;
+    @include basic-margin-padding(0, 0);
+}
+p {
+    font-size: $p-font-size;
+    @include basic-margin-padding(0, 0);
+}
+span {
+    font-size: $p-font-size;
+    @include basic-margin-padding(0, 0);
+}

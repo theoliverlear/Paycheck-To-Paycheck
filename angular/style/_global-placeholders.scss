@@ -1,0 +1,9 @@
+//=================================-Imports-==================================
+@import "angular/style/global-variables";
+//===============================-Placeholders-===============================
+%circle-border-radius {
+    border-radius: 50%;
+}
+%soft-border-radius {
+    border-radius: $one-percent;
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es2018"],
+    "outDir": "./",
+    "rootDir": "./",
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es6",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["./angular/**/*"],
+  "exclude": ["node_modules", "build"],
+  "angularCompilerOptions": {
+    "enableIvy": true
+  }
+}
