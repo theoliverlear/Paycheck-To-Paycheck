@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 
 
@@ -14,3 +13,6 @@ def get_second_friday():
 
 def get_next_week(day):
     return day.replace(day=day.day + 7)
+
+def get_next_bi_week(day):
+    return day.replace(day=day.day + 14)
