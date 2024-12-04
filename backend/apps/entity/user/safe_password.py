@@ -7,7 +7,10 @@ from attrs import define
 class SafePassword:
     encoded_password: str = attr(default='')
     ENCODING_TYPE: str = 'utf-8'
-    def __init__(self, unhashed_password: str):
+    def __init__(self, unhashed_password: str=''):
+        self.encoded_password = self.hash_password(unhashed_password)
+
+    def set_new_unhashed_password(self, unhashed_password: str):
         self.encoded_password = self.hash_password(unhashed_password)
 
     def hash_password(self, unhashed_password: str) -> str:
