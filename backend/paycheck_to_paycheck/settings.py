@@ -24,7 +24,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'paycheck_to_paycheck',
+    'apps',
     'livereload',
+    'django.injector'
 ]
 
 MIDDLEWARE = [
@@ -36,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
+    'my_django_project.injector_modules.AppModule',
 ]
 
 ROOT_URLCONF = 'paycheck_to_paycheck.urls'
@@ -60,8 +63,11 @@ WSGI_APPLICATION = 'paycheck_to_paycheck.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv('PTP_DB_NAME'),
+        'USER': getenv('PTP_DB_USER'),
+        'PASSWORD': getenv('PTP_DB_PW'),
+
     }
 }
 
