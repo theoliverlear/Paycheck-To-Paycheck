@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+import logging
 import os
 import sys
 
@@ -17,6 +18,12 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+
+def setup_logging() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
 
 if __name__ == '__main__':
     main()
