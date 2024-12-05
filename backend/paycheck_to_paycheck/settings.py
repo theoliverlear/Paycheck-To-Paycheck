@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'paycheck_to_paycheck',
     'apps',
     'livereload',
-    'django.injector'
+    'django_injector'
 ]
 
 MIDDLEWARE = [
@@ -38,7 +38,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
-    'my_django_project.injector_modules.AppModule',
+    'apps.injector.AppModule',
 ]
 
 ROOT_URLCONF = 'paycheck_to_paycheck.urls'
