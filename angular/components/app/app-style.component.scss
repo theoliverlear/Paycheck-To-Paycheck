@@ -1,8 +1,11 @@
-@import "../../style/global-variables";
-@import "../../style/global-mixins";
-@import "../../style/global-variables";
-@import "../../style/global-placeholders";
+//=================================-Imports-==================================
+@import "angular/styles/global-variables";
+@import "angular/styles/global-mixins";
+@import "angular/styles/global-functions";
+@import "angular/styles/global-placeholders";
+//==================================-Styles-==================================
 
+//----------------------------General-Text-Content----------------------------
 h1 {
     font-size: $h1-font-size;
     @include basic-margin-padding(0, 0);
@@ -34,4 +37,42 @@ p {
 span {
     font-size: $p-font-size;
     @include basic-margin-padding(0, 0);
+}
+code {
+
+}
+body {
+    @include flex(center, center, column);
+    @include square-size(100%);
+    @include basic-margin-padding(0, 0);
+    min-height: 100vh;
+    app {
+        width: 100%;
+        @include flex(center, center, column);
+        @include basic-margin-padding(0, 0);
+        min-height: 100vh;
+        //max-height: 100vh;
+        background: radial-gradient(at center, $charcoal 70%, $absolute-black);
+        font-family: $jetbrains-mono-font;
+        overflow: auto;
+        //flex-grow: 1;
+        main {
+            width: 100%;
+            flex: 1;
+            @include flex(center, center, column);
+        }
+        .scroll-container {
+            @include flex(flex-start, flex-start, column);
+            //@extend %nav-bar-padding-top;
+            width: 100%;
+            overflow: scroll;
+            height: auto;
+            flex: 1;
+        }
+        authorize, home, profile, messages, welcome {
+            width: 100%;
+            box-sizing: border-box;
+            flex: 1;
+        }
+    }
 }
