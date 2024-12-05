@@ -1,12 +1,10 @@
 import {NgModule} from "@angular/core";
+import {RouterModule} from "@angular/router";
+import {routes} from "./routes";
 
 @NgModule({
-    declarations: [],
-    imports: [],
-    providers: [],
-    bootstrap: [],
-    exports: [],
-    schemas: []
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {
     constructor() {
