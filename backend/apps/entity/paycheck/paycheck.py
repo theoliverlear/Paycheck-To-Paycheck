@@ -1,7 +1,9 @@
 from attr import attr
 from attrs import define, field
 
-from backend.apps.entity.income.income import Income
+from backend.apps.entity.income.income import Income, IncomeOrmModel
+from backend.apps.entity.time.date_interval import DateInterval
+
 
 @define
 class Paycheck:
@@ -13,5 +15,5 @@ class Paycheck:
 
     @staticmethod
     def income_to_paycheck(income_value: float) -> float:
-        BIWEEKLY_PAY_PERIODS: int = 26
-        return income_value / BIWEEKLY_PAY_PERIODS
+        bi_weeks_in_year: int = DateInterval.BI_WEEKLY.value
+        return income_value / bi_weeks_in_year
