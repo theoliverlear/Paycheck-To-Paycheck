@@ -2,12 +2,18 @@ from enum import Enum
 
 
 class DateInterval(Enum):
-    YEARLY = 1,
-    QUARTERLY = 4,
-    BI_MONTHLY = 6,
-    MONTHLY = 12,
-    BI_WEEKLY = 26,
-    WEEKLY = 52
-    DAILY = 365,
-    HOURLY = 8760,
-    NO_INTERVAL = 0
+    YEARLY: int = 1
+    QUARTERLY: int = 4
+    BI_MONTHLY: int = 6
+    MONTHLY: int = 12
+    BI_WEEKLY: int = 26
+    WEEKLY: int = 52
+    DAILY: int = 365
+    HOURLY: int = 8760
+    NO_INTERVAL: int = 0
+    @staticmethod
+    def from_interval(interval: int) -> 'DateInterval':
+        for date_interval in DateInterval:
+            if date_interval.value == interval:
+                return date_interval
+        return DateInterval.NO_INTERVAL
