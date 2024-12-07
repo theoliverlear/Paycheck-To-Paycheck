@@ -6,7 +6,10 @@ from backend.apps.entity.time.date_range import DateRange
 
 
 class MyTestCase(unittest.TestCase):
-    date_range = DateRange(date.today(), get_next_bi_week(date.today()))
+    date_range = DateRange(
+        starting_date=date.today(),
+        ending_date=get_next_bi_week(date.today())
+    )
     def test_in_range(self):
         start_next_week: date = get_next_week(date.today())
         self.assertTrue(self.date_range.in_range(start_next_week))
