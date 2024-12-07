@@ -51,6 +51,9 @@ MIDDLEWARE = [
     'livereload.middleware.LiveReloadScript',
     'apps.injector.AppModule',
 ]
+INJECTOR_MODULES = [
+    'backend.apps.injector.AppModule',
+]
 
 ROOT_URLCONF = 'paycheck_to_paycheck.urls'
 
