@@ -2,8 +2,6 @@ import unittest
 
 import django
 
-from backend.apps.entity.income.income import Income
-from backend.apps.entity.income.income_type import IncomeType
 from backend.apps.entity.income.income_types import IncomeTypes
 from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.time.date_interval import DateInterval
@@ -13,16 +11,14 @@ from backend.apps.entity.user.user import User
 
 django.setup()
 
-recurring_date: RecurringDate = RecurringDate(1,
-                                              DateInterval.YEARLY)
+recurring_date: RecurringDate = RecurringDate(day=1,
+                                              interval=DateInterval.YEARLY)
 recurring_income: RecurringIncome = RecurringIncome(income=43_000,
                                                     income_type=IncomeTypes.SALARY.value,
                                                     recurring_date=recurring_date)
-safe_password: SafePassword = SafePassword('password')
+safe_password: SafePassword = SafePassword(unhashed_password='password')
 
 def setup_user() -> User:
-
-
     user: User = User(
         first_name='John',
         last_name='Doe',
@@ -44,10 +40,18 @@ class MyTestCase(unittest.TestCase):
     def test_save(self):
         try:
             user: User = setup_user()
-            user.recurring_income.recurring_date.save()
-            user.recurring_income.save()
-            user.password.save()
-            user.save()
+            saved_user: User = user.save()
+            self.assertIsNotNone(saved_user)
+        except Exception as exception:
+            self.fail(exception)
+
+    def test_update(self):
+        try:
+            user: User = setup_user()
+            user.first_name = 'Jack'
+            saved_user: User = user.save()
+            saved_user.first_name = 'Jane'
+            saved_user.update()
         except Exception as exception:
             self.fail(exception)
 if __name__ == '__main__':
