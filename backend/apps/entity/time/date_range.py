@@ -3,11 +3,12 @@ from datetime import date
 from attr import attr
 from attrs import define
 
+from backend.apps.entity.identifiable import Identifiable
 from backend.apps.models.date_utilities import get_next_bi_week
 
 
 @define
-class DateRange:
+class DateRange(Identifiable):
     starting_date: date = attr(default=date.today())
     ending_date: date = attr(default=get_next_bi_week(date.today()))
 
