@@ -1,9 +1,11 @@
 from attr import attr
 from attrs import define
 
+from backend.apps.entity.identifiable import Identifiable
+
 
 @define
-class Tax:
+class Tax(Identifiable):
     rate: float = attr(default=0.0)
 
     def amount_after_tax(self, amount: float):
