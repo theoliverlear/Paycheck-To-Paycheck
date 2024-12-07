@@ -5,12 +5,14 @@ from backend.apps.entity.tax.models import TaxOrmModel
 
 
 class PaycheckOrmModel(models.Model):
+    id = models.AutoField(primary_key=True)
     income = models.ForeignKey(IncomeOrmModel, on_delete=models.CASCADE)
     paycheck_income = models.FloatField(default=0.0)
     class Meta:
         db_table = 'paychecks'
 
 class TaxedPaycheckOrmModel(models.Model):
+    id = models.AutoField(primary_key=True)
     income = models.ForeignKey(IncomeOrmModel, on_delete=models.CASCADE)
     paycheck_income = models.FloatField(default=0.0)
     tax = models.ForeignKey(TaxOrmModel, on_delete=models.CASCADE)
