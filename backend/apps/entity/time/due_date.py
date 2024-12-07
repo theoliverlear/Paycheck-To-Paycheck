@@ -3,9 +3,11 @@ from datetime import date
 from attr import attr
 from attrs import define
 
+from backend.apps.entity.identifiable import Identifiable
+
 
 @define
-class DueDate:
+class DueDate(Identifiable):
     due_date: date = attr(default=date.today())
 
     def is_due(self, date_to_check: date) -> bool:
