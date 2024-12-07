@@ -1,17 +1,20 @@
 from abc import ABC
 
 import bcrypt
-from django.db import models
+from attr import attr
 
+from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.orm_compatible import OrmCompatible
 from backend.apps.entity.user.models import SafePasswordOrmModel
+from backend.apps.exception.entity_not_found_exception import \
+    EntityNotFoundException
 
 
-class SafePassword(OrmCompatible, ABC):
-    encoded_password = models.CharField(max_length=100)
+class SafePassword(OrmCompatible, ABC, Identifiable):
+    encoded_password: str = attr(default='')
     ENCODING_TYPE = 'utf-8'
-    def __init__(self, unhashed_password: str=''):
-        super().__init__()
+    def __init__(self, id: int = 0, unhashed_password: str=''):
+        self._id = id
         self.encoded_password = self.hash_password(unhashed_password)
 
     def set_new_unhashed_password(self, unhashed_password: str):
@@ -25,16 +28,40 @@ class SafePassword(OrmCompatible, ABC):
     def compare_unencoded_password(self, unencoded_password: str) -> bool:
         return bcrypt.checkpw(unencoded_password.encode(SafePassword.ENCODING_TYPE), self.encoded_password.encode(SafePassword.ENCODING_TYPE))
 
-    def save(self):
+    def save(self) -> 'SafePassword':
         orm_model: SafePasswordOrmModel = self.get_orm_model()
-        orm_model.save()
+        saved_password = SafePasswordOrmModel.objects.create(
+            encoded_password=orm_model.encoded_password
+        )
+        return SafePassword.from_orm_model(saved_password)
 
-    def get_orm_model(self):
+    def update(self):
+        try:
+            db_model = SafePasswordOrmModel.objects.get(id=self._id)
+
+            orm_model = self.get_orm_model()
+            db_model = self.set_orm_model(db_model, orm_model)
+            db_model.save()
+        except SafePasswordOrmModel.DoesNotExist:
+            raise EntityNotFoundException(self)
+
+    @staticmethod
+    def set_orm_model(db_model, model_to_set):
+        db_model.encoded_password = model_to_set.encoded_password
+        return db_model
+
+    def get_orm_model(self) -> SafePasswordOrmModel:
         return SafePasswordOrmModel(
+            id=self.id,
             encoded_password=self.encoded_password
         )
 
-    def set_from_orm_model(self, orm_model):
+    def set_from_orm_model(self, orm_model) -> None:
+        self.id = orm_model.id
         self.encoded_password = orm_model.encoded_password
 
-
+    @staticmethod
+    def from_orm_model(orm_model: SafePasswordOrmModel) -> 'SafePassword':
+        safe_password = SafePassword()
+        safe_password.set_from_orm_model(orm_model)
+        return safe_password
