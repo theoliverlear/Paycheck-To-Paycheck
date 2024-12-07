@@ -3,11 +3,8 @@ import logging
 from django.http import HttpResponse
 from rest_framework.views import APIView
 
-from backend.apps.entity.income.income import Income
-from backend.apps.entity.income.income_type import IncomeType
 from backend.apps.entity.income.income_types import IncomeTypes
 from backend.apps.entity.income.recurring_income import RecurringIncome
-from backend.apps.entity.paycheck.paycheck import Paycheck
 from backend.apps.entity.paycheck.taxed_paycheck import TaxedPaycheck
 from backend.apps.entity.tax.tax import Tax
 from backend.apps.entity.time.date_interval import DateInterval
@@ -22,11 +19,11 @@ class PaycheckView(APIView):
             first_name='John',
             last_name='Doe',
             username='johndoe',
-            password=SafePassword('password'),
+            password=SafePassword(unhashed_password='password'),
             recurring_income=RecurringIncome(
                 income=params,
                 income_type=IncomeTypes.SALARY.value,
-                recurring_date=RecurringDate(1, DateInterval.YEARLY)
+                recurring_date=RecurringDate(day=1, interval=DateInterval.YEARLY)
             ),
         )
         tax: Tax = Tax(25)
@@ -37,7 +34,5 @@ class PaycheckView(APIView):
         paycheck_after_taxes_str: str = f"${taxed_paycheck.after_tax_income:,.2f}"
         logging.info(f"Paycheck: {paycheck_str}, After Taxes: {paycheck_after_taxes_str}")
         combined_info: str = f"Paycheck: {paycheck_str}, After Taxes: {paycheck_after_taxes_str}"
-        user.recurring_income.recurring_date.save()
-        user.recurring_income.save()
         user.save()
         return HttpResponse(combined_info)
