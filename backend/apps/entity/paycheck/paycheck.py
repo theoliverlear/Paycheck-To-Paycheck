@@ -1,12 +1,13 @@
 from attr import attr
 from attrs import define, field
 
+from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.income.income import Income, IncomeOrmModel
 from backend.apps.entity.time.date_interval import DateInterval
 
 
 @define
-class Paycheck:
+class Paycheck(Identifiable):
     income: Income = field(factory=Income)
     paycheck_income: float = attr(default=0.0)
 
