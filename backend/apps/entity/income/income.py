@@ -11,11 +11,11 @@ from backend.apps.entity.orm_compatible import OrmCompatible
 
 
 @define
-class Income(OrmCompatible, ABC, Identifiable):
+class Income(OrmCompatible['Income'], ABC, Identifiable):
     income: float = attr(default=0.0)
     income_type: IncomeType = attr(default=IncomeTypes.SALARY)
 
-    def save(self):
+    def save(self) -> 'Income':
         saved_income_type = self.income_type.save()
         orm_model: IncomeOrmModel = self.get_orm_model()
         saved_income = IncomeOrmModel.objects.create(
@@ -29,13 +29,13 @@ class Income(OrmCompatible, ABC, Identifiable):
         pass
 
     @staticmethod
-    def from_orm_model(orm_model):
+    def from_orm_model(orm_model) -> 'Income':
         income = Income()
         income.income = orm_model.income
         income.income_type = IncomeType.from_orm_model(orm_model.income_type)
         return income
 
-    def set_from_orm_model(self, orm_model):
+    def set_from_orm_model(self, orm_model) -> None:
         self.income = orm_model.income
         self.income_type = orm_model.income_type
 
