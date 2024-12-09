@@ -13,14 +13,15 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class User(OrmCompatible, ABC, Identifiable):
+class User(OrmCompatible['User'], ABC, Identifiable):
     first_name: str = attr(default="")
     last_name: str = attr(default="")
+    email: str = attr(default="")
     username: str = attr(default="")
     recurring_income: RecurringIncome = attr(factory=RecurringIncome)
     password: SafePassword = attr(factory=SafePassword)
 
-    def save(self):
+    def save(self) -> 'User':
         saved_recurring_income: RecurringIncome = self.recurring_income.save()
         saved_password: SafePassword = self.password.save()
         orm_model: UserOrmModel = self.get_orm_model()
