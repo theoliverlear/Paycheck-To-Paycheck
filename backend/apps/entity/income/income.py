@@ -39,7 +39,7 @@ class Income(OrmCompatible['Income'], ABC, Identifiable):
         self.income = orm_model.income
         self.income_type = orm_model.income_type
 
-    def get_orm_model(self):
+    def get_orm_model(self) -> IncomeOrmModel:
         return IncomeOrmModel(
             income=self.income,
             income_type=self.income_type
