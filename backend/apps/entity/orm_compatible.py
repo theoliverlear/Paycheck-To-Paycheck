@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import TypeVar, Generic
 
 from attrs import define
 
 T = TypeVar("T")
 
 @define
-class OrmCompatible(ABC):
+class OrmCompatible(ABC, Generic[T]):
     @abstractmethod
     def save(self) -> T:
         pass
