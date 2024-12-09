@@ -13,7 +13,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class RecurringIncome(Income, OrmCompatible, ABC):
+class RecurringIncome(Income, OrmCompatible['RecurringIncome'], ABC):
     recurring_date: RecurringDate = attr(factory=RecurringDate)
 
     def save(self) -> 'RecurringIncome':
