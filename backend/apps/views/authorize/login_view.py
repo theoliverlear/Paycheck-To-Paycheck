@@ -21,6 +21,7 @@ class LoginView(APIView):
         if serializer.is_valid():
             user_request: UserRequest = serializer.get_instance()
             payload_status: PayloadStatusResponse[AuthStatus] = self.auth_service.login(user_request)
+            # TODO: Save user to session
             return Response(payload_status.payload, status=payload_status.status)
         else:
             return Response(serializer.errors, status=400)
