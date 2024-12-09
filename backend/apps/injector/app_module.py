@@ -1,6 +1,7 @@
 from injector import Binder, singleton
 
 from backend.apps.repository.user_repository import UserRepository
+from backend.apps.services.auth_service import AuthService
 from backend.apps.services.user_service import UserService
 
 class AppModule:
@@ -14,3 +15,4 @@ class AppModule:
     def configure(self, binder: Binder):
         binder.bind(UserRepository, to=UserRepository, scope=singleton)
         binder.bind(UserService, to=UserService, scope=singleton)
+        binder.bind(AuthService, to=AuthService, scope=singleton)
