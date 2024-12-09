@@ -12,7 +12,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class RecurringDate(OrmCompatible, ABC, Identifiable):
+class RecurringDate(OrmCompatible['RecurringDate'], ABC, Identifiable):
     day: int = attr(default=1)
     interval: DateInterval = attr(default=DateInterval.MONTHLY)
     def save(self) -> 'RecurringDate':
