@@ -10,7 +10,7 @@ from backend.apps.exception.entity_not_found_exception import \
     EntityNotFoundException
 
 
-class SafePassword(OrmCompatible, ABC, Identifiable):
+class SafePassword(OrmCompatible['SafePassword'], ABC, Identifiable):
     encoded_password: str = attr(default='')
     ENCODING_TYPE = 'utf-8'
     def __init__(self, id: int = 0, unhashed_password: str=''):
@@ -35,20 +35,19 @@ class SafePassword(OrmCompatible, ABC, Identifiable):
         )
         return SafePassword.from_orm_model(saved_password)
 
-    def update(self):
+    def update(self) -> None:
         try:
             db_model = SafePasswordOrmModel.objects.get(id=self._id)
 
             orm_model = self.get_orm_model()
-            db_model = self.set_orm_model(db_model, orm_model)
+            self.set_orm_model(db_model, orm_model)
             db_model.save()
         except SafePasswordOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
     @staticmethod
-    def set_orm_model(db_model, model_to_set):
+    def set_orm_model(db_model, model_to_set) -> None:
         db_model.encoded_password = model_to_set.encoded_password
-        return db_model
 
     def get_orm_model(self) -> SafePasswordOrmModel:
         return SafePasswordOrmModel(
