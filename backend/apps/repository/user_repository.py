@@ -8,7 +8,7 @@ from backend.apps.repository.database_accessible import DatabaseAccessible, T
 
 
 class UserRepository(DatabaseAccessible, ABC):
-    def get_user_by_username(self, username: str) -> Optional[User]:
+    def get_by_username(self, username: str) -> Optional[User]:
         users_with_username = UserOrmModel.objects.filter(username=username)
         if not users_with_username:
             return None
