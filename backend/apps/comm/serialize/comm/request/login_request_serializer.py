@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from backend.apps.comm.request.user_request import UserRequest
+from backend.apps.comm.request.login_request import LoginRequest
 
 
-class UserRequestSerializer(serializers.ModelSerializer):
+class LoginRequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserRequest
+        model = LoginRequest
         fields = '__all__'
 
     def get_instance(self):
