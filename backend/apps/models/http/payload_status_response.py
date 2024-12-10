@@ -1,11 +1,18 @@
 from typing import TypeVar, Generic
+from rest_framework import status
 
 from attr import attr
-from attrs import define
+from attrs import define, field
 
-T = TypeVar('T')
+T = TypeVar("T")
 
-@define
+@define(init=False)
 class PayloadStatusResponse(Generic[T]):
-    payload: T = attr(factory=T)
-    status: int = attr(default=200)
+    payload: T = attr(default=None)
+    status_code: int = field(default=status.HTTP_200_OK)
+    def __init__(self,
+                 payload: T,
+                 status_code: status = status.HTTP_200_OK):
+        super().__init__()
+        self.payload = payload
+        self.status_code = status_code.value
