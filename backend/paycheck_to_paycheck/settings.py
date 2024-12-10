@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
     'apps.injector.AppModule',
+    'django.contrib.sessions.middleware.SessionMiddleware'
 ]
 INJECTOR_MODULES = [
     'backend.apps.injector.AppModule',
