@@ -1,0 +1,24 @@
+// nav-item-style.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+nav-item {
+    @include flex(center, center, row);
+    padding: $one-percent;
+    border-radius: $one-percent;
+    background-color: $tea;
+    flex-basis: $ten-percent;
+    box-shadow: none;
+    transition: box-shadow, background-color 0.15s;
+    &:hover {
+        background-color: $alabaster-stone;
+        box-shadow: $mint 0 $eighth-percent $eighth-percent $eighth-percent;
+    }
+    &:active {
+        cursor: pointer;
+        background-color: $moss;
+        box-shadow: $mint 0 $eighth-percent $quarter-percent $quarter-percent;
+    }
+}
