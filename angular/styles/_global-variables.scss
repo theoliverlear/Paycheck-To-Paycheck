@@ -31,8 +31,8 @@ $h6-font-size: min(simple-pixel-calc(1.15,  2), 40px);
 $p-font-size:  min(simple-pixel-calc(1.15,  2), 40px);
 //----------------------------------Borders-----------------------------------
 $thinnest-border: min(calc(((0.025vw + 0.025vh) / 2) + 0.025rem), 2px);
-$very-thin-border: calc(((0.05vw + 0.05vh) / 2) + 0.05em);
-$thin-border: calc(((0.1vw + 0.1vh) / 2) + 0.1em);
+$very-thin-border: calc(((0.05vw + 0.05vh) / 2) + 0.05rem);
+$thin-border: calc(((0.1vw + 0.1vh) / 2) + 0.1rem);
 //-----------------------------------Sizes------------------------------------
 $zero: 0;
 $sixteenth-percent: simple-calc(0.0625, 0.025);
