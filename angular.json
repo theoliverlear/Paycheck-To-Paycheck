@@ -27,12 +27,20 @@
               }
             ],
             "styles": [
+              "angular/components/app/app-style.component.css",
+              "angular/components/elements/income-input/income-input-style.component.css",
+              "angular/components/elements/name-input/name-input-style.component.css",
               "angular/components/elements/nav-bar/nav-bar-style.component.css",
+              "angular/components/elements/nav-item/nav-item-style.component.css",
               "angular/components/elements/ss-anchor/ss-anchor-style.component.css",
               "angular/components/elements/ss-button/ss-button-style.component.css",
               "angular/components/elements/ss-footer/ss-footer-style.component.css",
               "angular/components/elements/ss-img/ss-img-style.component.css",
-              "angular/components/pages/home/home-style.component.css"
+              "angular/components/elements/work-input/work-input-style.component.css",
+              "angular/components/pages/authorize/authorize-style.component.css",
+              "angular/components/pages/home/home-style.component.css",
+              "angular/components/pages/paychecks/paychecks-style.component.css",
+              "angular/components/pages/welcome/welcome-style.component.css"
             ],
             "scripts": [],
             "fileReplacements": []
