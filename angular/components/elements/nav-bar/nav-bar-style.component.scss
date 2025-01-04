@@ -4,6 +4,15 @@
 @import "../../../styles/global-functions";
 @import "../../../styles/global-placeholders";
 
-nav-bar {
+$nav-bar-height: calc-size(6, 4, 2);
 
+nav-bar {
+    @include flex(center, center, row);
+    width: 100%;
+    height: $nav-bar-height;
+    background: radial-gradient(at top, $pristine-white 70%, $tea);
+    nav {
+        @include flex(space-around, center, row);
+        width: 50%;
+    }
 }
