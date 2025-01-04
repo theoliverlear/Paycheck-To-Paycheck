@@ -1,14 +1,12 @@
 import {
-    AfterContentInit,
     Component,
-    ContentChild,
-    ElementRef,
+    HostListener,
     Input, OnInit
 } from "@angular/core";
 import {TagType} from "../../../models/html/TagType";
-import {TargetType} from "../../../models/html/TargetType";
 import {ElementLink} from "../../../models/link/ElementLink";
 import {TextElementLink} from "../../../models/link/TextElementLink";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'ss-anchor',
@@ -16,15 +14,17 @@ import {TextElementLink} from "../../../models/link/TextElementLink";
     styleUrls: ['./ss-anchor-style.component.css']
 })
 export class SsAnchorComponent implements OnInit {
-    @Input() elementLink: TextElementLink;
-    hasContent: boolean = false;
-    constructor() {
+    @Input() elementLink: TextElementLink | ElementLink;
+    hasText: boolean = false;
+    constructor(private router: Router) {
         console.log('SsAnchorComponent loaded');
     }
     ngOnInit() {
-        if (this.elementLink) {
-            this.hasContent = !this.elementLink.hasText();
-        }
+        this.hasText = this.elementLink instanceof TextElementLink;
+    }
+    @HostListener('click')
+    onClick() {
+        this.router.navigate([this.elementLink.hrefLink]);
     }
 
     protected readonly TagType = TagType;
