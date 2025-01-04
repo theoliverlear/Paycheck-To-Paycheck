@@ -7,7 +7,8 @@ ss-footer {
     width: 100%;
     margin-top: auto;
     box-sizing: border-box;
-    background-color: transparent;
+    //background-color: transparent;
+    background: radial-gradient(at bottom, $pristine-white 70%, $tea);
     border-top: $thinnest-border solid;
     border-image: radial-gradient(at center, $absolute-black 30%, $charcoal) 1;
 }
@@ -22,7 +23,7 @@ footer {
         @include flex(center, center, row);
         h6 {
             @include basic-margin-padding(0, 0);
-            color: $pristine-white;
+            color: $charcoal;
         }
         div {
             @include flex(center, center, row);
