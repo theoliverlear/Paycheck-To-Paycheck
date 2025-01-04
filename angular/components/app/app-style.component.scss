@@ -1,8 +1,8 @@
 //=================================-Imports-==================================
-@import "angular/styles/global-variables";
-@import "angular/styles/global-mixins";
-@import "angular/styles/global-functions";
-@import "angular/styles/global-placeholders";
+@import "../../styles/global-variables";
+@import "../../styles/global-mixins";
+@import "../../styles/global-functions";
+@import "../../styles/global-placeholders";
 //==================================-Styles-==================================
 
 //----------------------------General-Text-Content----------------------------
@@ -52,7 +52,7 @@ body {
         @include basic-margin-padding(0, 0);
         min-height: 100vh;
         //max-height: 100vh;
-        background: radial-gradient(at center, $charcoal 70%, $absolute-black);
+        background: radial-gradient(at center, $pristine-white 10%, $tea);
         font-family: $jetbrains-mono-font;
         overflow: auto;
         //flex-grow: 1;
@@ -65,7 +65,8 @@ body {
             @include flex(flex-start, flex-start, column);
             //@extend %nav-bar-padding-top;
             width: 100%;
-            overflow: scroll;
+            overflow-x: auto;
+            overflow-y: scroll;
             height: auto;
             flex: 1;
         }
