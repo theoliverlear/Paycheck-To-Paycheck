@@ -10,7 +10,9 @@ nav-bar {
     @include flex(center, center, row);
     width: 100%;
     height: $nav-bar-height;
-    background: radial-gradient(at top, $pristine-white 70%, $tea);
+    background: radial-gradient(at top, $alabaster-stone 20%, $pristine-white 70%,  $tea);
+    //box-shadow: $navy-blue 0 0 $fifteen-percent simplest-calc(0.25);
+    @extend %raise-above-box-shadow;
     nav {
         @include flex(space-around, center, row);
         width: 50%;
