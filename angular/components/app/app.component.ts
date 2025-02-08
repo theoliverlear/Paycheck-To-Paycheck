@@ -10,7 +10,7 @@ import {filter, map, mergeMap} from "rxjs";
 export class AppComponent implements OnInit {
     title: string;
     constructor(private router: Router, private activatedRoot: ActivatedRoute) {
-        console.log('AppComponent loaded');
+
     }
     ngOnInit() {
         this.router.events.pipe(filter((event) => event instanceof NavigationEnd),
