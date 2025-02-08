@@ -10,7 +10,9 @@ ss-footer {
     //background-color: transparent;
     background: radial-gradient(at bottom, $pristine-white 70%, $tea);
     border-top: $thinnest-border solid;
-    border-image: radial-gradient(at center, $absolute-black 30%, $charcoal) 1;
+    border-image: radial-gradient(at center, $pristine-white 50%, $tea) 1;
+    //box-shadow: $navy-blue 0 0 $fifteen-percent simplest-calc(0.25);
+    @extend %raise-above-box-shadow;
 }
 footer {
     width: 100%;
