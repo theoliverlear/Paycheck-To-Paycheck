@@ -13,42 +13,20 @@ import {DOCUMENT} from "@angular/common";
     templateUrl: './ss-head.component.html'
 })
 export class SsHeadComponent implements OnChanges{
-    static readonly DEFAULT_STYLESHEETS_PATHS: string[] = [
-        // 'angular_build/styles.css'
-    ];
-    static readonly DEFAULT_FAVICON = '';
+    static readonly DEFAULT_FAVICON: string = 'assets/images/favicon/logo.ico';
     @Input() title: string;
-    @Input() stylesheets: string[];
     @Input() favicon: string = SsHeadComponent.DEFAULT_FAVICON;
     constructor(private renderer: Renderer2, @Inject(DOCUMENT) private document: Document) {
-        console.log('HeadComponent loaded');
         this.addFavicon(this.favicon);
-        SsHeadComponent.DEFAULT_STYLESHEETS_PATHS.forEach((path) => {
-            console.log('Adding default stylesheet: ' + path);
-            this.addStylesheet(path);
-        });
     }
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['title']) {
             this.updateTitle();
         }
-        if (changes['stylesheets']) {
-            this.updateStylesheets();
-        }
     }
     private updateTitle() {
         if (this.title) {
-            console.log('Updating title: ' + this.title);
             this.document.title = this.title;
-        }
-    }
-    private updateStylesheets() {
-        console.log('Updating stylesheets: new list: ', this.stylesheets);
-        this.clearExisting('link[data-dynamic]');
-        if (this.stylesheets) {
-            this.stylesheets.forEach((path) => {
-                this.addStylesheet(path);
-            });
         }
     }
     private addStylesheet(path: string) {
@@ -70,7 +48,6 @@ export class SsHeadComponent implements OnChanges{
     private clearExisting(selector: string) {
         const existing = this.document.querySelectorAll(selector);
         existing.forEach((element) => {
-            console.log('Removing existing element: ' + element);
             this.renderer.removeChild(this.document.head, element);
         });
     }
