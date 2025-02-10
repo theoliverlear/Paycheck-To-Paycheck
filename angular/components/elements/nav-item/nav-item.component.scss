@@ -8,8 +8,8 @@ nav-item {
     @include flex(center, center, row);
     padding: $one-percent;
     border-radius: $one-percent;
-    background-color: $tea;
-    flex-basis: $ten-percent;
+    background-color: $tea-green;
+    flex-basis: calc($ten-percent * 1.05);
     box-shadow: none;
     transition: box-shadow, background-color 0.15s;
     &:hover {
@@ -18,7 +18,7 @@ nav-item {
     }
     &:active {
         cursor: pointer;
-        background-color: $moss;
+        background-color: $tree-green;
         box-shadow: $mint 0 $eighth-percent $quarter-percent $quarter-percent;
     }
 }
