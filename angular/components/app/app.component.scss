@@ -52,9 +52,11 @@ body {
         @include basic-margin-padding(0, 0);
         min-height: 100vh;
         //max-height: 100vh;
-        background: radial-gradient(at center, $pristine-white 10%, $tea);
+        background: linear-gradient(0deg, $pristine-white 10%, $tea-green);
         font-family: $jetbrains-mono-font;
         overflow: auto;
+        background-size: 200% 400%;
+        //animation: shifting-gradient 50s infinite ease-in-out;
         //flex-grow: 1;
         main {
             width: 100%;
@@ -75,5 +77,16 @@ body {
             box-sizing: border-box;
             flex: 1;
         }
+    }
+}
+@keyframes shifting-gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
     }
 }
