@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
 @Component({
     selector: 'paychecks',
     templateUrl: './paychecks.component.html',
-    styleUrls: ['./paychecks-style.component.css']
+    styleUrls: ['./paychecks.component.css']
 })
 export class PaychecksComponent {
     constructor() {
