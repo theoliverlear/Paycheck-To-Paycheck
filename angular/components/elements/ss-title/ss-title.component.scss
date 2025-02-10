@@ -1,0 +1,11 @@
+// ss-title.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+ss-title {
+    @include flex(center, center, row);
+    color: $absolute-black;
+    text-align: center;
+}
