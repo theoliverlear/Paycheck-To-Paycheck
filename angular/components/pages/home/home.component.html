@@ -1,22 +1,10 @@
 <!-- home.component.html -->
-<form>
-
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" class="form-control"
-               required>
+<ng-container>
+    <div class="promo-title-container">
+        <subtitle [text]="'Welcome to...'"
+                  [tagType]="TagType.H4"/>
+        <ss-title class="promo-title"
+              [text]="'Paycheck to Paycheck'"
+              [tagType]="TagType.H1"/>
     </div>
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" class="form-control"
-               required>
-    </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"
-               class="form-control" required>
-    </div>
-    <button type="submit" formaction="/api/auth/signup"
-            class="btn btn-primary">Sign Up
-    </button>
-</form>
+</ng-container>
