@@ -12,7 +12,7 @@ class PayloadStatusResponse(Generic[T]):
     status_code: int = field(default=status.HTTP_200_OK)
     def __init__(self,
                  payload: T,
-                 status_code: status = status.HTTP_200_OK):
+                 status_code: int = status.HTTP_200_OK):
         super().__init__()
         self.payload = payload
-        self.status_code = status_code.value
+        self.status_code = status_code
