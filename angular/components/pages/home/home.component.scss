@@ -5,5 +5,16 @@
 @import "../../../styles/global-placeholders";
 
 home {
-
+    @include flex(flex-start, center, column);
+    .promo-title-container {
+        @include flex(center, center, column);
+        padding: $half-percent;
+        margin: $one-percent;
+        background-color: $pristine-white;
+        @extend %soft-border-radius;
+        width: 65%;
+        subtitle {
+            font-style: normal;
+        }
+    }
 }
