@@ -8,6 +8,10 @@ import {NavItemComponent} from "./nav-item/nav-item.component";
 import {NameInputComponent} from "./name-input/name-input.component";
 import {WorkInputComponent} from "./work-input/work-input.component";
 import {IncomeInputComponent} from "./income-input/income-input.component";
+import {SsTitleComponent} from "./ss-title/ss-title.component";
+import {SsInputComponent} from "./ss-input/ss-input.component";
+import {SsParagraphComponent} from "./ss-paragraph/ss-paragraph.component";
+import {SubtitleComponent} from "./subtitle/subtitle.component";
 
 export const elements = [
     IncomeInputComponent,
@@ -19,5 +23,9 @@ export const elements = [
     SsFooterComponent,
     SsHeadComponent,
     SsImgComponent,
+    SsInputComponent,
+    SsParagraphComponent,
+    SsTitleComponent,
+    SubtitleComponent,
     WorkInputComponent,
 ]
