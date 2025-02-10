@@ -1,0 +1,15 @@
+// ss-paragraph.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+ss-paragraph {
+    @include flex(center, center, column);
+    color: $neutral-black;
+    //background-color: $alabaster-stone;
+    background-image: radial-gradient($alabaster-stone, $pristine-white);
+    border: $light-charcoal $thin-border solid;
+    padding: $half-percent $one-percent;
+    @extend %soft-border-radius;
+}
