@@ -1,11 +1,10 @@
 import {
-    Component,
-    HostListener,
+    Component, HostListener,
     Input, OnInit
 } from "@angular/core";
 import {TagType} from "../../../models/html/TagType";
-import {ElementLink} from "../../../models/link/ElementLink";
 import {TextElementLink} from "../../../models/link/TextElementLink";
+import {ElementLink} from "../../../models/link/ElementLink";
 import {Router} from "@angular/router";
 
 @Component({
@@ -17,15 +16,25 @@ export class SsAnchorComponent implements OnInit {
     @Input() elementLink: TextElementLink | ElementLink;
     hasText: boolean = false;
     constructor(private router: Router) {
-        console.log('SsAnchorComponent loaded');
+
     }
     ngOnInit() {
         this.hasText = this.elementLink instanceof TextElementLink;
     }
-    @HostListener('click')
+    @HostListener('click', ['$event'])
     onClick() {
-        this.router.navigate([this.elementLink.hrefLink]);
-    }
+        if (this.isExternalLink(this.elementLink.hrefLink)) {
+            event.preventDefault();
 
+            window.open(this.elementLink.hrefLink, this.elementLink.targetType);
+        } else {
+            this.router.navigate([this.elementLink.hrefLink]);
+        }
+    }
+    isExternalLink(href: string): boolean {
+        return href.startsWith('http://') ||
+            href.startsWith('https://') ||
+            href.startsWith('//');
+    }
     protected readonly TagType = TagType;
 }
