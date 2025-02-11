@@ -14,7 +14,7 @@ import {catchError, map, Observable} from "rxjs";
 export class AuthGuard implements CanActivate {
     constructor(private loginService: LoginService,
                 private router: Router) {
-        console.log('AuthGuard loaded');
+
     }
     canActivate(route: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): Observable<boolean> {
