@@ -41,6 +41,7 @@
               "angular/components/elements/ss-title/ss-title.component.css",
               "angular/components/elements/subtitle/subtitle.component.css",
               "angular/components/elements/work-input/work-input.component.css",
+              "angular/components/pages/account/account.component.css",
               "angular/components/pages/authorize/authorize.component.css",
               "angular/components/pages/home/home.component.css",
               "angular/components/pages/paychecks/paychecks.component.css",
