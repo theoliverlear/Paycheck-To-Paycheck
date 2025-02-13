@@ -10,7 +10,7 @@ from backend.apps.exception.entity_not_found_exception import \
     EntityNotFoundException
 
 
-class SafePassword(OrmCompatible['SafePassword'], ABC, Identifiable):
+class SafePassword(OrmCompatible['SafePassword', SafePasswordOrmModel], ABC, Identifiable):
     encoded_password: str = attr(default='')
     ENCODING_TYPE = 'utf-8'
     def __init__(self, id: int = 0, unhashed_password: str=''):
