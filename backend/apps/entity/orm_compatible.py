@@ -9,27 +9,27 @@ O = TypeVar("O")
 @define
 class OrmCompatible(ABC, Generic[M, O]):
     @abstractmethod
-    def save(self) -> M:
+    def save(self: M) -> M:
         pass
 
     @abstractmethod
-    def update(self) -> None:
+    def update(self: M) -> None:
         pass
 
     @abstractmethod
-    def set_from_orm_model(self, orm_model) -> None:
+    def set_from_orm_model(self: M, orm_model: O) -> None:
         pass
 
     @abstractmethod
-    def get_orm_model(self) -> O:
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def set_orm_model(db_model, model_to_set) -> None:
+    def get_orm_model(self: M) -> O:
         pass
 
     @staticmethod
     @abstractmethod
-    def from_orm_model(orm_model) -> M:
+    def set_orm_model(db_model: O, model_to_set: O) -> None:
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def from_orm_model(orm_model: O) -> M:
         pass
