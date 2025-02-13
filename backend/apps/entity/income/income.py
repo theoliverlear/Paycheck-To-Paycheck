@@ -11,7 +11,7 @@ from backend.apps.entity.orm_compatible import OrmCompatible
 
 
 @define
-class Income(OrmCompatible['Income'], ABC, Identifiable):
+class Income(OrmCompatible['Income', IncomeOrmModel], ABC, Identifiable):
     income: float = attr(default=0.0)
     income_type: IncomeType = attr(default=IncomeTypes.SALARY)
 
