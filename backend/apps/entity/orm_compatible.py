@@ -2,13 +2,14 @@ from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 
 from attrs import define
-
-T = TypeVar("T")
+# M = Model, O = ORM Model
+M = TypeVar("M")
+O = TypeVar("O")
 
 @define
-class OrmCompatible(ABC, Generic[T]):
+class OrmCompatible(ABC, Generic[M, O]):
     @abstractmethod
-    def save(self) -> T:
+    def save(self) -> M:
         pass
 
     @abstractmethod
@@ -20,7 +21,7 @@ class OrmCompatible(ABC, Generic[T]):
         pass
 
     @abstractmethod
-    def get_orm_model(self):
+    def get_orm_model(self) -> O:
         pass
 
     @staticmethod
@@ -30,5 +31,5 @@ class OrmCompatible(ABC, Generic[T]):
 
     @staticmethod
     @abstractmethod
-    def from_orm_model(orm_model) -> T:
+    def from_orm_model(orm_model) -> M:
         pass
