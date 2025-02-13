@@ -1,18 +1,19 @@
 import unittest
+from datetime import date
 
 import django
 
 from backend.apps.entity.income.income_types import IncomeTypes
 from backend.apps.entity.income.recurring_income import RecurringIncome
-from backend.apps.entity.time.date_interval import DateInterval
+from backend.apps.entity.time.year_interval import YearInterval
 from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.user.safe_password import SafePassword
 from backend.apps.entity.user.user import User
 
 django.setup()
 
-recurring_date: RecurringDate = RecurringDate(day=1,
-                                              interval=DateInterval.YEARLY)
+recurring_date: RecurringDate = RecurringDate(day=date.today(),
+                                              interval=YearInterval.YEARLY)
 recurring_income: RecurringIncome = RecurringIncome(income=43_000,
                                                     income_type=IncomeTypes.SALARY.value,
                                                     recurring_date=recurring_date)
