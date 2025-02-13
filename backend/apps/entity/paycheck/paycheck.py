@@ -3,7 +3,7 @@ from attrs import define, field
 
 from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.income.income import Income, IncomeOrmModel
-from backend.apps.entity.time.date_interval import DateInterval
+from backend.apps.entity.time.year_interval import YearInterval
 
 
 @define
@@ -16,5 +16,5 @@ class Paycheck(Identifiable):
 
     @staticmethod
     def income_to_paycheck(income_value: float) -> float:
-        bi_weeks_in_year: int = DateInterval.BI_WEEKLY.value
+        bi_weeks_in_year: int = YearInterval.BI_WEEKLY.value
         return income_value / bi_weeks_in_year
