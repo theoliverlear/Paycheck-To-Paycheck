@@ -7,7 +7,7 @@ from backend.apps.entity.income.income_types import IncomeTypes
 from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.paycheck.taxed_paycheck import TaxedPaycheck
 from backend.apps.entity.tax.tax import Tax
-from backend.apps.entity.time.date_interval import DateInterval
+from backend.apps.entity.time.year_interval import YearInterval
 from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.user.safe_password import SafePassword
 from backend.apps.entity.user.user import User
@@ -23,7 +23,7 @@ class PaycheckView(APIView):
             recurring_income=RecurringIncome(
                 income=params,
                 income_type=IncomeTypes.SALARY.value,
-                recurring_date=RecurringDate(day=1, interval=DateInterval.YEARLY)
+                recurring_date=RecurringDate(day=1, interval=YearInterval.YEARLY)
             ),
         )
         tax: Tax = Tax(25)
