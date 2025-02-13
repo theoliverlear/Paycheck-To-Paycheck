@@ -14,3 +14,7 @@ class DateRange(Identifiable):
 
     def in_range(self, date_to_check: date) -> bool:
         return self.starting_date <= date_to_check <= self.ending_date
+
+    def print_in_range(self, date_to_check: date) -> None:
+        in_range: bool = self.in_range(date_to_check)
+        print(f'The date range starting {self.starting_date} to {self.ending_date} is in range of {date_to_check}: {in_range}')
