@@ -13,7 +13,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class User(OrmCompatible['User'], ABC, Identifiable):
+class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
     first_name: str = attr(default="")
     last_name: str = attr(default="")
     email: str = attr(default="")
