@@ -1,13 +1,13 @@
 from django.db import models
 
-from backend.apps.entity.time.date_interval import DateInterval
+from backend.apps.entity.time.year_interval import YearInterval
 from backend.apps.entity.time.recurring_date import RecurringDateOrmModel
 
 
 class IncomeTypeOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    interval = models.IntegerField(default=DateInterval.YEARLY.value)
+    interval = models.IntegerField(default=YearInterval.YEARLY.value)
     class Meta:
         db_table = 'income_types'
 
