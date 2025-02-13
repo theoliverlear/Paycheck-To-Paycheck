@@ -6,15 +6,15 @@ from attrs import define
 from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.income.models import IncomeTypeOrmModel
 from backend.apps.entity.orm_compatible import OrmCompatible
-from backend.apps.entity.time.date_interval import DateInterval
+from backend.apps.entity.time.year_interval import YearInterval
 from backend.apps.exception.entity_not_found_exception import \
     EntityNotFoundException
 
 
 @define
-class IncomeType(Identifiable, OrmCompatible, ABC):
+class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], ABC):
     name: str = attr(default="")
-    interval: DateInterval = attr(default=DateInterval.MONTHLY)
+    interval: YearInterval = attr(default=YearInterval.MONTHLY)
 
     @staticmethod
     def set_orm_model(db_model, model_to_set) -> IncomeTypeOrmModel:
@@ -26,7 +26,7 @@ class IncomeType(Identifiable, OrmCompatible, ABC):
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
-        self.interval = DateInterval.from_interval(orm_model.interval)
+        self.interval = YearInterval.from_interval(orm_model.interval)
 
     def update(self) -> None:
         try:
