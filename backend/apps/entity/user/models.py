@@ -13,7 +13,7 @@ class UserOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100, default="")
     last_name = models.CharField(max_length=100, default="")
-    email = models.CharField(max_length=150, default="")
+    email = models.EmailField(max_length=150, default="")
     username = models.CharField(max_length=100, default="")
     recurring_income = models.ForeignKey(RecurringIncomeOrmModel, on_delete=models.CASCADE)
     password = models.ForeignKey(SafePasswordOrmModel, on_delete=models.CASCADE)
