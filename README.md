@@ -2,6 +2,8 @@
 ### _An app for those to make each paycheck a little less stressful._
 #### By Oliver Lear Sigwarth
 
+[![Paycheck to Paycheck Logo](./angular/assets/images/logo/logo_cropped_small.png)]()
+
 ---
 
 Paycheck to Paycheck is a budgeting app to help you with your finances in a
