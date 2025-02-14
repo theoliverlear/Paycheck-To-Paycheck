@@ -13,7 +13,7 @@ import {DOCUMENT} from "@angular/common";
     templateUrl: './ss-head.component.html'
 })
 export class SsHeadComponent implements OnChanges{
-    static readonly DEFAULT_FAVICON: string = 'assets/images/favicon/logo.ico';
+    static readonly DEFAULT_FAVICON: string = 'assets/images/favicon/icon.ico';
     @Input() title: string;
     @Input() favicon: string = SsHeadComponent.DEFAULT_FAVICON;
     constructor(private renderer: Renderer2, @Inject(DOCUMENT) private document: Document) {
