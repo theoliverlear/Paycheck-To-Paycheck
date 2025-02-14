@@ -115,6 +115,6 @@ in the beginning stages of the project.
 Below is a video about the progress made in the first milestone.
 
 [//]: # (TODO: Add video link.)
-[![Milestone One Progress](./assets/youtube_video_icon.png)]()
+[![Milestone One Progress](./assets/youtube_video_icon.png)](https://youtu.be/vJyiV0lwHPQ)
 
-_Or go to this [this link]()._
+_Or go to this [this link](https://youtu.be/vJyiV0lwHPQ) (https://youtu.be/vJyiV0lwHPQ)._
