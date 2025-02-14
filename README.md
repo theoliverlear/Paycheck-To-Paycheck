@@ -104,7 +104,7 @@ have been started. These would include:
 - Paychecks
   - Incorporating all the above
 
-Given the tightly interconected nature of the models, none can be said to be
+Given the tightly interconnected nature of the models, none can be said to be
 fully complete at this time. The models are going to be continuously developed
 in the beginning stages of the project.
 
@@ -113,4 +113,6 @@ in the beginning stages of the project.
 Below is a video about the progress made in the first milestone.
 
 [//]: # (TODO: Add video link.)
-[![Milestone One Progress]()]()
+[![Milestone One Progress](./assets/youtube_video_icon.png)]()
+
+_Or go to this [this link]()._
