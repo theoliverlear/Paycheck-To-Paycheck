@@ -1,0 +1,13 @@
+<!-- bill-input.component.html -->
+<div class="bill-input-container" *ngIf="shown">
+    <div class="bill-input-headline">
+        <div class="bill-input-headline-top">
+            <ss-button [imageAsset]="closeIconImageAsset" (buttonClicked)="this.close()"/>
+            <ss-title [text]="'Add Bill'" [tagType]="TagType.H5"/>
+        </div>
+        <hr/>
+    </div>
+    <div class="inputs-div">
+
+    </div>
+</div>
