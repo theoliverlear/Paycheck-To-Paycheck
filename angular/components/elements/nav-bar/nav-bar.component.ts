@@ -1,7 +1,7 @@
 // nav-bar.component.ts 
 import { Component } from "@angular/core";
 import {
-    navBarHomeElementLink,
+    navBarBudgetElementLink,
     navBarMyAccountElementLink, navBarPaychecksElementLink
 } from "../../../assets/elementLinkAssets";
 
@@ -15,7 +15,7 @@ export class NavBarComponent {
         
     }
 
-    protected readonly navBarHomeElementLink = navBarHomeElementLink;
     protected readonly navBarMyAccountElementLink = navBarMyAccountElementLink;
     protected readonly navBarPaychecksElementLink = navBarPaychecksElementLink;
+    protected readonly navBarBudgetElementLink = navBarBudgetElementLink;
 }
