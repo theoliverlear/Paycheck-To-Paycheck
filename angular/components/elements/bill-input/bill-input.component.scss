@@ -1,0 +1,35 @@
+// bill-input.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+bill-input {
+    .bill-input-container {
+        @extend %fill-container;
+        @include flex(center, center, column);
+        //background-color: $pristine-white;
+        background-image: radial-gradient(at center, $alabaster-stone 30%, $pristine-white);
+        padding: $half-percent;
+        width: $thirty-percent;
+        position: relative;
+        margin: $one-percent 0;
+        @extend %soft-border-radius;
+        @extend %raise-above-box-shadow;
+
+        .bill-input-headline {
+            width: 100%;
+            @include flex(flex-start, center, column);
+            .bill-input-headline-top {
+                width: 100%;
+                @include flex(flex-start, center, row);
+                ss-button {
+                    margin: 0 $half-percent;
+                }
+            }
+            hr {
+                width: 95%;
+            }
+        }
+    }
+}
