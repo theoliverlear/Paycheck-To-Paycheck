@@ -1,3 +1,4 @@
-<div id="confirm-join-button" class="general-button">
-    <h5 class="general-button-text">{{ text }}</h5>
-</div>
+<ng-container>
+    <ss-img *ngIf="this.isImageButton()" [imageAsset]="imageAsset"/>
+    <ss-title *ngIf="!this.isImageButton()" [title]="text"/>
+</ng-container>
