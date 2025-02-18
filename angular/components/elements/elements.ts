@@ -12,9 +12,29 @@ import {SsTitleComponent} from "./ss-title/ss-title.component";
 import {SsInputComponent} from "./ss-input/ss-input.component";
 import {SsParagraphComponent} from "./ss-paragraph/ss-paragraph.component";
 import {SubtitleComponent} from "./subtitle/subtitle.component";
+import {HomeAnchorComponent} from "./home-anchor/home-anchor.component";
+import {BillInputComponent} from "./bill-input/bill-input.component";
+import {
+    InputTimeTypeSelectorComponent
+} from "./input-time-type-selector/input-time-type-selector.component";
+import {
+    InputTimeTypeComponent
+} from "./input-time-type/input-time-type.component";
+import {
+    BillInputFieldComponent
+} from "./bill-input-field/bill-input-field.component";
+import {
+    IncomeInputFieldComponent
+} from "./income-input-field/income-input-field.component";
 
 export const elements = [
+    BillInputComponent,
+    BillInputFieldComponent,
+    HomeAnchorComponent,
     IncomeInputComponent,
+    IncomeInputFieldComponent,
+    InputTimeTypeComponent,
+    InputTimeTypeSelectorComponent,
     NameInputComponent,
     NavBarComponent,
     NavItemComponent,
@@ -28,4 +48,4 @@ export const elements = [
     SsTitleComponent,
     SubtitleComponent,
     WorkInputComponent,
-]
+];
