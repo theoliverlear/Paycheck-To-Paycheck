@@ -5,5 +5,39 @@
 @import "../../../styles/global-placeholders";
 
 ss-input {
-
+    @include flex(center, center, row);
+    input {
+        @extend %fill-container;
+    }
+    input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        height: $three-quarter-percent;
+        background: #ddd;
+        border-radius: $quarter-percent;
+        outline: none;
+        opacity: 0.9;
+        transition: background 0.3s;
+    }
+    input[type="range"]::-webkit-slider-runnable-track, input[type="range"]::-moz-range-track {
+        background: #ddd;
+        height: $three-quarter-percent;
+        border-radius: $quarter-percent;
+    }
+    input[type="range"]::-ms-track {
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+        height: $three-quarter-percent;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        @include square-size($two-percent);
+        background: $modern-green;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 $eighth-percent $quarter-percent rgba(0, 0, 0, 0.2);
+        transition: background 0.3s;
+    }
 }
