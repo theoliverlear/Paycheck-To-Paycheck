@@ -1,11 +1,14 @@
 import {TargetType} from "../models/html/TargetType";
 import {TextElementLink} from "../models/link/TextElementLink";
 import {TagType} from "../models/html/TagType";
+import {ElementLink} from "../models/link/ElementLink";
 
-export const navBarHomeElementLink = new TextElementLink('/',
+export const navBarHomeElementLink = new ElementLink('/',
+    TargetType.SELF);
+export const navBarBudgetElementLink = new TextElementLink('/budget',
     TargetType.SELF,
     false,
-    'Home',
+    'Budget',
     TagType.H5);
 export const navBarPaychecksElementLink = new TextElementLink('/paychecks',
     TargetType.SELF,
