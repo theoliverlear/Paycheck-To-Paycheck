@@ -11,6 +11,9 @@ import {
     AccountComponent
 } from "../../components/pages/account/account.component";
 import {AccountGuard} from "../../services/guard/account.guard";
+import {
+    BudgetComponent
+} from "../../components/pages/budget/budget.component";
 
 const isDevelopment = true;
 export const accountRoute: Route = {
@@ -30,6 +33,16 @@ export const authorizeRoute: Route = {
     data: {
         meta: {
             title: 'Authorize | Paycheck to Paycheck'
+        }
+    }
+};
+export const budgetRoute: Route = {
+    path: 'budget',
+    component: BudgetComponent,
+    canActivate: isDevelopment ? [] : [AuthGuard],
+    data: {
+        meta: {
+            title: 'Budget | Paycheck to Paycheck'
         }
     }
 };
@@ -65,6 +78,7 @@ export const welcomeRoute: Route = {
 export const routes: Routes = [
     accountRoute,
     authorizeRoute,
+    budgetRoute,
     homeRoute,
     paychecksRoute,
     welcomeRoute
