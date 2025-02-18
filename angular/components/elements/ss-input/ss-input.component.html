@@ -1,9 +1,9 @@
 <!-- ss-input.component.html -->
 <ng-container>
-    <input *ngIf="!isCheckbox()"
+    <input *ngIf="!isCheckbox() && !isRange()"
            [type]="inputType"/>
     <div class="checkbox-container" *ngIf="isCheckbox()">
-        <input
-                [type]="inputType"/>
+        <input [type]="inputType"/>
     </div>
+    <input *ngIf="isRange()" [type]="inputType" [max]="max" [min]="min" [value]="value" [placeholder]="max"/>
 </ng-container>
