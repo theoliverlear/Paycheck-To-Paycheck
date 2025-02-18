@@ -1,23 +1,42 @@
-import {Component, HostBinding, Input, OnInit} from "@angular/core";
+import {
+    Component,
+    EventEmitter,
+    HostBinding, HostListener,
+    Input,
+    OnInit,
+    Output
+} from "@angular/core";
 import {ElementSize} from "../../../models/ElementSize";
 import {ButtonText} from "./models/ButtonText";
 import {ButtonPosition} from "./models/ButtonPosition";
+import {ImageAsset} from "../../../assets/imageAssets";
 
 @Component({
     selector: 'ss-button',
     templateUrl: './ss-button.component.html',
     styleUrls: ['./ss-button.component.css']
 })
-export class SsButtonComponent implements OnInit{
+export class SsButtonComponent implements OnInit {
     @Input() text: ButtonText;
     @Input() size: ElementSize;
     @Input() buttonPosition: ButtonPosition;
+    @Input() imageAsset?: ImageAsset;
+    @Output() buttonClicked: EventEmitter<void> = new EventEmitter<void>();
     @HostBinding('style.align-self') alignSelf: string;
     constructor() {
         console.log('SsButtonComponent loaded');
     }
     ngOnInit() {
         this.setAlignSelf();
+    }
+
+    @HostListener('click')
+    public onClick(): void {
+        this.emitButtonClicked();
+    }
+
+    private emitButtonClicked(): void {
+        this.buttonClicked.emit();
     }
 
     private setAlignSelf(): void {
@@ -34,5 +53,8 @@ export class SsButtonComponent implements OnInit{
             default:
                 this.alignSelf = ButtonPosition.INHERIT;
         }
+    }
+    protected isImageButton(): boolean {
+        return this.imageAsset !== undefined;
     }
 }
