@@ -29,9 +29,11 @@
             "styles": [
               "angular/components/app/app.component.css",
               "angular/components/elements/bill-input-field/bill-input-field.component.css",
+              "angular/components/elements/bill-input-fields/bill-input-fields.component.css",
               "angular/components/elements/bill-input/bill-input.component.css",
               "angular/components/elements/home-anchor/home-anchor.component.css",
               "angular/components/elements/income-input-field/income-input-field.component.css",
+              "angular/components/elements/income-input-fields/income-input-fields.component.css",
               "angular/components/elements/income-input/income-input.component.css",
               "angular/components/elements/input-time-type-selector/input-time-type-selector.component.css",
               "angular/components/elements/input-time-type/input-time-type.component.css",
