@@ -2,7 +2,7 @@
 import {Component, HostBinding, Input} from "@angular/core";
 import {InputTimeType} from "../../../models/input/InputTimeType";
 import {
-    closeIconImageAsset
+    closeIconImageAsset, confirmIconImageAsset
 } from "../../../assets/imageAssets";
 import {TagType} from "../../../models/html/TagType";
 
@@ -18,9 +18,19 @@ export class BillInputComponent {
         
     }
 
+    public clearInputs(): void {
+
+    }
+
+    public confirm(): void {
+        // TODO: Add services to send Bill.ts to back-end.
+        this.shown = false;
+    }
+
     public close(): void {
         this.shown = false;
     }
     protected readonly closeIconImageAsset = closeIconImageAsset;
     protected readonly TagType = TagType;
+    protected readonly confirmIconImageAsset = confirmIconImageAsset;
 }
