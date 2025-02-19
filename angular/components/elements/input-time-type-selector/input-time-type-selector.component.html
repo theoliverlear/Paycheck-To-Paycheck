@@ -1,1 +1,9 @@
 <!-- input-time-type-selector.component.html -->
+<ng-container>
+    <input-time-type #oneTimeButton
+                     [timeType]="InputTimeType.ONE_TIME"
+                     (clickEvent)="selectOneTime()"/>
+    <input-time-type #recurringButton
+                     [timeType]="InputTimeType.RECURRING"
+                     (clickEvent)="selectRecurring()"/>
+</ng-container>
