@@ -8,6 +8,19 @@ ss-input {
     @include flex(center, center, row);
     input {
         @extend %fill-container;
+        border: $very-thin-border $modern-green solid;
+        border-radius: $quarter-percent;
+        //background-color: mix($very-faded-modern-green, $pristine-white);
+        background-image: radial-gradient(at center, $pristine-white 80%, $faded-modern-green);
+        font-size: $h6-font-size;
+        padding: $quarter-percent;
+        box-shadow: none;
+        transition: border, background-color, box-shadow 0.25s;
+        &:focus {
+            border: $thin-border $modern-green solid;
+            background-color: $pristine-white;
+            box-shadow: 0 $eighth-percent $half-percent $quarter-percent $faded-neutral-black;
+        }
     }
     input[type="range"] {
         -webkit-appearance: none;
