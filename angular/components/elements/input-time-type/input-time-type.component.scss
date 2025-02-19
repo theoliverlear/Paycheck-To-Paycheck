@@ -5,5 +5,27 @@
 @import "../../../styles/global-placeholders";
 
 input-time-type {
-
+    @include flex(center, center, row);
+    margin: $half-percent;
+    background-color: $alabaster-stone;
+    padding: $half-percent;
+    //border: $thin-border solid $mint;
+    box-shadow: $mint calc($eighth-percent / 2) calc($eighth-percent / 2) $eighth-percent $eighth-percent;
+    @extend %soft-border-radius;
+    ss-title {
+        h5 {
+            font-size: calc($h5-font-size * 0.9);
+        }
+    }
+    &.selected {
+        background-color: $mint;
+    }
+    &:hover {
+        cursor: pointer;
+        background-color: $pristine-white;
+    }
+    &:active {
+        cursor: pointer;
+        background-color: $tree-green;
+    }
 }
