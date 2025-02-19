@@ -1,4 +1,4 @@
 export enum InputTimeType {
-    ONE_TIME = 'one time',
-    RECURRING = 'recurring'
+    ONE_TIME = 'One-time',
+    RECURRING = 'Recurring'
 }
