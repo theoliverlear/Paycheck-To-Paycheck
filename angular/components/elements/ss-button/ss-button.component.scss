@@ -13,7 +13,20 @@ ss-button {
     ss-img {
         @include square-size(calc($two-percent * 0.96));
     }
+    &.confirm-button {
+        background-color: transparent;
+        @extend %circle-border-radius;
+        &:hover {
+            cursor: pointer;
+            box-shadow: $faded-neutral-black 0 $eighth-percent $eighth-percent $eighth-percent;
+        }
+        &:active {
+            cursor: pointer;
+            box-shadow: $faded-neutral-black 0 $eighth-percent $quarter-percent $quarter-percent;
+        }
+    }
     &:hover {
+        cursor: pointer;
         background-color: $alabaster-stone;
         box-shadow: $mint 0 $eighth-percent $eighth-percent $eighth-percent;
     }
