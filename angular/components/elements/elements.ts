@@ -26,13 +26,21 @@ import {
 import {
     IncomeInputFieldComponent
 } from "./income-input-field/income-input-field.component";
+import {
+    BillInputFieldsComponent
+} from "./bill-input-fields/bill-input-fields.component";
+import {
+    IncomeInputFieldsComponent
+} from "./income-input-fields/income-input-fields.component";
 
 export const elements = [
     BillInputComponent,
     BillInputFieldComponent,
+    BillInputFieldsComponent,
     HomeAnchorComponent,
     IncomeInputComponent,
     IncomeInputFieldComponent,
+    IncomeInputFieldsComponent,
     InputTimeTypeComponent,
     InputTimeTypeSelectorComponent,
     NameInputComponent,
