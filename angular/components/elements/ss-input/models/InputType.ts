@@ -5,5 +5,6 @@ export enum InputType {
     EMAIL = 'email',
     TELEPHONE_PAD = 'tel',
     CHECKBOX = 'checkbox',
-    RANGE = 'range'
+    RANGE = 'range',
+    DATE = 'date',
 }
