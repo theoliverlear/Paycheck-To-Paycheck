@@ -15,7 +15,7 @@ bill-input {
         position: relative;
         margin: $one-percent 0;
         @extend %soft-border-radius;
-        @extend %raise-above-box-shadow;
+        @extend %soft-raise-above-box-shadow;
 
         .bill-input-headline {
             width: 100%;
@@ -29,6 +29,15 @@ bill-input {
             }
             hr {
                 width: 95%;
+            }
+        }
+        .bill-input-bottom-row {
+            width: 100%;
+            @include flex(space-between, center, row);
+            .confirm-button {
+                ss-img {
+                    @include square-size($two-half-percent);
+                }
             }
         }
     }
