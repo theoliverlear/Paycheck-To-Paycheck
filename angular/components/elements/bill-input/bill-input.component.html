@@ -7,7 +7,11 @@
         </div>
         <hr/>
     </div>
-    <div class="inputs-div">
-
+    <bill-input-fields/>
+    <div class="bill-input-bottom-row">
+        <input-time-type-selector/>
+        <ss-button class="confirm-button"
+                   [imageAsset]="confirmIconImageAsset"
+                   (buttonClicked)="this.confirm()"/>
     </div>
 </div>
