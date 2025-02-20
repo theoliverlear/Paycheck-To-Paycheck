@@ -1,9 +1,18 @@
 <!-- ss-input.component.html -->
 <ng-container>
     <input *ngIf="!isCheckbox() && !isRange()"
-           [type]="inputType"/>
+           [type]="inputType"
+           [max]="max"
+           [min]="min"
+           [value]="getDefaultValue()"
+           [placeholder]="placeholder"/>
     <div class="checkbox-container" *ngIf="isCheckbox()">
         <input [type]="inputType"/>
     </div>
-    <input *ngIf="isRange()" [type]="inputType" [max]="max" [min]="min" [value]="value" [placeholder]="max"/>
+    <input *ngIf="isRange()"
+           [type]="inputType"
+           [max]="max"
+           [min]="min"
+           [value]="value"
+           [placeholder]="placeholder"/>
 </ng-container>
