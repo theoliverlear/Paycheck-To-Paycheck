@@ -35,6 +35,7 @@
               "angular/components/elements/income-input-field/income-input-field.component.css",
               "angular/components/elements/income-input-fields/income-input-fields.component.css",
               "angular/components/elements/income-input/income-input.component.css",
+              "angular/components/elements/input-popup/input-popup.component.css",
               "angular/components/elements/input-time-type-selector/input-time-type-selector.component.css",
               "angular/components/elements/input-time-type/input-time-type.component.css",
               "angular/components/elements/name-input/name-input.component.css",
