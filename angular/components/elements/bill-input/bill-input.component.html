@@ -1,5 +1,6 @@
 <!-- bill-input.component.html -->
-<div class="bill-input-container" *ngIf="shown">
+<div class="bill-input-container" *ngIf="shown"
+     [@fadeInOut]="this.getAnimationProperties()">
     <div class="bill-input-headline">
         <div class="bill-input-headline-top">
             <ss-button [imageAsset]="closeIconImageAsset" (buttonClicked)="this.close()"/>
@@ -7,9 +8,9 @@
         </div>
         <hr/>
     </div>
-    <bill-input-fields/>
+    <bill-input-fields (billChange)="this.updateBill($event)"/>
     <div class="bill-input-bottom-row">
-        <input-time-type-selector/>
+        <input-time-type-selector (timeTypeSelected)="this.updateBill($event)"/>
         <ss-button class="confirm-button"
                    [imageAsset]="confirmIconImageAsset"
                    (buttonClicked)="this.confirm()"/>
