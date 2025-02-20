@@ -10,7 +10,7 @@ bill-input {
         @include flex(center, center, column);
         //background-color: $pristine-white;
         background-image: radial-gradient(at center, $alabaster-stone 30%, $pristine-white);
-        padding: $half-percent;
+        padding: $one-percent;
         width: $thirty-percent;
         position: relative;
         margin: $one-percent 0;
