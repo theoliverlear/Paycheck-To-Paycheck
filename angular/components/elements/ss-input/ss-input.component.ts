@@ -19,6 +19,7 @@ export class SsInputComponent {
     @Input() max: string | number;
     @Input() min: string | number;
     @Input() value: string | number;
+    @Input() placeholder: string;
     constructor() {
 
     }
@@ -31,5 +32,8 @@ export class SsInputComponent {
     }
     isRange(): boolean {
         return this.inputType === InputType.RANGE;
+    }
+    protected getDefaultValue(): string | number | null {
+        return this.value || null;
     }
 }
