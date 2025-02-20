@@ -32,6 +32,7 @@ import {
 import {
     IncomeInputFieldsComponent
 } from "./income-input-fields/income-input-fields.component";
+import {InputPopupComponent} from "./input-popup/input-popup.component";
 
 export const elements = [
     BillInputComponent,
@@ -41,6 +42,7 @@ export const elements = [
     IncomeInputComponent,
     IncomeInputFieldComponent,
     IncomeInputFieldsComponent,
+    InputPopupComponent,
     InputTimeTypeComponent,
     InputTimeTypeSelectorComponent,
     NameInputComponent,
