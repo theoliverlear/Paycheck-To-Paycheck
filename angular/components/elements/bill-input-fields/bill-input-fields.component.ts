@@ -1,8 +1,10 @@
 // bill-input-fields.component.ts 
-import { Component } from "@angular/core";
+import {Component, EventEmitter, Output} from "@angular/core";
 import {
     BillInputFieldType
 } from "../bill-input-field/models/BillInputFieldType";
+import {Bill} from "../../../models/bill/Bill";
+import {BillInputContent} from "../bill-input-field/models/BillInputContent";
 
 @Component({
     selector: 'bill-input-fields',
@@ -10,8 +12,33 @@ import {
     styleUrls: ['./bill-input-fields.component.css']
 })
 export class BillInputFieldsComponent {
+    @Output() billChange: EventEmitter<Bill> = new EventEmitter<Bill>();
+    bill: Bill = new Bill();
     constructor() {
         
+    }
+
+    updateBill(billInputContent: BillInputContent): void {
+        switch (billInputContent.fieldType) {
+            case BillInputFieldType.TITLE:
+                this.bill.title = billInputContent.value as string;
+                break;
+            case BillInputFieldType.AMOUNT:
+                this.bill.amount = Number(billInputContent.value);
+                break;
+            case BillInputFieldType.DATE:
+                this.bill.date = new Date(billInputContent.value as string);
+                break;
+        }
+    }
+
+    emitBillChange(): void {
+        this.billChange.emit(this.bill);
+    }
+
+    updateAndEmitBill(billInputContent: BillInputContent): void {
+        this.updateBill(billInputContent);
+        this.emitBillChange();
     }
 
     protected readonly BillInputFieldType = BillInputFieldType;
