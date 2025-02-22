@@ -5,6 +5,10 @@ import {UserService} from "./server/user.service";
 import {WelcomeService} from "./server/welcome.service";
 import {ErrorHandlerService} from "./error-handler.service";
 import {HashPasswordService} from "./hash-password.service";
+import {
+    BillWebSocketService
+} from "./server/websocket/bill-websocket.service";
+import {WebSocketService} from "./server/websocket/websocket.service";
 
 export const services: any[] = [
     // Guards
@@ -14,6 +18,9 @@ export const services: any[] = [
     SignupService,
     UserService,
     WelcomeService,
+    // WebSocket
+    BillWebSocketService,
+    WebSocketService,
     // Client Services
     ErrorHandlerService,
     HashPasswordService
