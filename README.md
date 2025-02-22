@@ -76,7 +76,7 @@ The website should have:
 
 I am implementing this personality by have a soft color scheme. I am using a
 color palette of soft greens and white to convey a pure and clean intention.
-You can soo the personality of the site with the beginnings of the web 
+You can see the personality of the site with the beginnings of the web 
 interface shown below.
 
 ![Milestone One Homepage](./assets/p2p_milestone_one_home_page.png)
