@@ -36,8 +36,10 @@ INSTALLED_APPS = [
     'backend.apps.entity.tax',
     'backend.apps.entity.time',
     'backend.apps.entity.user',
+    'backend.apps.routing',
     'livereload',
-    'django_injector'
+    'django_injector',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -49,14 +51,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
-    'apps.injector.AppModule',
+    'backend.apps.injector.AppModule',
     'django.contrib.sessions.middleware.SessionMiddleware'
 ]
 INJECTOR_MODULES = [
     'backend.apps.injector.AppModule',
 ]
 
-ROOT_URLCONF = 'paycheck_to_paycheck.urls'
+ROOT_URLCONF = 'backend.paycheck_to_paycheck.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +76,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'paycheck_to_paycheck.wsgi.application'
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000'
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+ASGI_APPLICATION = 'backend.paycheck_to_paycheck.asgi.application'
+WSGI_APPLICATION = 'backend.paycheck_to_paycheck.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -82,8 +92,16 @@ DATABASES = {
         'NAME': getenv('PTP_DB_NAME'),
         'USER': getenv('PTP_DB_USER'),
         'PASSWORD': getenv('PTP_DB_PW'),
+        'HOST': 'localhost',
+        'PORT': '5432',
 
     }
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
