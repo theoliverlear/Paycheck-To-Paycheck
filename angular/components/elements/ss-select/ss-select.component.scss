@@ -1,0 +1,39 @@
+// ss-select.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+ss-select {
+    @include flex(center, center, row);
+    @extend %fill-container;
+    font-size: $h6-font-size;
+    @extend %soft-border-radius;
+    select {
+        @extend %fill-container;
+        //border-radius: $one-percent $one-percent 0 0;
+        font-family: $jetbrains-mono-font;
+        font-size: $h5-font-size;
+        //text-align: left;
+        //text-align-last: left;
+
+        //text-indent: $one-percent;
+        background-color: $pristine-white;
+
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns%3D%27http%3A//www.w3.org/2000/svg%27 viewBox%3D%270 0 10 5%27%3E%3Cpath fill%3D%27%23000%27 d%3D%27M0 0L5 5L10 0H0Z%27/%3E%3C/svg%3E');
+        background-repeat: no-repeat;
+        background-position: right $half-percent center; /* Adjust arrow position */
+        background-size: calc($three-percent * 0.35) calc($one-percent * 0.5);
+        cursor: pointer;
+
+        option {
+            width: 100%;
+            height: $one-percent;
+            font-size: calc($h6-font-size * 1.2);
+            text-align: center;
+        }
+    }
+}
