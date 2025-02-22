@@ -26,7 +26,7 @@ class OrmCompatible(ABC, Generic[M, O]):
 
     @staticmethod
     @abstractmethod
-    def set_orm_model(db_model: O, model_to_set: O) -> None:
+    def set_orm_model(db_model: O, model_to_match: O) -> None:
         pass
 
     @staticmethod
