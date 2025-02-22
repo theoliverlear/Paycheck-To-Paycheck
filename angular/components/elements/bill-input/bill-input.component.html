@@ -10,7 +10,10 @@
     </div>
     <bill-input-fields (billChange)="this.updateBill($event)"/>
     <div class="bill-input-bottom-row">
-        <input-time-type-selector (timeTypeSelected)="this.updateBill($event)"/>
+        <input-time-type-selector (timeTypeSelected)="this.updateInputTimeType($event)"/>
+        <recurring-bill-dropdown *ngIf="isRecurringBill()"
+                                 [@fadeInOut]="this.getAnimationProperties()"
+                                 (dropdownSelected)="this.updateBillInterval($event)"/>
         <ss-button class="confirm-button"
                    [imageAsset]="confirmIconImageAsset"
                    (buttonClicked)="this.confirm()"/>
