@@ -33,11 +33,17 @@ import {
     IncomeInputFieldsComponent
 } from "./income-input-fields/income-input-fields.component";
 import {InputPopupComponent} from "./input-popup/input-popup.component";
+import {DropdownComponent} from "./dropdown/dropdown.component";
+import {SsSelectComponent} from "./ss-select/ss-select.component";
+import {
+    RecurringBillDropdownComponent
+} from "./recurring-bill-dropdown/recurring-bill-dropdown.component";
 
 export const elements = [
     BillInputComponent,
     BillInputFieldComponent,
     BillInputFieldsComponent,
+    DropdownComponent,
     HomeAnchorComponent,
     IncomeInputComponent,
     IncomeInputFieldComponent,
@@ -48,6 +54,7 @@ export const elements = [
     NameInputComponent,
     NavBarComponent,
     NavItemComponent,
+    RecurringBillDropdownComponent,
     SsAnchorComponent,
     SsButtonComponent,
     SsFooterComponent,
@@ -55,6 +62,7 @@ export const elements = [
     SsImgComponent,
     SsInputComponent,
     SsParagraphComponent,
+    SsSelectComponent,
     SsTitleComponent,
     SubtitleComponent,
     WorkInputComponent,
