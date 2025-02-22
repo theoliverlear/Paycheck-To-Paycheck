@@ -6,7 +6,7 @@
 
 input-time-type-selector {
     @include flex(flex-start, center, row);
-    width: 100%;
+
     input-time-type {
         &:first-child {
             margin-right: $one-percent;
