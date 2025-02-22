@@ -1,8 +1,9 @@
 // bill-input.component.ts
-import {Component, HostBinding, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {InputTimeType} from "../../../models/input/InputTimeType";
 import {
-    closeIconImageAsset, confirmIconImageAsset
+    closeIconImageAsset,
+    confirmIconImageAsset
 } from "../../../assets/imageAssets";
 import {TagType} from "../../../models/html/TagType";
 import {fadeInOutAnimation} from "../../animations/animations";
@@ -10,6 +11,14 @@ import {
     quickFadeInAnimationProperties
 } from "../../animations/animationProperties";
 import {Bill} from "../../../models/bill/Bill";
+import {Subscription} from "rxjs";
+import {
+    BillWebSocketService
+} from "../../../services/server/websocket/bill-websocket.service";
+import {WebSocketCapable} from "../../../models/WebSocketCapable";
+import {
+    RecurringBillTimeInterval
+} from "../recurring-bill-dropdown/models/RecurringBillTimeInterval";
 
 @Component({
     selector: 'bill-input',
@@ -19,42 +28,72 @@ import {Bill} from "../../../models/bill/Bill";
         fadeInOutAnimation
     ]
 })
-export class BillInputComponent implements OnInit {
+export class BillInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
     protected shown: boolean = true;
     bill: Bill = new Bill();
-    constructor() {
-        
+    subscription: Subscription;
+    constructor(private webSocketService: BillWebSocketService) {
+        console.log(RecurringBillTimeInterval.values())
     }
 
     ngOnInit() {
-        this.bill.timeType = this.inputTimeType;
+        this.setDefaultTimeType();
         console.log(this.bill);
+        this.initializeWebSocket();
+    }
+
+    initializeWebSocket(): void {
+        this.webSocketService.connect();
+        this.subscription = this.webSocketService.getMessages().subscribe(
+            (bill: Bill): void => {
+                if (bill) {
+                    console.log('WebSocket bill:', bill);
+                }
+            },
+            (error) => {
+                console.error('WebSocket error:', error);
+            }
+        );
+    }
+
+    private setDefaultTimeType() {
+        this.bill.timeType = InputTimeType.ONE_TIME;
     }
 
     public clearInputs(): void {
-
+        this.bill = new Bill();
+        this.setDefaultTimeType();
     }
 
-    public updateBill(billContent: Bill | InputTimeType): void {
-        if (billContent instanceof Bill) {
-            const originalTimeType = this.bill.timeType;
-            this.bill = billContent;
-            this.bill.timeType = originalTimeType;
+    public updateBill(bill: Bill) {
+        const originalTimeType = this.bill.timeType;
+        this.bill = bill;
+        this.bill.timeType = originalTimeType;
+        console.log(this.bill);
+    }
 
-        } else {
-            this.bill.timeType = billContent;
-        }
+    public updateBillInterval(billInterval: RecurringBillTimeInterval): void {
+        this.bill.billInterval = billInterval;
+        console.log(this.bill);
+    }
+
+    public updateInputTimeType(inputTimeType: InputTimeType): void {
+        this.bill.timeType = inputTimeType;
         console.log(this.bill);
     }
 
     public confirm(): void {
-        // TODO: Add services to send Bill.ts to back-end.
+        this.webSocketService.sendMessage(this.bill);
         this.shown = false;
     }
 
     public close(): void {
         this.shown = false;
+    }
+
+    protected isRecurringBill(): boolean {
+        return this.bill.timeType === InputTimeType.RECURRING;
     }
 
     public getAnimationProperties() {
