@@ -8,7 +8,7 @@
         </div>
         <hr/>
     </div>
-    <income-input-fields (incomeChange)="this.updateIncome($event)"/>
+    <income-input-fields [isHourlyIncome]="isHourlyIncome" (incomeChange)="this.updateIncome($event)"/>
     <div class="income-input-bottom-row">
         <input-time-type-selector (timeTypeSelected)="this.updateIncomeTimeType($event)"/>
         <recurring-income-dropdown *ngIf="isRecurringIncome()"
