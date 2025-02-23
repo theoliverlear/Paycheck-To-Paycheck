@@ -12,7 +12,7 @@ class Paycheck(Identifiable):
     paycheck_income: float = attr(default=0.0)
 
     def __attrs_post_init__(self):
-        self.paycheck_income = self.income_to_paycheck(self.income.income)
+        self.paycheck_income = self.income_to_paycheck(self.income.income_amount)
 
     @staticmethod
     def income_to_paycheck(income_value: float) -> float:
