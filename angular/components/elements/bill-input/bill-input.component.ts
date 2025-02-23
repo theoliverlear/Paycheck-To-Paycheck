@@ -33,7 +33,7 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     protected shown: boolean = true;
     bill: Bill = new Bill();
     subscription: Subscription;
-    constructor(private webSocketService: BillWebSocketService) {
+    constructor(private billWebSocketService: BillWebSocketService) {
         console.log(RecurringBillTimeInterval.values())
     }
 
@@ -44,8 +44,8 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     }
 
     initializeWebSocket(): void {
-        this.webSocketService.connect();
-        this.subscription = this.webSocketService.getMessages().subscribe(
+        this.billWebSocketService.connect();
+        this.subscription = this.billWebSocketService.getMessages().subscribe(
             (bill: Bill): void => {
                 if (bill) {
                     console.log('WebSocket bill:', bill);
@@ -84,7 +84,7 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     }
 
     public confirm(): void {
-        this.webSocketService.sendMessage(this.bill);
+        this.billWebSocketService.sendMessage(this.bill);
         this.shown = false;
     }
 
