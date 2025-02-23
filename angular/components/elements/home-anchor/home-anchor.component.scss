@@ -1,0 +1,37 @@
+ // home-anchor.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+home-anchor {
+    //@include square-size(calc($two-half-percent * 1.03));
+    @include square-size($three-half-percent);
+    //background-color: $light-charcoal;
+    padding: $quarter-percent;
+    position: absolute;
+    top: $half-percent;
+    left: $one-percent;
+    @extend %circle-border-radius;
+    //box-shadow: $toned-leaf simplest-calc(0.05) simplest-calc(0.05) 0 0;
+    transition: box-shadow, transform, 0.3s;
+    &:hover {
+        //box-shadow: $toned-leaf simplest-calc(0.15) simplest-calc(0.15) 0 0;
+        cursor: pointer;
+    }
+    &:active {
+        box-shadow: none;
+        transform: translate(simplest-calc(0.15), simplest-calc(0.15));
+    }
+}
+@media screen and (max-width: 1000px) {
+    home-anchor {
+        top: $quarter-percent;
+    }
+}
+@media screen and (max-width: 500px) {
+    home-anchor {
+        top: $quarter-percent;
+        left: $half-percent;
+    }
+}

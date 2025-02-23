@@ -1,4 +1,4 @@
-// ss-input.component.ts 
+// ss-input.component.ts
 import {
     Component,
     EventEmitter,
@@ -16,6 +16,10 @@ import {InputType} from "./models/InputType";
 export class SsInputComponent {
     @Input() inputType: InputType;
     @Output() inputEvent: EventEmitter<string> = new EventEmitter<string>();
+    @Input() max: string | number;
+    @Input() min: string | number;
+    @Input() value: string | number;
+    @Input() placeholder: string;
     constructor() {
 
     }
@@ -25,5 +29,11 @@ export class SsInputComponent {
     }
     isCheckbox(): boolean {
         return this.inputType === InputType.CHECKBOX;
+    }
+    isRange(): boolean {
+        return this.inputType === InputType.RANGE;
+    }
+    protected getDefaultValue(): string | number | null {
+        return this.value || null;
     }
 }

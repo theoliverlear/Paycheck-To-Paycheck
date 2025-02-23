@@ -5,4 +5,38 @@
 
 ss-button {
     @include flex(center, center, row);
+    padding: 0;
+    background-color: $tea-green;
+    border-radius: $quarter-percent;
+    //box-shadow: $mint 0 0 calc($eighth-percent / 2) calc($eighth-percent / 2);
+    transition: background-color, box-shadow 0.15s;
+    ss-img {
+        @include square-size(calc($two-percent * 0.96));
+    }
+    &.confirm-button {
+        background-color: transparent;
+        border: $thin-border solid transparent;
+        transition: background-color, box-shadow, border 0.15s;
+        @extend %circle-border-radius;
+        &:hover {
+            cursor: pointer;
+            box-shadow: $faded-neutral-black 0 $eighth-percent $eighth-percent $eighth-percent;
+            border: $modern-green solid $thin-border;
+        }
+        &:active {
+            cursor: pointer;
+            box-shadow: $faded-neutral-black 0 $eighth-percent $quarter-percent $quarter-percent;
+            border: $pristine-white solid $thin-border;
+        }
+    }
+    &:hover {
+        cursor: pointer;
+        background-color: $alabaster-stone;
+        box-shadow: $mint 0 $eighth-percent $eighth-percent $eighth-percent;
+    }
+    &:active {
+        cursor: pointer;
+        background-color: $tree-green;
+        box-shadow: $mint 0 $eighth-percent $quarter-percent $quarter-percent;
+    }
 }

@@ -1,0 +1,10 @@
+<!-- ss-select.component.html -->
+<ng-container>
+    <select [ngModel]="selectedItem"
+            (ngModelChange)="this.emitItemChange($event)">
+        <option *ngFor="let dropdownItem of dropdownItems"
+                [value]="dropdownItem">
+            {{ dropdownItem }}
+        </option>
+    </select>
+</ng-container>

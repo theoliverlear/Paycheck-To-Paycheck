@@ -1,1 +1,21 @@
 <!-- income-input.component.html -->
+<div class="income-input-container" *ngIf="shown"
+     [@fadeInOut]="this.getAnimationProperties()">
+    <div class="income-input-headline">
+        <div class="income-input-headline-top">
+            <ss-button [imageAsset]="closeIconImageAsset" (buttonClicked)="this.close()"/>
+            <ss-title [text]="'Add Income'" [tagType]="TagType.H5"/>
+        </div>
+        <hr/>
+    </div>
+    <income-input-fields [isHourlyIncome]="isHourlyIncome" (incomeChange)="this.updateIncome($event)"/>
+    <div class="income-input-bottom-row">
+        <input-time-type-selector (timeTypeSelected)="this.updateIncomeTimeType($event)"/>
+        <recurring-income-dropdown *ngIf="isRecurringIncome()"
+                                   [@fadeInOut]="this.getAnimationProperties()"
+                                   (dropdownSelected)="this.updateIncomeInterval($event)"/>
+        <ss-button class="confirm-button"
+                   [imageAsset]="confirmIconImageAsset"
+                   (buttonClicked)="this.confirm()"/>
+    </div>
+</div>

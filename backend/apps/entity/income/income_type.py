@@ -13,14 +13,13 @@ from backend.apps.exception.entity_not_found_exception import \
 
 @define
 class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], ABC):
-    name: str = attr(default="")
     interval: YearInterval = attr(default=YearInterval.MONTHLY)
 
     @staticmethod
-    def set_orm_model(db_model, model_to_set) -> IncomeTypeOrmModel:
-        db_model.id = model_to_set.id
-        db_model.name = model_to_set.name
-        db_model.interval = model_to_set.interval
+    def set_orm_model(db_model, model_to_match) -> IncomeTypeOrmModel:
+        db_model.id = model_to_match.id
+        db_model.name = model_to_match.name
+        db_model.interval = model_to_match.interval
         return db_model
 
     def set_from_orm_model(self, orm_model) -> None:

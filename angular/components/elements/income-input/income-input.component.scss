@@ -5,5 +5,40 @@
 @import "../../../styles/global-placeholders";
 
 income-input {
+    .income-input-container {
+        @extend %fill-container;
+        @include flex(center, center, column);
+        //background-color: $pristine-white;
+        background-image: radial-gradient(at center, $alabaster-stone 30%, $pristine-white);
+        padding: $one-percent;
+        width: $thirty-five-percent;
+        position: relative;
+        margin: $one-percent 0;
+        @extend %soft-border-radius;
+        @extend %soft-raise-above-box-shadow;
 
+        .income-input-headline {
+            width: 100%;
+            @include flex(flex-start, center, column);
+            .income-input-headline-top {
+                width: 100%;
+                @include flex(flex-start, center, row);
+                ss-button {
+                    margin: 0 $half-percent;
+                }
+            }
+            hr {
+                width: 95%;
+            }
+        }
+        .income-input-bottom-row {
+            width: 100%;
+            @include flex(space-between, center, row);
+            .confirm-button {
+                ss-img {
+                    @include square-size($two-half-percent);
+                }
+            }
+        }
+    }
 }

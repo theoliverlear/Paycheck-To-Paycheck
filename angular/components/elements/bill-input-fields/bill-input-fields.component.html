@@ -1,0 +1,11 @@
+<!-- bill-input-fields.component.html -->
+<ng-container>
+    <bill-input-field (inputEvent)="this.updateAndEmitBill($event)"
+                      [fieldType]="BillInputFieldType.TITLE"
+                      [placeholder]="'Ex. Rent'"/>
+    <bill-input-field (inputEvent)="this.updateAndEmitBill($event)"
+                      [fieldType]="BillInputFieldType.AMOUNT"
+                      [placeholder]="'$0.00'"/>
+    <bill-input-field (inputEvent)="this.updateAndEmitBill($event)"
+                      [fieldType]="BillInputFieldType.DATE"/>
+</ng-container>

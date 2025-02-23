@@ -72,12 +72,19 @@ body {
             height: auto;
             flex: 1;
         }
-        authorize, home, profile, messages, welcome {
+        account, authorize, budget, home, paychecks, welcome {
             width: 100%;
             box-sizing: border-box;
             flex: 1;
         }
     }
+}
+hr {
+    width: 80%;
+    border: $thinnest-border solid $pristine-white;
+    border-image: radial-gradient(at center, $tan 30%, $pristine-white) 1;
+    box-shadow: 0 calc($eighth-percent / 4) calc($eighth-percent / 2) calc($eighth-percent / 2) $faded-neutral-black;
+    border-radius: $eighth-percent;
 }
 @keyframes shifting-gradient {
     0% {

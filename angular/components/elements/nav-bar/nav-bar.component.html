@@ -1,6 +1,9 @@
 <!-- nav-bar.component.html -->
-<nav>
-    <nav-item [elementLink]="navBarHomeElementLink"/>
-    <nav-item [elementLink]="navBarPaychecksElementLink"/>
-    <nav-item [elementLink]="navBarMyAccountElementLink"/>
-</nav>
+<ng-container>
+    <home-anchor/>
+    <nav>
+        <nav-item [elementLink]="navBarBudgetElementLink"/>
+        <nav-item [elementLink]="navBarPaychecksElementLink"/>
+        <nav-item [elementLink]="navBarMyAccountElementLink"/>
+    </nav>
+</ng-container>

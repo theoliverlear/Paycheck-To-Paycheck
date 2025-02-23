@@ -1,0 +1,13 @@
+// dropdown.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+dropdown {
+    @include flex(center, center, row);
+    width: calc($fourteen-percent * 0.935);
+    height: $three-percent;
+    @extend %soft-border-radius;
+    box-shadow: 0 0 $one-percent $sixteenth-percent $alabaster-stone;
+}

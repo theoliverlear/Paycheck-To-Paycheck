@@ -4,7 +4,7 @@
 @import "../../../styles/global-functions";
 @import "../../../styles/global-placeholders";
 
-$nav-bar-height: calc-size(6, 4, 2);
+$nav-bar-height: calc-size(6, 3, 2);
 
 nav-bar {
     @include flex(center, center, row);
@@ -21,14 +21,14 @@ nav-bar {
 @media screen and (max-width: 1200px) {
     nav-bar {
         nav {
-            width: 65%;
+            width: 70%;
         }
     }
 }
 @media screen and (max-width: 1000px) {
     nav-bar {
         nav {
-            width: 95%;
+            width: 80%;
         }
     }
 }

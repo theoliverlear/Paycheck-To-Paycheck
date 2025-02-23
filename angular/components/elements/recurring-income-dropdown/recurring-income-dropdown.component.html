@@ -1,0 +1,5 @@
+<!-- recurring-income-dropdown.component.html -->
+<ng-container>
+    <dropdown (dropdownSelected)="this.emitDropdownSelected($event)"
+              [dropdownItems]="RecurringIncomeTimeInterval.values()"/>
+</ng-container>

@@ -46,8 +46,8 @@ class SafePassword(OrmCompatible['SafePassword', SafePasswordOrmModel], ABC, Ide
             raise EntityNotFoundException(self)
 
     @staticmethod
-    def set_orm_model(db_model, model_to_set) -> None:
-        db_model.encoded_password = model_to_set.encoded_password
+    def set_orm_model(db_model, model_to_match) -> None:
+        db_model.encoded_password = model_to_match.encoded_password
 
     def get_orm_model(self) -> SafePasswordOrmModel:
         return SafePasswordOrmModel(

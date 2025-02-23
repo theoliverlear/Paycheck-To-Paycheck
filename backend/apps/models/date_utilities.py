@@ -28,3 +28,7 @@ def get_next_bi_month(starting_date: date):
 
 def get_next_year(starting_date: date):
     return starting_date.replace(year=starting_date.year + 1)
+
+def iso_to_django_date(iso_date: str) -> date:
+    normalized_iso_date: str = iso_date.replace("Z", "")
+    return datetime.fromisoformat(normalized_iso_date).date()

@@ -1,0 +1,21 @@
+<!-- bill-input.component.html -->
+<div class="bill-input-container" *ngIf="shown"
+     [@fadeInOut]="this.getAnimationProperties()">
+    <div class="bill-input-headline">
+        <div class="bill-input-headline-top">
+            <ss-button [imageAsset]="closeIconImageAsset" (buttonClicked)="this.close()"/>
+            <ss-title [text]="'Add Bill'" [tagType]="TagType.H5"/>
+        </div>
+        <hr/>
+    </div>
+    <bill-input-fields (billChange)="this.updateBill($event)"/>
+    <div class="bill-input-bottom-row">
+        <input-time-type-selector (timeTypeSelected)="this.updateInputTimeType($event)"/>
+        <recurring-bill-dropdown *ngIf="isRecurringBill()"
+                                 [@fadeInOut]="this.getAnimationProperties()"
+                                 (dropdownSelected)="this.updateBillInterval($event)"/>
+        <ss-button class="confirm-button"
+                   [imageAsset]="confirmIconImageAsset"
+                   (buttonClicked)="this.confirm()"/>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<!-- bill-input-field.component.html -->
+<ng-container>
+    <ss-title [tagType]="TagType.H5" [text]="this.getInputTitle()"/>
+    <ss-input (inputEvent)="this.emitInput($event)"
+              [inputType]="getInputType()"
+              [placeholder]="placeholder"/>
+</ng-container>

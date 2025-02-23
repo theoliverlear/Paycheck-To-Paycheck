@@ -1,0 +1,5 @@
+<!-- recurring-bill-dropdown.component.html -->
+<ng-container>
+    <dropdown (dropdownSelected)="this.emitDropdownSelected($event)"
+              [dropdownItems]="RecurringBillTimeInterval.values()"/>
+</ng-container>
