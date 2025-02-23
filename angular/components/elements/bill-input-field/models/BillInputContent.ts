@@ -2,10 +2,10 @@ import {BillInputFieldType} from "./BillInputFieldType";
 
 export class BillInputContent {
     public fieldType: BillInputFieldType;
-    public value: string | number;
+    public inputValue: string | number;
     public constructor(fieldType: BillInputFieldType = BillInputFieldType.TITLE,
-                       value: string | number = '') {
+                       inputValue: string | number = '') {
         this.fieldType = fieldType;
-        this.value = value;
+        this.inputValue = inputValue;
     }
 }
