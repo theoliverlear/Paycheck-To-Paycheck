@@ -14,8 +14,8 @@ django.setup()
 
 recurring_date: RecurringDate = RecurringDate(day=date.today(),
                                               interval=YearInterval.YEARLY)
-recurring_income: RecurringIncome = RecurringIncome(income=43_000,
-                                                    income_type=IncomeTypes.SALARY.value,
+recurring_income: RecurringIncome = RecurringIncome(name="Walmart Income",
+                                                    income_amount=43_000,
                                                     recurring_date=recurring_date)
 safe_password: SafePassword = SafePassword(unhashed_password='password')
 
