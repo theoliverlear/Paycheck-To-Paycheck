@@ -6,6 +6,6 @@
 
 recurring-bill-dropdown {
     @include flex(center, center, row);
-    width: $twelve-percent;
+    width: calc($fourteen-percent * 0.935);
     height: $three-percent;
 }
