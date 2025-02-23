@@ -13,7 +13,6 @@ from backend.apps.exception.entity_not_found_exception import \
 
 @define
 class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], ABC):
-    name: str = attr(default="")
     interval: YearInterval = attr(default=YearInterval.MONTHLY)
 
     @staticmethod
