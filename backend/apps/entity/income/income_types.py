@@ -11,6 +11,8 @@ class IncomeTypes(Enum):
                               interval=YearInterval.BI_WEEKLY)
     WAGE         = IncomeType(name='wage',
                               interval=YearInterval.HOURLY)
+    MONTHLY      = IncomeType(name='monthly',
+                              interval=YearInterval.MONTHLY)
     ONE_TIME     = IncomeType(name='one time',
                               interval=YearInterval.NO_INTERVAL)
     YEARLY_BONUS = IncomeType(name='yearly bonus',
