@@ -13,8 +13,8 @@ export class RecurringBillDropdownComponent {
         
     }
 
-    emitDropdownSelected(item: string) {
-        const recurringBillTimeInterval = RecurringBillTimeInterval.from(item);
+    emitDropdownSelected(dropdownItem: string): void {
+        const recurringBillTimeInterval: RecurringBillTimeInterval = RecurringBillTimeInterval.from(dropdownItem);
         console.log(recurringBillTimeInterval);
         this.dropdownSelected.emit(recurringBillTimeInterval);
     }
