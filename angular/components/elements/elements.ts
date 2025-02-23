@@ -38,6 +38,9 @@ import {SsSelectComponent} from "./ss-select/ss-select.component";
 import {
     RecurringBillDropdownComponent
 } from "./recurring-bill-dropdown/recurring-bill-dropdown.component";
+import {
+    RecurringIncomeDropdownComponent
+} from "./recurring-income-dropdown/recurring-income-dropdown.component";
 
 export const elements = [
     BillInputComponent,
@@ -55,6 +58,7 @@ export const elements = [
     NavBarComponent,
     NavItemComponent,
     RecurringBillDropdownComponent,
+    RecurringIncomeDropdownComponent,
     SsAnchorComponent,
     SsButtonComponent,
     SsFooterComponent,
