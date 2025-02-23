@@ -21,13 +21,13 @@ export class BillInputFieldsComponent {
     updateBill(billInputContent: BillInputContent): void {
         switch (billInputContent.fieldType) {
             case BillInputFieldType.TITLE:
-                this.bill.title = billInputContent.value as string;
+                this.bill.title = billInputContent.inputValue as string;
                 break;
             case BillInputFieldType.AMOUNT:
-                this.bill.amount = Number(billInputContent.value);
+                this.bill.amount = Number(billInputContent.inputValue);
                 break;
             case BillInputFieldType.DATE:
-                this.bill.date = new Date(billInputContent.value as string);
+                this.bill.date = new Date(billInputContent.inputValue as string);
                 break;
         }
     }
