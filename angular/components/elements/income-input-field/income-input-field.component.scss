@@ -3,7 +3,8 @@
 @import "../../../styles/global-mixins";
 @import "../../../styles/global-functions";
 @import "../../../styles/global-placeholders";
+@import "../bill-input-field/bill-input-field.component";
 
 income-input-field {
-
+    @extend bill-input-field;
 }
