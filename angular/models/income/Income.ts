@@ -9,15 +9,18 @@ export class Income {
     public date: Date;
     public timeType: InputTimeType;
     public incomeInterval?: RecurringIncomeTimeInterval;
+    public hours?: number;
     public constructor(title: string = '',
                        amount: number = 0,
                        date: Date = new Date(),
                        timeType: InputTimeType = InputTimeType.ONE_TIME,
-                       incomeInterval?: RecurringIncomeTimeInterval) {
+                       incomeInterval?: RecurringIncomeTimeInterval,
+                       hours?: number) {
         this.title = title;
         this.amount = amount;
         this.date = date;
         this.timeType = timeType;
         this.incomeInterval = incomeInterval;
+        this.hours = hours;
     }
 }
