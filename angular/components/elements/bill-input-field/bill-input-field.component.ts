@@ -28,7 +28,7 @@ export class BillInputFieldComponent implements OnInit {
     }
 
     public emitInput(value: string | number): void {
-        this.inputContent.value = value;
+        this.inputContent.inputValue = value;
         this.inputEvent.emit(this.inputContent);
     }
 
