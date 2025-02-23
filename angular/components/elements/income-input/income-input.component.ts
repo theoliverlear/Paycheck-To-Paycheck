@@ -27,6 +27,7 @@ export class IncomeInputComponent implements OnInit {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
     protected shown: boolean = true;
     income: Income = new Income();
+    isHourlyIncome: boolean = false;
     constructor() {
         
     }
@@ -54,7 +55,12 @@ export class IncomeInputComponent implements OnInit {
 
     public updateIncomeInterval(incomeInterval: RecurringIncomeTimeInterval): void {
         this.income.incomeInterval = incomeInterval;
+        this.updateIsHourlyIncome(incomeInterval);
         console.log(this.income);
+    }
+
+    private updateIsHourlyIncome(incomeInterval: RecurringIncomeTimeInterval) {
+        this.isHourlyIncome = incomeInterval === RecurringIncomeTimeInterval.HOURLY_WAGE;
     }
 
     updateIncome(income: Income): void {
@@ -67,6 +73,7 @@ export class IncomeInputComponent implements OnInit {
     public isRecurringIncome(): boolean {
         return this.income.timeType === InputTimeType.RECURRING;
     }
+
 
     public getAnimationProperties() {
         return {
