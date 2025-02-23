@@ -1,5 +1,12 @@
-// income-input-fields.component.ts 
-import { Component } from "@angular/core";
+// income-input-fields.component.ts
+import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Income} from "../../../models/income/Income";
+import {
+    IncomeInputContent
+} from "../income-input-field/models/IncomeInputContent";
+import {
+    IncomeInputFieldType
+} from "../income-input-field/models/IncomeInputFieldType";
 
 @Component({
     selector: 'income-input-fields',
@@ -7,7 +14,37 @@ import { Component } from "@angular/core";
     styleUrls: ['./income-input-fields.component.css']
 })
 export class IncomeInputFieldsComponent {
+    @Output() incomeChange: EventEmitter<Income> = new EventEmitter<Income>();
+    income: Income = new Income();
+    @Input() protected isHourlyIncome: boolean = false;
     constructor() {
         
     }
+    updateIncome(incomeInputContent: IncomeInputContent): void {
+        switch (incomeInputContent.fieldType) {
+            case IncomeInputFieldType.TITLE:
+                this.income.title = incomeInputContent.inputValue as string;
+                break;
+            case IncomeInputFieldType.AMOUNT:
+                this.income.amount = Number(incomeInputContent.inputValue);
+                break;
+            case IncomeInputFieldType.HOURS:
+                this.income.hours = Number(incomeInputContent.inputValue);
+                break;
+            case IncomeInputFieldType.DATE:
+                this.income.date = new Date(incomeInputContent.inputValue as string);
+                break;
+        }
+    }
+
+    emitIncomeChange(): void {
+        this.incomeChange.emit(this.income);
+    }
+
+    updateAndEmitIncome(incomeInputContent: IncomeInputContent): void {
+        this.updateIncome(incomeInputContent);
+        this.emitIncomeChange();
+    }
+
+    protected readonly IncomeInputFieldType = IncomeInputFieldType;
 }
