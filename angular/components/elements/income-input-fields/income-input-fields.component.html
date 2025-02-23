@@ -1,1 +1,15 @@
 <!-- income-input-fields.component.html -->
+<ng-container>
+    <income-input-field (inputEvent)="this.updateAndEmitIncome($event)"
+                        [fieldType]="IncomeInputFieldType.TITLE"
+                        [placeholder]="'Ex. Job Income'"/>
+    <income-input-field (inputEvent)="this.updateAndEmitIncome($event)"
+                        [fieldType]="IncomeInputFieldType.AMOUNT"
+                        [placeholder]="'$0.00'"/>
+    <income-input-field *ngIf="this.isHourlyIncome"
+            (inputEvent)="this.updateAndEmitIncome($event)"
+                        [fieldType]="IncomeInputFieldType.HOURS"
+                        [placeholder]="'Weekly Hours'"/>
+    <income-input-field (inputEvent)="this.updateAndEmitIncome($event)"
+                        [fieldType]="IncomeInputFieldType.DATE"/>
+</ng-container>
