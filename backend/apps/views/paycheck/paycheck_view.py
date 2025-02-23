@@ -1,4 +1,5 @@
 import logging
+from datetime import date
 
 from django.http import HttpResponse
 from rest_framework.views import APIView
@@ -21,9 +22,8 @@ class PaycheckView(APIView):
             username='johndoe',
             password=SafePassword(unhashed_password='password'),
             recurring_income=RecurringIncome(
-                income=params,
-                income_type=IncomeTypes.SALARY.value,
-                recurring_date=RecurringDate(day=1, interval=YearInterval.YEARLY)
+                income_amount=params,
+                recurring_date=RecurringDate(day=date.today(), interval=YearInterval.YEARLY)
             ),
         )
         tax: Tax = Tax(25)
