@@ -11,7 +11,7 @@ bill-input {
         //background-color: $pristine-white;
         background-image: radial-gradient(at center, $alabaster-stone 30%, $pristine-white);
         padding: $one-percent;
-        width: calc($thirty-percent + $three-percent);
+        width: $thirty-five-percent;
         position: relative;
         margin: $one-percent 0;
         @extend %soft-border-radius;
