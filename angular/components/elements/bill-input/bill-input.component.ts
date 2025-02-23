@@ -66,8 +66,8 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
         this.setDefaultTimeType();
     }
 
-    public updateBill(bill: Bill) {
-        const originalTimeType = this.bill.timeType;
+    public updateBill(bill: Bill): void {
+        const originalTimeType: InputTimeType = this.bill.timeType;
         this.bill = bill;
         this.bill.timeType = originalTimeType;
         console.log(this.bill);
