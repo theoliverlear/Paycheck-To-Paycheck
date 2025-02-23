@@ -14,6 +14,11 @@ import {
 import {
     RecurringIncomeTimeInterval
 } from "../recurring-income-dropdown/models/RecurringIncomeTimeInterval";
+import {WebSocketCapable} from "../../../models/WebSocketCapable";
+import {Subscription} from "rxjs";
+import {
+    IncomeWebSocketService
+} from "../../../services/server/websocket/income-websocket.service";
 
 @Component({
     selector: 'income-input',
@@ -23,25 +28,48 @@ import {
         fadeInOutAnimation
     ]
 })
-export class IncomeInputComponent implements OnInit {
+export class IncomeInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
     protected shown: boolean = true;
     income: Income = new Income();
     isHourlyIncome: boolean = false;
-    constructor() {
-        
+    subscription: Subscription;
+    constructor(private incomeWebSocketService: IncomeWebSocketService) {
+
+    }
+
+    ngOnInit() {
+        this.setDefaultTimeType();
+        console.log(this.income);
+        this.initializeWebSocket();
+    }
+
+    initializeWebSocket(): void {
+        this.incomeWebSocketService.connect();
+        this.subscription = this.incomeWebSocketService.getMessages().subscribe(
+            (income: Income): void => {
+                if (income) {
+                    console.log('WebSocket income:', income);
+                }
+            },
+            (error) => {
+                console.error('WebSocket error:', error);
+            }
+        );
+    }
+
+    clearInputs(): void {
+        this.income = new Income();
+        this.setDefaultTimeType();
     }
 
     public confirm(): void {
+        this.incomeWebSocketService.sendMessage(this.income);
         this.shown = false;
     }
 
     public close(): void {
         this.shown = false;
-    }
-
-    ngOnInit() {
-        this.setDefaultTimeType();
     }
 
     setDefaultTimeType() {
