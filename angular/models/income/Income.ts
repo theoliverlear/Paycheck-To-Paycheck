@@ -4,19 +4,19 @@ import {
 } from "../../components/elements/recurring-income-dropdown/models/RecurringIncomeTimeInterval";
 
 export class Income {
-    public title: string;
+    public name: string;
     public amount: number;
     public date: Date;
     public timeType: InputTimeType;
     public incomeInterval?: RecurringIncomeTimeInterval;
     public hours?: number;
-    public constructor(title: string = '',
+    public constructor(name: string = '',
                        amount: number = 0,
                        date: Date = new Date(),
                        timeType: InputTimeType = InputTimeType.ONE_TIME,
                        incomeInterval?: RecurringIncomeTimeInterval,
                        hours?: number) {
-        this.title = title;
+        this.name = name;
         this.amount = amount;
         this.date = date;
         this.timeType = timeType;

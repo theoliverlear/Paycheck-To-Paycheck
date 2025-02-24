@@ -23,7 +23,7 @@ export class IncomeInputFieldsComponent {
     updateIncome(incomeInputContent: IncomeInputContent): void {
         switch (incomeInputContent.fieldType) {
             case IncomeInputFieldType.TITLE:
-                this.income.title = incomeInputContent.inputValue as string;
+                this.income.name = incomeInputContent.inputValue as string;
                 break;
             case IncomeInputFieldType.AMOUNT:
                 this.income.amount = Number(incomeInputContent.inputValue);

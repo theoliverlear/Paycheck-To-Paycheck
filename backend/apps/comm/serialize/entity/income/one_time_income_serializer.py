@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.apps.entity.income.income import Income
+from backend.apps.entity.income.one_time_income import OneTimeIncome
 
 
 class IncomeSerializer(serializers.Serializer):
@@ -8,5 +8,5 @@ class IncomeSerializer(serializers.Serializer):
     name = serializers.CharField()
     income_amount = serializers.FloatField()
     class Meta:
-        model = Income,
+        model = OneTimeIncome,
         fields = '__all__'

@@ -21,7 +21,7 @@ export class BillInputFieldsComponent {
     updateBill(billInputContent: BillInputContent): void {
         switch (billInputContent.fieldType) {
             case BillInputFieldType.TITLE:
-                this.bill.title = billInputContent.inputValue as string;
+                this.bill.name = billInputContent.inputValue as string;
                 break;
             case BillInputFieldType.AMOUNT:
                 this.bill.amount = Number(billInputContent.inputValue);
