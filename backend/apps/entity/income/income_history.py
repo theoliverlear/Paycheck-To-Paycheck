@@ -10,6 +10,8 @@ from backend.apps.entity.income.one_time_income import OneTimeIncome
 from backend.apps.entity.income.models import IncomeHistoryOrmModel
 from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.orm_compatible import OrmCompatible
+from backend.resolve_class import resolve_class
+
 if TYPE_CHECKING:
     from backend.apps.entity.user.user import User
 from backend.apps.exception.entity_not_found_exception import \
@@ -18,7 +20,8 @@ from backend.apps.exception.entity_not_found_exception import \
 
 @define
 class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, Identifiable):
-    user: 'User' = attr(factory=lambda: 'User()')
+    user: 'User' = attr(factory=lambda: resolve_class('backend.apps.entity.user.user.User',
+                                                      'User')())
     one_time_incomes: list[OneTimeIncome] = attr(factory=list[OneTimeIncome])
     recurring_incomes: list[RecurringIncome] = attr(factory=list[RecurringIncome])
 
