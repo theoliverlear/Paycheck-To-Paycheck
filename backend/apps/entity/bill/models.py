@@ -3,14 +3,13 @@ from django.db import models
 from backend.apps.entity.time.models import DueDateOrmModel
 from backend.apps.entity.time.recurring_date import RecurringDateOrmModel
 
-
-class BillOrmModel(models.Model):
+class OneTimeBillOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     amount = models.FloatField(default=0.0)
     due_date = models.ForeignKey(DueDateOrmModel, on_delete=models.CASCADE)
     class Meta:
-        db_table = 'bills'
+        db_table = 'one_time_bills'
 
 class RecurringBillOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
@@ -19,3 +18,11 @@ class RecurringBillOrmModel(models.Model):
     recurring_date = models.ForeignKey(RecurringDateOrmModel, on_delete=models.CASCADE)
     class Meta:
         db_table = 'recurring_bills'
+
+class BillHistoryOrmModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.OneToOneField('user.UserOrmModel', on_delete=models.CASCADE,
+                                related_name='user_bill_history',
+                                default=None)
+    class Meta:
+        db_table = 'bill_histories'
