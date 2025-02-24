@@ -6,6 +6,7 @@ from attr import attr
 
 from backend.apps.entity.bill.one_time_bill import OneTimeBill
 from backend.apps.entity.bill.recurring_bill import RecurringBill
+from backend.resolve_class import resolve_class
 
 if TYPE_CHECKING:
     from backend.apps.entity.user.user import User
@@ -16,7 +17,8 @@ from backend.apps.entity.orm_compatible import OrmCompatible
 
 
 class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identifiable):
-    user: 'User' = attr(factory=lambda: 'User()')
+    user: 'User' = attr(factory=lambda: resolve_class('backend.apps.entity.user.user.User',
+                                                      'User')())
     one_time_bills: list[OneTimeBill] = attr(factory=list[OneTimeBill])
     recurring_bills: list[RecurringBill] = attr(factory=list[RecurringBill])
 
