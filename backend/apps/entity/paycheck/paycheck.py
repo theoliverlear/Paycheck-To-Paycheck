@@ -2,13 +2,13 @@ from attr import attr
 from attrs import define, field
 
 from backend.apps.entity.identifiable import Identifiable
-from backend.apps.entity.income.income import Income, IncomeOrmModel
+from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.time.year_interval import YearInterval
 
 
 @define
 class Paycheck(Identifiable):
-    income: Income = field(factory=Income)
+    income: RecurringIncome = field(factory=RecurringIncome)
     paycheck_income: float = attr(default=0.0)
 
     def __attrs_post_init__(self):
