@@ -1,19 +1,25 @@
 import json
 import logging
-from datetime import date
 
 from asgiref.sync import sync_to_async
+from injector import inject, Injector
 
-from backend.apps.comm.serialize.entity.bill.bill_serializer import \
-    BillSerializer
-from backend.apps.entity.bill.bill import Bill
-from backend.apps.entity.time.due_date import DueDate
-from backend.apps.models.date_utilities import iso_to_django_date
+from backend.apps.comm.serialize.entity.bill.one_time_bill_serializer import \
+    OneTimeBillSerializer
+from backend.apps.entity.bill.one_time_bill import OneTimeBill
+from backend.apps.injector.injectable import injectable
+from backend.apps.models.dict.entity.bill.one_time_bill_dict_parser import \
+    OneTimeBillDictParser
 from backend.apps.routing.websocket.websocket_consumer import \
     WebSocketConsumer
 
+@injectable
+class BillConsumer(WebSocketConsumer[OneTimeBill]):
+    @inject
+    def __init__(self, one_time_bill_parser: OneTimeBillDictParser):
+        super().__init__()
+        self.one_time_bill_parser = one_time_bill_parser
 
-class BillConsumer(WebSocketConsumer[Bill]):
     async def connect(self):
         logging.info('WebSocket connected')
         await self.accept()
@@ -25,28 +31,25 @@ class BillConsumer(WebSocketConsumer[Bill]):
         if text_data:
             logging.info(f"Received text data: {text_data}")
             data = json.loads(text_data)
-            bill: Bill = self.get_bill(data)
+            bill: OneTimeBill = self.get_bill(data)
             await sync_to_async(bill.save)()
-            bill_json = self.get_bill_from_json(data)
+            bill_json: dict = self.get_serialized_bill(bill)
             await self.send(text_data=json.dumps({
                 'message': bill_json
             }))
+
+    def get_serialized_bill(self, bill: OneTimeBill) -> dict:
+        serializer: OneTimeBillSerializer = OneTimeBillSerializer(bill)
+        return serializer.data
 
     def get_bill_from_json(self, json_data):
         json_bill = self.get_bill(json_data)
         # TODO: See if bill already exists or not and implement ID
         #       accordingly.
-        serializer: BillSerializer = BillSerializer(json_bill)
+        serializer: OneTimeBillSerializer = OneTimeBillSerializer(json_bill)
         return serializer.data
         # return json_bill.model_dump_json()
 
     def get_bill(self, json_data):
-        json_date: date = iso_to_django_date(json_data['date'])
-        json_due_date = DueDate(due_date=json_date)
-        bill: Bill = Bill(
-            name=json_data['title'],
-            amount=json_data['amount'],
-            due_date=json_due_date
-        )
-        return bill
+        return self.one_time_bill_parser.get_bill(json_data)
 
