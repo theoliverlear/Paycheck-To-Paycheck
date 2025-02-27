@@ -1,6 +1,7 @@
 from attr import attr
 from attrs import define
 
+from backend.apps.entity.bill.bill_history import BillHistory
 from backend.apps.entity.bill.models import OneTimeBillOrmModel
 from backend.apps.entity.bill.undated_bill import UndatedBill
 from backend.apps.entity.orm_compatible import OrmCompatible
@@ -12,21 +13,29 @@ from backend.apps.exception.entity_not_found_exception import \
 @define
 class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]):
     due_date: DueDate = attr(factory=DueDate)
+    bill_history: BillHistory = attr(default=None)
 
     def save(self) -> 'OneTimeBill':
-        saved_due_date: DueDate = self.due_date.save()
-        orm_model: OneTimeBillOrmModel = self.get_orm_model()
-        saved_bill: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.create(
-            name=orm_model.name,
-            amount=orm_model.amount,
-            due_date=DueDate.get_orm_model(saved_due_date)
-        )
-        return OneTimeBill.from_orm_model(saved_bill)
+        if self.is_initialized():
+            self.update()
+            return self
+        else:
+            saved_due_date: DueDate = self.due_date.save()
+            saved_bill_history: BillHistory = self.bill_history.save()
+            orm_model: OneTimeBillOrmModel = self.get_orm_model()
+            saved_bill: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.create(
+                name=orm_model.name,
+                amount=orm_model.amount,
+                due_date=DueDate.get_orm_model(saved_due_date),
+                bill_history= saved_bill_history
+            )
+            return OneTimeBill.from_orm_model(saved_bill)
 
     def update(self) -> None:
         try:
             db_model: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.get(id=self.id)
             self.due_date.update()
+            self.bill_history.update()
             orm_model: OneTimeBillOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
             db_model.save()
@@ -38,13 +47,15 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
         self.name = orm_model.name
         self.amount = orm_model.amount
         self.due_date = DueDate.from_orm_model(orm_model.due_date)
+        self.bill_history = BillHistory.from_orm_model(orm_model.bill_history)
 
     def get_orm_model(self) -> OneTimeBillOrmModel:
         return OneTimeBillOrmModel(
             id=self.id,
             name=self.name,
             amount=self.amount,
-            due_date=self.due_date.get_orm_model()
+            due_date=self.due_date.get_orm_model(),
+            bill_history=self.bill_history.get_orm_model()
         )
 
     @staticmethod
@@ -54,6 +65,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
         db_model.name = model_to_match.name
         db_model.amount = model_to_match.amount
         db_model.due_date = model_to_match.due_date
+        db_model.bill_history = model_to_match.bill_history
 
     @staticmethod
     def from_orm_model(orm_model: OneTimeBillOrmModel) -> 'OneTimeBill':
