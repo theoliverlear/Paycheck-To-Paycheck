@@ -1,10 +1,14 @@
+from __future__ import annotations
 from abc import ABC
 from datetime import date
+from typing import TYPE_CHECKING
 
 from attr import attr
 from attrs import define
 
 from backend.apps.entity.identifiable import Identifiable
+if TYPE_CHECKING:
+    from backend.apps.entity.income.income_history import IncomeHistory
 from backend.apps.entity.income.models import OneTimeIncomeOrmModel
 from backend.apps.entity.income.undated_income import UndatedIncome
 from backend.apps.entity.orm_compatible import OrmCompatible
@@ -15,6 +19,7 @@ from backend.apps.exception.entity_not_found_exception import \
 @define
 class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeOrmModel], ABC, Identifiable):
     date_received: date = attr(default=date.today())
+    income_history: IncomeHistory = attr(default=None)
 
     def save(self) -> 'OneTimeIncome':
         orm_model: OneTimeIncomeOrmModel = self.get_orm_model()
@@ -22,7 +27,8 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
             id=orm_model.id,
             name=orm_model.name,
             income_amount=orm_model.income_amount,
-            date_received=orm_model.date_received
+            date_received=orm_model.date_received,
+            income_history=self.income_history.get_orm_model()
         )
         return OneTimeIncome.from_orm_model(saved_income)
 
@@ -56,4 +62,6 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
         return OneTimeIncomeOrmModel(
             name=self.name,
             income_amount=self.income_amount,
+            date_received=self.date_received,
+            income_history=self.income_history.get_orm_model()
         )
