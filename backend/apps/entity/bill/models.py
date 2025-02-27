@@ -8,6 +8,7 @@ class OneTimeBillOrmModel(models.Model):
     name = models.CharField(max_length=255)
     amount = models.FloatField(default=0.0)
     due_date = models.ForeignKey(DueDateOrmModel, on_delete=models.CASCADE)
+    bill_history = models.ForeignKey('BillHistoryOrmModel', on_delete=models.CASCADE, default=None, null=True)
     class Meta:
         db_table = 'one_time_bills'
 
@@ -16,13 +17,11 @@ class RecurringBillOrmModel(models.Model):
     name = models.CharField(max_length=255)
     amount = models.FloatField(default=0.0)
     recurring_date = models.ForeignKey(RecurringDateOrmModel, on_delete=models.CASCADE)
+    bill_history = models.ForeignKey('BillHistoryOrmModel', on_delete=models.CASCADE, default=None, null=True)
     class Meta:
         db_table = 'recurring_bills'
 
 class BillHistoryOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField('user.UserOrmModel', on_delete=models.CASCADE,
-                                related_name='user_bill_history',
-                                default=None)
     class Meta:
         db_table = 'bill_histories'
