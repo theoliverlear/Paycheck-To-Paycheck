@@ -13,22 +13,54 @@ from backend.apps.exception.entity_not_found_exception import \
 
 @define
 class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringIncomeOrmModel], ABC):
-    recurring_date: RecurringDate = attr(factory=RecurringDate)
+    _recurring_date: RecurringDate = attr(factory=RecurringDate)
+    yearly_income: float = attr(default=0.0)
+
+    @property
+    def recurring_date(self):
+        self.calculate_yearly_income()
+        return self._recurring_date
+
+    @recurring_date.setter
+    def recurring_date(self, recurring_date):
+        self._recurring_date = recurring_date
+        self.calculate_yearly_income()
+
+    @property
+    def income_amount(self):
+        self.calculate_yearly_income()
+        return self._income_amount
+
+    @income_amount.setter
+    def income_amount(self, income_amount):
+        self._income_amount = income_amount
+        self.calculate_yearly_income()
+
+    def __attrs_post_init__(self):
+        self.calculate_yearly_income()
+
+    def calculate_yearly_income(self):
+        self.yearly_income = self._income_amount * self._recurring_date.interval.value
+
 
     def save(self) -> 'RecurringIncome':
-        saved_recurring_date: RecurringDate = self.recurring_date.save()
-        orm_model: RecurringIncomeOrmModel = self.get_orm_model()
-        saved_recurring_income: RecurringIncomeOrmModel = RecurringIncomeOrmModel.objects.create(
-            name=orm_model.name,
-            income_amount=orm_model.income_amount,
-            recurring_date=saved_recurring_date.get_orm_model()
-        )
-        return RecurringIncome.from_orm_model(saved_recurring_income)
+        if self.is_initialized():
+            self.update()
+            return self
+        else:
+            saved_recurring_date: RecurringDate = self._recurring_date.save()
+            orm_model: RecurringIncomeOrmModel = self.get_orm_model()
+            saved_recurring_income: RecurringIncomeOrmModel = RecurringIncomeOrmModel.objects.create(
+                name=orm_model.name,
+                income_amount=orm_model.income_amount,
+                recurring_date=saved_recurring_date.get_orm_model()
+            )
+            return RecurringIncome.from_orm_model(saved_recurring_income)
 
     def update(self) -> None:
         try:
             db_model = RecurringIncomeOrmModel.objects.get(id=self.id)
-            self.recurring_date.update()
+            self._recurring_date.update()
             orm_model: RecurringIncomeOrmModel = self.get_orm_model()
             db_model: RecurringIncomeOrmModel = self.set_orm_model(db_model, orm_model)
             db_model.save()
