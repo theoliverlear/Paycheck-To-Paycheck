@@ -11,6 +11,18 @@ class IncomeTypeOrmModel(models.Model):
     class Meta:
         db_table = 'income_types'
 
+class OneTimeIncomeOrmModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, default='')
+    income_amount = models.FloatField(default=0.0)
+    date_received = models.DateField(default=now)
+    income_history = models.ForeignKey('IncomeHistoryOrmModel',
+                                       on_delete=models.CASCADE,
+                                       default=None,
+                                       null=False)
+    class Meta:
+        db_table = 'one_time_incomes'
+
 class RecurringIncomeOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default='')
@@ -23,17 +35,18 @@ class RecurringIncomeOrmModel(models.Model):
     class Meta:
         db_table = 'recurring_incomes'
 
-class OneTimeIncomeOrmModel(models.Model):
+class WageIncomeOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default='')
     income_amount = models.FloatField(default=0.0)
-    date_received = models.DateField(default=now)
+    recurring_date = models.ForeignKey(RecurringDateOrmModel, on_delete=models.CASCADE)
+    weekly_hours = models.IntegerField(default=0)
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
-                                       on_delete=models.CASCADE,
-                                       default=None,
-                                       null=False)
+                                        on_delete=models.CASCADE,
+                                        default=None,
+                                        null=False)
     class Meta:
-        db_table = 'one_time_incomes'
+        db_table = 'wage_incomes'
 
 class IncomeHistoryOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
