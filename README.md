@@ -18,7 +18,7 @@ little less stressful by helping you keep track of your finances.
 ---
 
 ## Features
-- 💵 **Budgeting**: See what you income allows you to spend.
+- 💵 **Budgeting**: See what your income allows you to spend.
 - ⌛️ **Timing**: Know when you are getting paid next, and when you can spend the
               money you have.
 - 🏦 **Understand Your Holdings**: See how you can save, or pay off debt, with
@@ -28,7 +28,7 @@ little less stressful by helping you keep track of your finances.
 ## Get Started
 
 [//]: # (TODO: Create a URL on AWS.)
-1. 🌐 Head Over to the [Paycheck to Paycheck]() website.
+1. 🌐 Head over to the [Paycheck to Paycheck]() website. (Not yet launched)
 2. 🤝 Create an account.
 3. 💵 Start tracking your finances!
 
@@ -62,9 +62,9 @@ and the back-end.
 #### Front-end
 
 The modular structure of Angular has been put in place. There are the 
-dependencies required to make a fully-fledged web app. The begining components
-and beginning to be developed. The most important components like the nav bar
-and footer have taken precedence.
+dependencies required to make a fully-fledged web app. The beginning
+components are starting to be developed. The most important components like 
+the nav bar and footer have taken precedence.
 
 The personality of website must be shown in the front-end. Knowing this, there
 have been various design choices made about the look and feel of the website.
