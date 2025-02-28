@@ -29,7 +29,7 @@ class PaycheckView(APIView):
         tax: Tax = Tax(25)
         taxed_paycheck: TaxedPaycheck = TaxedPaycheck(income=user.recurring_income, tax=tax)
         logging.info(taxed_paycheck)
-        paycheck_str: str = f"${taxed_paycheck.paycheck_income:,.2f}"
+        paycheck_str: str = f"${taxed_paycheck.total_income:,.2f}"
 
         paycheck_after_taxes_str: str = f"${taxed_paycheck.after_tax_income:,.2f}"
         logging.info(f"Paycheck: {paycheck_str}, After Taxes: {paycheck_after_taxes_str}")
