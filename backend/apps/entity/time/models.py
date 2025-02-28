@@ -19,7 +19,7 @@ class DueDateOrmModel(models.Model):
 
 class RecurringDateOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
-    day = models.IntegerField(default=1)
+    day = models.DateField(default=now)
     interval = models.IntegerField(default=1)
     class Meta:
         db_table = 'recurring_dates'
