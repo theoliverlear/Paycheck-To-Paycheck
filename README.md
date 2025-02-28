@@ -90,7 +90,7 @@ a dual purpose of a back-end object and a database object. The major models
 have been started. These would include:
 
 - User
-  - Holding Foreign Keys and basic data
+  - Holding foreign keys and basic data
 - Dates
   - Due dates
   - Recurring dates
