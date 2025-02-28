@@ -13,5 +13,5 @@ class TaxedPaycheck(Paycheck):
 
     def __attrs_post_init__(self):
         super().__attrs_post_init__()
-        self.deducted_from_paycheck = self.tax.amount_to_deduct(self.paycheck_income)
-        self.after_tax_income = self.tax.amount_after_tax(self.paycheck_income)
+        self.deducted_from_paycheck = self.tax.amount_to_deduct(self.total_income)
+        self.after_tax_income = self.tax.amount_after_tax(self.total_income)
