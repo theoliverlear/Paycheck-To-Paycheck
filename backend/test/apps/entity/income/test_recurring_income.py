@@ -9,8 +9,8 @@ from backend.test.test_logging import log_test_class, log_test_results
 
 def log_yearly_income_calculation(income_amount: float, interval: YearInterval.MONTHLY):
     calculated_yearly_total: float = income_amount * interval.value
-    logging.info(f'Income is {income_amount}, occuring {interval.value} times per year.')
-    logging.info(f'The total should be when it should be {calculated_yearly_total}.')
+    logging.info(f'Income is ${income_amount}, occuring {interval.value} times per year.')
+    logging.info(f'The total should be when it should be ${calculated_yearly_total}.')
 
 @log_test_class(class_tested="Recurring Income")
 class RecurringIncomeTest(unittest.TestCase):
