@@ -22,15 +22,14 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
     recurring_bills: list[RecurringBill] = attr(default=[])
 
     def add_one_time_bill(self, bill: OneTimeBill) -> None:
-        self.one_time_bills.append(bill)
+        if bill not in self.one_time_bills:
+            self.one_time_bills.append(bill)
 
     def add_recurring_bill(self, recurring_bill: RecurringBill) -> None:
-        self.recurring_bills.append(recurring_bill)
+        if recurring_bill not in self.recurring_bills:
+            self.recurring_bills.append(recurring_bill)
 
     def save(self) -> 'BillHistory':
-        saved_one_time_bills: list[OneTimeBill] = self.save_all_one_time_bills()
-        saved_recurring_bills: list[RecurringBill] = self.save_all_recurring_bills()
-        orm_model: BillHistoryOrmModel = self.get_orm_model()
         if self.is_initialized():
             self.update()
             return self
