@@ -22,13 +22,16 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
     wage_incomes: list[WageIncome] = attr(default=[])
 
     def add_one_time_income(self, income: OneTimeIncome) -> None:
-        self.one_time_incomes.append(income)
+        if income not in self.one_time_incomes:
+            self.one_time_incomes.append(income)
 
     def add_recurring_income(self, recurring_income: RecurringIncome) -> None:
-        self.recurring_incomes.append(recurring_income)
+        if recurring_income not in self.recurring_incomes:
+            self.recurring_incomes.append(recurring_income)
 
     def add_wage_income(self, wage_income: WageIncome) -> None:
-        self.wage_incomes.append(wage_income)
+        if wage_income not in self.wage_incomes:
+            self.wage_incomes.append(wage_income)
 
 
     def save(self) -> 'IncomeHistory':
