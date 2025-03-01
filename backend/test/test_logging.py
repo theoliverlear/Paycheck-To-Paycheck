@@ -1,5 +1,15 @@
 import functools
 import logging
+from enum import Enum
+
+
+class LoggingColors(Enum):
+    BOLD_RED: str = '\033[1;31m'
+    BOLD_GREEN: str = '\033[1;32m'
+    RESET: str = '\033[0m'
+    BOLD_WHITE: str = '\033[1;37m'
+    UNDERLINE: str = '\033[4m'
+    BOLD_YELLOW: str = '\033[1;33m'
 
 
 def get_readable_function_name(function_name: str):
@@ -12,18 +22,23 @@ def log_test_results(function):
     @functools.wraps(function)
     def wrapper(*args, **kwargs):
         function_name: str = get_readable_function_name(function.__name__)
-        logging.info(f'Testing: {function_name}')
+        logging.info(f'Testing: {LoggingColors.BOLD_WHITE.value}'
+                     f'{function_name}{LoggingColors.RESET.value}')
         try:
             function(*args, **kwargs)
-            logging.info('Passed!')
+            logging.info(f'{LoggingColors.BOLD_GREEN.value}'
+                         f'Passed!{LoggingColors.RESET.value}')
         except AssertionError as error:
-            logging.info('Failed!')
+            logging.info(f'{LoggingColors.BOLD_RED.value}'
+                         f'{LoggingColors.UNDERLINE.value}'
+                         f'Failed!{LoggingColors.RESET.value}')
             raise
         except Exception as exception:
             logging.info(exception)
             raise
         finally:
-            logging.info('-' * 30 + '\n')
+            log_seperator()
+
     return wrapper
 
 def log_test_class(class_tested: str):
@@ -32,11 +47,15 @@ def log_test_class(class_tested: str):
 
         @classmethod
         def class_logger(cls_instance):
-            logging.info(f'Testing class: {class_tested}')
-            logging.info('-' * 30 + '\n')
+            logging.info(f'Testing class: {LoggingColors.BOLD_YELLOW.value}'
+                         f'{class_tested}{LoggingColors.RESET.value}')
+            log_seperator()
             if unit_test_class:
                 unit_test_class()
 
         cls.setUpClass = class_logger
         return cls
     return decorator
+
+def log_seperator():
+    logging.info('-' * 50 + '\n')
