@@ -1,0 +1,7 @@
+<!-- auth-console.component.html -->
+<ng-container>
+    <auth-type-slider/>
+    <signup-console *ngIf="isSignup()"/>
+    <login-console *ngIf="isLogin()"/>
+    <auth-popup/>
+</ng-container>
