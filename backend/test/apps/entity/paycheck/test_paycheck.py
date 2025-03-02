@@ -12,7 +12,6 @@ from backend.apps.entity.time.date_range import DateRange
 from backend.apps.entity.time.due_date import DueDate
 from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.time.year_interval import YearInterval
-from backend.apps.entity.user.user import User
 from backend.apps.models.date_utilities import get_next_friday, \
     get_next_bi_week, get_next_month, get_next_week, get_next_year, \
     get_tomorrow
@@ -63,41 +62,10 @@ def get_test_paycheck():
 
 @log_test_class(class_tested="Paycheck")
 class PaycheckTest(unittest.TestCase):
-    # income_history_test: IncomeHistory = setup_income_history()
-    # user_test: User = setup_user()
-    # paycheck_test: Paycheck = Paycheck()
-
-    # def setUp(self):
-    #     PaycheckTest.income_history_test = IncomeHistory()
-    #     PaycheckTest.income_history_test = setup_income_history()
-    #     PaycheckTest.user_test = User()
-    #     PaycheckTest.user_test = setup_user()
-    #     PaycheckTest.user_test.user_income_history = PaycheckTest.income_history_test
-    #     PaycheckTest.paycheck_test = Paycheck(
-    #     one_time_incomes=PaycheckTest.income_history_test.one_time_incomes,
-    #     recurring_incomes=PaycheckTest.income_history_test.recurring_incomes,
-    #     wage_incomes=PaycheckTest.income_history_test.wage_incomes
-    # )
-    #
-    # @classmethod
-    # def setUpClass(cls):
-    #     PaycheckTest.user_test.user_income_history = PaycheckTest.income_history_test
-    #     PaycheckTest.paycheck_test = Paycheck(
-    #         one_time_incomes=PaycheckTest.income_history_test.one_time_incomes,
-    #         recurring_incomes=PaycheckTest.income_history_test.recurring_incomes,
-    #         wage_incomes=PaycheckTest.income_history_test.wage_incomes
-    #     )
 
     @log_test_results
     def test_total_income(self):
-        income_history = setup_income_history()
-        user = setup_user()
-        user.user_income_history = income_history
-        paycheck: Paycheck = Paycheck(
-            one_time_incomes=income_history.one_time_incomes,
-            recurring_incomes=income_history.recurring_incomes,
-            wage_incomes=income_history.wage_incomes
-        )
+        paycheck: Paycheck = get_test_paycheck()
         wage_income: float = 260
         job_income: float = 1570
         side_job_income: float = 210
@@ -109,14 +77,7 @@ class PaycheckTest(unittest.TestCase):
 
     @log_test_results
     def test_date_range_increase(self):
-        income_history = setup_income_history()
-        user = setup_user()
-        user.user_income_history = income_history
-        paycheck: Paycheck = Paycheck(
-            one_time_incomes=income_history.one_time_incomes,
-            recurring_incomes=income_history.recurring_incomes,
-            wage_incomes=income_history.wage_incomes
-        )
+        paycheck: Paycheck = get_test_paycheck()
         original_date_range: DateRange = DateRange(starting_date=date.today(),
                                                    ending_date=get_next_bi_week(date.today()))
         paycheck.date_range.starting_date = get_next_bi_week(paycheck.date_range.starting_date)
@@ -125,14 +86,7 @@ class PaycheckTest(unittest.TestCase):
 
     @log_test_results
     def test_purge_outdated_items(self):
-        income_history = setup_income_history()
-        user = setup_user()
-        user.user_income_history = income_history
-        paycheck: Paycheck = Paycheck(
-            one_time_incomes=income_history.one_time_incomes,
-            recurring_incomes=income_history.recurring_incomes,
-            wage_incomes=income_history.wage_incomes
-        )
+        paycheck: Paycheck = get_test_paycheck()
         paycheck.date_range.starting_date = date.today()
         paycheck.date_range.ending_date = get_next_bi_week(date.today())
         paycheck.add_one_time_bill(OneTimeBill(
