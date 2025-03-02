@@ -15,7 +15,7 @@ export const navBarPaychecksElementLink = new TextElementLink('/paychecks',
     false,
     'Paychecks',
      TagType.H5);
-export const navBarMyAccountElementLink = new TextElementLink('/account',
+export const navBarMyAccountElementLink = new TextElementLink('/authorize',
     TargetType.SELF,
     false,
     'My Account',
