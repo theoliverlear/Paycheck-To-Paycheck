@@ -1,0 +1,9 @@
+<!-- signup-input.component.html -->
+<ng-container>
+    <ss-title *ngIf="!this.isTermsServiceType()"
+              [text]="this.getTitleText()"
+              [tagType]="TagType.H5"/>
+    <ss-input [inputType]="this.getInputType()"
+              *ngIf="!this.isTermsServiceType()"/>
+    <service-terms-input *ngIf="this.isTermsServiceType()"/>
+</ng-container>
