@@ -1,7 +1,8 @@
 import {
     Component,
     EventEmitter,
-    HostBinding, HostListener,
+    HostBinding,
+    HostListener,
     Input,
     OnInit,
     Output
@@ -10,6 +11,7 @@ import {ElementSize} from "../../../models/ElementSize";
 import {ButtonText} from "./models/ButtonText";
 import {ButtonPosition} from "./models/ButtonPosition";
 import {ImageAsset} from "../../../assets/imageAssets";
+import {TagType} from "../../../models/html/TagType";
 
 @Component({
     selector: 'ss-button',
@@ -24,14 +26,14 @@ export class SsButtonComponent implements OnInit {
     @Output() buttonClicked: EventEmitter<void> = new EventEmitter<void>();
     @HostBinding('style.align-self') alignSelf: string;
     constructor() {
-        console.log('SsButtonComponent loaded');
+
     }
     ngOnInit() {
         this.setAlignSelf();
     }
 
     @HostListener('click')
-    public onClick(): void {
+    protected onClick(): void {
         this.emitButtonClicked();
     }
 
@@ -55,6 +57,21 @@ export class SsButtonComponent implements OnInit {
         }
     }
     protected isImageButton(): boolean {
-        return this.imageAsset !== undefined;
+        let hasImageAsset: boolean = this.imageAsset !== undefined;
+        return hasImageAsset;
+    }
+    protected getTagType(): TagType {
+        switch (this.size) {
+            case ElementSize.VERY_LARGE:
+                return TagType.H3;
+            case ElementSize.LARGE:
+                return TagType.H4;
+            case ElementSize.MEDIUM:
+                return TagType.H5;
+            case ElementSize.SMALL:
+                return TagType.H6;
+            default:
+                return TagType.H6;
+        }
     }
 }
