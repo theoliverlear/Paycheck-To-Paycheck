@@ -57,6 +57,9 @@ import {
     ServiceTermsInputComponent
 } from "./service-terms-input/service-terms-input.component";
 import {AuthPopupComponent} from "./auth-popup/auth-popup.component";
+import {
+    ConfirmButtonComponent
+} from "./confirm-button/confirm-button.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -65,6 +68,7 @@ export const elements = [
     BillInputComponent,
     BillInputFieldComponent,
     BillInputFieldsComponent,
+    ConfirmButtonComponent,
     DropdownComponent,
     HomeAnchorComponent,
     IncomeInputComponent,
