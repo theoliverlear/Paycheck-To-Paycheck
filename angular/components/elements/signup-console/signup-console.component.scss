@@ -6,7 +6,7 @@
 
 signup-console {
     @include flex(center, center, column);
-    width: $thirty-percent;
+    width: $thirty-five-percent;
     margin: $one-percent 0;
     padding: $one-percent;
     background: radial-gradient(at center, $pristine-white, $alabaster-stone);
@@ -15,5 +15,9 @@ signup-console {
     ss-title {
         color: $light-charcoal;
         text-shadow: 0 $eighth-percent $quarter-percent $mint;
+    }
+    .signup-console-bottom-row {
+        width: 100%;
+        @include flex(flex-end, center, row);
     }
 }
