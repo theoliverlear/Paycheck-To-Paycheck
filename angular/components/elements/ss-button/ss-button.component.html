@@ -1,4 +1,7 @@
 <ng-container>
-    <ss-img *ngIf="this.isImageButton()" [imageAsset]="imageAsset"/>
-    <ss-title *ngIf="!this.isImageButton()" [title]="text"/>
+    <ss-img *ngIf="this.isImageButton()"
+            [imageAsset]="imageAsset"/>
+    <ss-title *ngIf="!this.isImageButton()"
+              [text]="text"
+              [tagType]="this.getTagType()"/>
 </ng-container>
