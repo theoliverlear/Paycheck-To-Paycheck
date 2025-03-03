@@ -5,6 +5,7 @@
            [max]="max"
            [min]="min"
            [value]="getDefaultValue()"
+           [(ngModel)]="value"
            [placeholder]="placeholder"/>
     <div class="checkbox-container" *ngIf="isCheckbox()">
         <input [type]="inputType"/>
