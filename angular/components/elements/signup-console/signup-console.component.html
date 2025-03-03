@@ -3,5 +3,8 @@
     <ss-title [text]="'Get Started'"
               [tagType]="TagType.H3"/>
     <hr/>
-    <signup-inputs/>
+    <signup-inputs (credentialsChange)="this.handleCredentialChange($event)"/>
+    <div class="signup-console-bottom-row">
+        <ss-button [text]="ButtonText.SIGNUP" [size]="ElementSize.LARGE"/>
+    </div>
 </ng-container>
