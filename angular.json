@@ -34,6 +34,7 @@
               "angular/components/elements/bill-input-field/bill-input-field.component.css",
               "angular/components/elements/bill-input-fields/bill-input-fields.component.css",
               "angular/components/elements/bill-input/bill-input.component.css",
+              "angular/components/elements/confirm-button/confirm-button.component.css",
               "angular/components/elements/dropdown/dropdown.component.css",
               "angular/components/elements/home-anchor/home-anchor.component.css",
               "angular/components/elements/income-input-field/income-input-field.component.css",
