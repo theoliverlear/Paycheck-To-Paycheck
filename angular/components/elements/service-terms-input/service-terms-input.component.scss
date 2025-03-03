@@ -5,5 +5,14 @@
 @import "../../../styles/global-placeholders";
 
 service-terms-input {
-
+    @include flex(center, center, row);
+    width: 100%;
+    margin: $quarter-percent 0;
+    ss-title {
+        text-decoration: underline;
+        text-decoration-color: $light-charcoal;
+        h5 {
+            text-shadow: none;
+        }
+    }
 }
