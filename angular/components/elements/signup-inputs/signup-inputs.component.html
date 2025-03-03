@@ -1,7 +1,18 @@
 <!-- signup-inputs.component.html -->
 <ng-container>
-    <signup-input [inputType]="AuthInputType.USERNAME"/>
-    <signup-input [inputType]="AuthInputType.PASSWORD"/>
-    <signup-input [inputType]="AuthInputType.EMAIL"/>
-    <signup-input [inputType]="AuthInputType.TERMS"/>
+    <signup-input (inputEvent)="this.emitCredentialsChange()"
+                  [signupCredentials]="this.signupCredentials"
+                  [inputType]="AuthInputType.USERNAME"/>
+    <signup-input (inputEvent)="this.emitCredentialsChange()"
+                  [signupCredentials]="this.signupCredentials"
+                  [inputType]="AuthInputType.PASSWORD"/>
+    <signup-input (inputEvent)="this.emitCredentialsChange()"
+                  [signupCredentials]="this.signupCredentials"
+                  [inputType]="AuthInputType.CONFIRM_PASSWORD"/>
+    <signup-input (inputEvent)="this.emitCredentialsChange()"
+                  [signupCredentials]="this.signupCredentials"
+                  [inputType]="AuthInputType.EMAIL"/>
+    <signup-input (inputEvent)="this.emitCredentialsChange()"
+                  [signupCredentials]="this.signupCredentials"
+                  [inputType]="AuthInputType.TERMS"/>
 </ng-container>
