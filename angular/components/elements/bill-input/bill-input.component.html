@@ -14,8 +14,6 @@
         <recurring-bill-dropdown *ngIf="isRecurringBill()"
                                  [@fadeInOut]="this.getAnimationProperties()"
                                  (dropdownSelected)="this.updateBillInterval($event)"/>
-        <ss-button class="confirm-button"
-                   [imageAsset]="confirmIconImageAsset"
-                   (buttonClicked)="this.confirm()"/>
+        <confirm-button (buttonClicked)="this.confirm()"/>
     </div>
 </div>
