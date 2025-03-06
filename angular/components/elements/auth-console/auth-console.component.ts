@@ -14,6 +14,9 @@ export class AuthConsoleComponent {
     constructor() {
         
     }
+    public setAuthType(authType: AuthType) {
+        this.authType = authType;
+    }
     protected isSignup(): boolean {
         return this.authType === AuthType.SIGNUP;
     }
