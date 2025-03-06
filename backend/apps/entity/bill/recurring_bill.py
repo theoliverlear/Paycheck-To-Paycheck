@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
@@ -21,6 +21,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
     recurring_date: RecurringDate = attr(factory=RecurringDate)
     bill_history: BillHistory = attr(default=None)
 
+    @override
     def save(self) -> 'RecurringBill':
         if self.is_initialized():
             self.update()
@@ -37,6 +38,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
         )
         return RecurringBill.from_orm_model(saved_bill)
 
+    @override
     def update(self) -> None:
         try:
             db_model: RecurringBillOrmModel = RecurringBillOrmModel.objects.get(id=self.id)
@@ -48,6 +50,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
         except RecurringBillOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
+    @override
     def set_from_orm_model(self, orm_model: RecurringBillOrmModel) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
@@ -55,6 +58,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
         self.bill_history = BillHistory.from_orm_model(orm_model.bill_history)
 
+    @override
     def get_orm_model(self) -> RecurringBillOrmModel:
         return RecurringBillOrmModel(
             id=self.id,
@@ -64,6 +68,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
             bill_history=self.bill_history.get_orm_model()
         )
 
+    @override
     @staticmethod
     def set_orm_model(db_model: RecurringBillOrmModel,
                       model_to_match: RecurringBillOrmModel) -> None:
@@ -73,6 +78,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
         db_model.recurring_date = model_to_match.recurring_date
         db_model.bill_history = model_to_match.bill_history
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: RecurringBillOrmModel) -> 'RecurringBill':
         bill = RecurringBill()
