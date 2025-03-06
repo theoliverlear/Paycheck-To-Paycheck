@@ -81,20 +81,49 @@ class AuthService:
             return AuthResponse.AUTHORIZED.value
 
 
-    def login(self,
+    async def login(self,
               login_request: LoginRequest,
-              http_request = None) -> PayloadStatusResponse[AuthStatusResponse]:
-        user_in_session: bool = self.session_service.user_in_session(http_request)
+              http_request = None,
+              session_scope = None) -> PayloadStatusResponse[AuthStatusResponse]:
+        if http_request:
+            return await self.http_login(login_request, http_request)
+        else:
+            return await self.websocket_login(login_request, session_scope)
+
+    async def http_login(self,
+                   login_request: LoginRequest,
+                   http_request) -> PayloadStatusResponse[AuthStatusResponse]:
+        user_in_session: bool = self.session_service.user_in_session(
+            http_request)
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
         user: User = self.user_service.user_from_request(login_request)
-        user_from_db: User = self.user_service.get_by_username(user.username)
-        password_matches: bool = user_from_db.password.compare_unencoded_password(login_request.password)
+        db_user: User = self.user_service.get_by_username(user.username)
+        password_matches: bool = db_user.password.compare_unencoded_password(login_request.password)
         if password_matches:
             self.session_service.save_user_to_session(user, http_request)
             return AuthResponse.AUTHORIZED.value
         else:
             return AuthResponse.UNAUTHORIZED.value
+
+    async def websocket_login(self,
+                        login_request: LoginRequest,
+                        session_scope) -> PayloadStatusResponse[AuthStatusResponse]:
+        user_in_session: bool = await self.websocket_session_service.user_in_session(session_scope)
+        if user_in_session:
+            return AuthResponse.IN_SESSION_CONFLICT.value
+        user: User = self.user_service.user_from_request(login_request)
+        db_user: User = await database_sync_to_async(
+            self.user_service.get_by_username)(user.username)
+        if db_user:
+            password_matches: bool = user.password.compare_unencoded_password(login_request.password)
+            if password_matches:
+                return AuthResponse.AUTHORIZED.value
+            else:
+                return AuthResponse.UNAUTHORIZED.value
+        else:
+            return AuthResponse.UNAUTHORIZED.value
+
 
     def logout(self, http_request) -> PayloadStatusResponse[AuthStatusResponse]:
         user_in_session: bool = self.session_service.user_in_session(http_request)
