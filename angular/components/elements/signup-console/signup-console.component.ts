@@ -11,16 +11,18 @@ import {
 } from "../../../services/server/websocket/signup-websocket.service";
 import {WebSocketCapable} from "../../../models/WebSocketCapable";
 import {Subscription} from "rxjs";
+import {HashPasswordService} from "../../../services/hash-password.service";
 
 @Component({
     selector: 'signup-console',
     templateUrl: './signup-console.component.html',
     styleUrls: ['./signup-console.component.css']
 })
-export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestroy {
+export class SignupConsoleComponent implements OnInit, WebSocketCapable {
     subscription: Subscription;
     private signupCredentials: SignupCredentials = new SignupCredentials();
-    constructor(private signupWebSocket: SignupWebSocketService) {
+    constructor(private signupWebSocket: SignupWebSocketService,
+                private hashPasswordService: HashPasswordService) {
         
     }
 
@@ -46,16 +48,6 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
         console.log('WebSocket subscription setup completed.');
     }
 
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-            console.log('WebSocket subscription destroyed.');
-        }
-
-        this.signupWebSocket.disconnect();
-        console.log('WebSocket connection closed.');
-    }
-
 
     protected handleCredentialChange(signupCredentials: SignupCredentials) {
         console.log(signupCredentials);
@@ -63,7 +55,11 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
     }
 
     protected confirm() {
+        const originalPassword: string = this.signupCredentials.password;
+        const hashedPassword: string = this.hashPasswordService.hashPassword(originalPassword);
+        this.signupCredentials.password = hashedPassword;
         this.signupWebSocket.sendMessage(this.signupCredentials);
+        this.signupCredentials.password = originalPassword;
     }
 
     protected readonly TagType = TagType;
