@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
@@ -29,6 +29,7 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
         if recurring_bill not in self.recurring_bills:
             self.recurring_bills.append(recurring_bill)
 
+    @override
     def save(self) -> 'BillHistory':
         if self.is_initialized():
             self.update()
@@ -38,6 +39,7 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
             self.set_from_orm_model(saved_bill_history)
             return BillHistory.from_orm_model(saved_bill_history)
 
+    @override
     def update(self) -> None:
         try:
             db_model = BillHistoryOrmModel.objects.get(id=self.id)
@@ -73,6 +75,7 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
         self.recurring_bills = saved_bills
         return saved_bills
 
+    @override
     def get_orm_model(self) -> BillHistoryOrmModel:
         one_time_bill_orm_models = [bill.get_orm_model() for bill in
                                     self.one_time_bills]
@@ -82,10 +85,9 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
             id=self.id
         )
 
+    @override
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
-        # self.set_one_time_bills_from_orm_model(orm_model)
-        # self.set_recurring_bills_from_orm_model(orm_model)
 
     def set_recurring_bills_from_orm_model(self, orm_model):
         self.recurring_bills = []
@@ -98,12 +100,14 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
         for bill in orm_model.one_time_bills:
             self.one_time_bills.append(OneTimeBill.from_orm_model(bill))
 
+    @override
     @staticmethod
     def set_orm_model(db_model, model_to_match) -> None:
         db_model.id = model_to_match.id
         # db_model.one_time_bills = model_to_match.one_time_bills
         # db_model.recurring_bills = model_to_match.recurring_bills
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: BillHistoryOrmModel) -> 'BillHistory':
         bill_history = BillHistory()
