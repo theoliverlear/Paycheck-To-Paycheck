@@ -5,6 +5,8 @@
     <hr/>
     <signup-inputs (credentialsChange)="this.handleCredentialChange($event)"/>
     <div class="signup-console-bottom-row">
-        <ss-button [text]="ButtonText.SIGNUP" [size]="ElementSize.LARGE"/>
+        <ss-button (buttonClicked)="this.confirm()"
+                [text]="ButtonText.SIGNUP"
+                   [size]="ElementSize.LARGE"/>
     </div>
 </ng-container>
