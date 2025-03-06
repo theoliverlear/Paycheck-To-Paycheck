@@ -60,10 +60,14 @@ import {AuthPopupComponent} from "./auth-popup/auth-popup.component";
 import {
     ConfirmButtonComponent
 } from "./confirm-button/confirm-button.component";
+import {
+    AuthTypeOptionComponent
+} from "./auth-type-option/auth-type-option.component";
 
 export const elements = [
     AuthConsoleComponent,
     AuthPopupComponent,
+    AuthTypeOptionComponent,
     AuthTypeSliderComponent,
     BillInputComponent,
     BillInputFieldComponent,
