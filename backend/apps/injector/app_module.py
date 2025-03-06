@@ -2,6 +2,7 @@ from typing import override
 
 from injector import Binder, singleton, Module
 
+from backend.apps.comm.request.login_request import LoginRequest
 from backend.apps.comm.request.signup_request import SignupRequest
 from backend.apps.entity.bill.one_time_bill import OneTimeBill
 from backend.apps.entity.income.income_history import IncomeHistory
@@ -35,6 +36,7 @@ class AppModule(Module):
         binder.bind(ClassFieldParser, to=ClassFieldParser, scope=singleton)
         binder.bind(ClassFieldParser[OneTimeBill], to=ClassDictParserProvider(OneTimeBill), scope=singleton)
         binder.bind(ClassFieldParser[SignupRequest], to=ClassDictParserProvider(SignupRequest), scope=singleton)
+        binder.bind(ClassFieldParser[LoginRequest], to=ClassDictParserProvider(LoginRequest), scope=singleton)
 
         binder.bind(WebSocketSessionService, to=WebSocketSessionService, scope=singleton)
         # self.bind_dict_parsers(binder)
