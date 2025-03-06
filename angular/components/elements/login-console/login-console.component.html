@@ -1,1 +1,12 @@
 <!-- login-console.component.html -->
+<ng-container>
+    <ss-title [text]="'Login'"
+              [tagType]="TagType.H3"/>
+    <hr/>
+    <login-inputs (credentialsChange)="this.handleCredentialChange($event)"/>
+    <div class="login-console-bottom-row">
+        <ss-button (buttonClicked)="this.confirm()"
+                   [text]="ButtonText.LOGIN"
+                   [size]="ElementSize.LARGE"/>
+    </div>
+</ng-container>
