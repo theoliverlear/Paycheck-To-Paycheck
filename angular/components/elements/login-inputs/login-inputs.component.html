@@ -1,1 +1,9 @@
 <!-- login-inputs.component.html -->
+<ng-container>
+    <login-input (inputEvent)="this.emitCredentialsChange()"
+                 [loginCredentials]="this.loginCredentials"
+                 [inputType]="AuthInputType.USERNAME"/>
+    <login-input (inputEvent)="this.emitCredentialsChange()"
+                 [loginCredentials]="this.loginCredentials"
+                 [inputType]="AuthInputType.PASSWORD"/>
+</ng-container>
