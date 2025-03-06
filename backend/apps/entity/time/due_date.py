@@ -1,4 +1,6 @@
 from datetime import date
+from typing import override
+
 from attr import attr
 from attrs import define
 
@@ -22,6 +24,7 @@ class DueDate(Identifiable, OrmCompatible['DueDate', DueDateOrmModel]):
     def not_yet_due(self, date_to_check: date) -> bool:
         return self.due_date > date_to_check
 
+    @override
     def save(self) -> 'DueDate':
         orm_model: DueDateOrmModel = self.get_orm_model()
         saved_due_date = DueDateOrmModel.objects.create(
@@ -29,6 +32,7 @@ class DueDate(Identifiable, OrmCompatible['DueDate', DueDateOrmModel]):
         )
         return DueDate.from_orm_model(saved_due_date)
 
+    @override
     def update(self) -> None:
         try:
             db_model: DueDateOrmModel = DueDateOrmModel.objects.get(id=self.id)
@@ -38,21 +42,25 @@ class DueDate(Identifiable, OrmCompatible['DueDate', DueDateOrmModel]):
         except DueDateOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
+    @override
     def set_from_orm_model(self, orm_model: DueDateOrmModel) -> None:
         self.id = orm_model.id
         self.due_date = orm_model.due_date
 
+    @override
     @staticmethod
     def set_orm_model(db_model: DueDateOrmModel, model_to_match: DueDateOrmModel) -> None:
         db_model.id = model_to_match.id
         db_model.due_date = model_to_match.due_date
 
+    @override
     def get_orm_model(self) -> DueDateOrmModel:
         return DueDateOrmModel(
             id=self.id,
             due_date=self.due_date
         )
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: DueDateOrmModel) -> 'DueDate':
         due_date = DueDate()
