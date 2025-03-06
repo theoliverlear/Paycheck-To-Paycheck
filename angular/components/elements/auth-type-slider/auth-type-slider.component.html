@@ -1,1 +1,9 @@
 <!-- auth-type-slider.component.html -->
+<ng-container>
+    <auth-type-option #signupOption
+                      (typeSelected)="this.setSelected($event)"
+                      [authType]="AuthType.SIGNUP"/>
+    <auth-type-option #loginOption
+                      (typeSelected)="this.setSelected($event)"
+                      [authType]="AuthType.LOGIN"/>
+</ng-container>
