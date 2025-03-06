@@ -1,1 +1,9 @@
 <!-- login-input.component.html -->
+<ng-container>
+    <ss-title
+              [text]="this.getTitleText()"
+              [tagType]="TagType.H5"/>
+    <ss-input [inputType]="this.getInputType()"
+              [placeholder]="this.getPlaceholder()"
+              (inputEvent)="this.handleInput($event)"/>
+</ng-container>
