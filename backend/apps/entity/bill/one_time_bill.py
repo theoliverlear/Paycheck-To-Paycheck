@@ -1,3 +1,5 @@
+from typing import override
+
 from attr import attr
 from attrs import define
 
@@ -15,6 +17,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
     due_date: DueDate = attr(factory=DueDate)
     bill_history: BillHistory = attr(default=None)
 
+    @override
     def save(self) -> 'OneTimeBill':
         if self.is_initialized():
             self.update()
@@ -27,10 +30,11 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
                 name=orm_model.name,
                 amount=orm_model.amount,
                 due_date=DueDate.get_orm_model(saved_due_date),
-                bill_history= saved_bill_history
+                bill_history= saved_bill_history.get_orm_model()
             )
             return OneTimeBill.from_orm_model(saved_bill)
 
+    @override
     def update(self) -> None:
         try:
             db_model: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.get(id=self.id)
@@ -42,6 +46,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
         except OneTimeBillOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
+    @override
     def set_from_orm_model(self, orm_model: OneTimeBillOrmModel) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
@@ -49,6 +54,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
         self.due_date = DueDate.from_orm_model(orm_model.due_date)
         self.bill_history = BillHistory.from_orm_model(orm_model.bill_history)
 
+    @override
     def get_orm_model(self) -> OneTimeBillOrmModel:
         return OneTimeBillOrmModel(
             id=self.id,
@@ -58,6 +64,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
             bill_history=self.bill_history.get_orm_model()
         )
 
+    @override
     @staticmethod
     def set_orm_model(db_model: OneTimeBillOrmModel,
                       model_to_match: OneTimeBillOrmModel) -> None:
@@ -67,6 +74,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
         db_model.due_date = model_to_match.due_date
         db_model.bill_history = model_to_match.bill_history
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: OneTimeBillOrmModel) -> 'OneTimeBill':
         bill = OneTimeBill()
