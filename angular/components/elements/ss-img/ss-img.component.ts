@@ -20,7 +20,7 @@ export class SsImgComponent implements AfterViewInit {
     @Input() childClass: string;
     @ViewChild('imageElement') imageElement: ElementRef;
     constructor(private changeDetector: ChangeDetectorRef) {
-        console.log('SsImgComponent loaded');
+
     }
     ngAfterViewInit() {
         this.changeDetector.detectChanges();
