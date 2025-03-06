@@ -30,6 +30,7 @@
               "angular/components/app/app.component.css",
               "angular/components/elements/auth-console/auth-console.component.css",
               "angular/components/elements/auth-popup/auth-popup.component.css",
+              "angular/components/elements/auth-type-option/auth-type-option.component.css",
               "angular/components/elements/auth-type-slider/auth-type-slider.component.css",
               "angular/components/elements/bill-input-field/bill-input-field.component.css",
               "angular/components/elements/bill-input-fields/bill-input-fields.component.css",
