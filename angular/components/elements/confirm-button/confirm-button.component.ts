@@ -34,6 +34,7 @@ export class ConfirmButtonComponent {
         if (this.triggerType === ButtonTriggerType.TOGGLE) {
             this.selected = !this.selected;
         }
+        this.buttonClicked.emit(this.selected);
     }
     protected readonly confirmIconImageAsset = confirmIconImageAsset;
 }
