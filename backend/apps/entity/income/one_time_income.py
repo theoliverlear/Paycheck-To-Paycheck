@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC
 from datetime import date
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
@@ -21,6 +21,7 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
     date_received: date = attr(default=date.today())
     income_history: IncomeHistory = attr(default=None)
 
+    @override
     def save(self) -> 'OneTimeIncome':
         orm_model: OneTimeIncomeOrmModel = self.get_orm_model()
         saved_income = OneTimeIncomeOrmModel.objects.create(
@@ -32,6 +33,7 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
         )
         return OneTimeIncome.from_orm_model(saved_income)
 
+    @override
     def update(self):
         try:
             db_model = OneTimeIncomeOrmModel.objects.get(id=self.id)
@@ -41,6 +43,7 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
         except OneTimeIncomeOrmModel.DoesNotExist as exception:
             raise EntityNotFoundException(self)
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: OneTimeIncomeOrmModel) -> 'OneTimeIncome':
         income = OneTimeIncome()
@@ -48,16 +51,19 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
         income.income_amount = orm_model.income_amount
         return income
 
+    @override
     def set_from_orm_model(self, orm_model: OneTimeIncomeOrmModel) -> None:
         self.name = orm_model.name
         self.income_amount = orm_model.income_amount
 
+    @override
     @staticmethod
     def set_orm_model(db_model: OneTimeIncomeOrmModel, model_to_match: OneTimeIncomeOrmModel) -> OneTimeIncomeOrmModel:
         db_model.name = model_to_match.name
         db_model.income_amount = model_to_match.income_amount
         return db_model
 
+    @override
     def get_orm_model(self) -> OneTimeIncomeOrmModel:
         return OneTimeIncomeOrmModel(
             name=self.name,
