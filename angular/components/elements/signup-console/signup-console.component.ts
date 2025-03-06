@@ -1,24 +1,69 @@
 // signup-console.component.ts 
-import { Component } from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {TagType} from "../../../models/html/TagType";
 import {ButtonText} from "../ss-button/models/ButtonText";
 import {ElementSize} from "../../../models/ElementSize";
 import {
     SignupCredentials
 } from "../../../models/auth/credentials/SignupCredentials";
+import {
+    SignupWebSocketService
+} from "../../../services/server/websocket/signup-websocket.service";
+import {WebSocketCapable} from "../../../models/WebSocketCapable";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'signup-console',
     templateUrl: './signup-console.component.html',
     styleUrls: ['./signup-console.component.css']
 })
-export class SignupConsoleComponent {
-    constructor() {
+export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestroy {
+    subscription: Subscription;
+    private signupCredentials: SignupCredentials = new SignupCredentials();
+    constructor(private signupWebSocket: SignupWebSocketService) {
         
     }
 
+    ngOnInit() {
+        this.initializeWebSocket();
+    }
+
+    initializeWebSocket() {
+        this.signupWebSocket.connect();
+        this.subscription = this.signupWebSocket.getMessages().subscribe(
+            (response: any): void => {
+                console.log('Message received');
+                if (response) {
+                    console.log('WebSocket Signup: ', response);
+                } else {
+                    console.log('No response found.');
+                }
+            },
+            (error) => {
+                console.error('WebSocket error: ', error);
+            }
+        );
+        console.log('WebSocket subscription setup completed.');
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+            console.log('WebSocket subscription destroyed.');
+        }
+
+        this.signupWebSocket.disconnect();
+        console.log('WebSocket connection closed.');
+    }
+
+
     protected handleCredentialChange(signupCredentials: SignupCredentials) {
         console.log(signupCredentials);
+        this.signupCredentials = signupCredentials;
+    }
+
+    protected confirm() {
+        this.signupWebSocket.sendMessage(this.signupCredentials);
     }
 
     protected readonly TagType = TagType;
