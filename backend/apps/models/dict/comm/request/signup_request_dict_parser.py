@@ -8,7 +8,7 @@ from backend.apps.models.dict.dict_parser import DictParser
 class SignupRequestDictParser(DictParser):
     @inject
     def __init__(self, class_dict_parser: ClassFieldParser[SignupRequest]):
-        self.class_dict_parser = class_dict_parser
+        self.class_dict_parser: ClassFieldParser[SignupRequest] = class_dict_parser
 
     def get_signup_request(self, dict_data: dict):
         signup_request = {}
