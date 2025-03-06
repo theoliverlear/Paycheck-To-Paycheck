@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
@@ -46,6 +46,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
     def calculate_yearly_income(self):
         self.yearly_income = self._income_amount * self._recurring_date.interval.value
 
+    @override
     def save(self) -> 'RecurringIncome':
         if self.is_initialized():
             self.update()
@@ -62,6 +63,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
             )
             return RecurringIncome.from_orm_model(saved_recurring_income)
 
+    @override
     def update(self) -> None:
         try:
             db_model = RecurringIncomeOrmModel.objects.get(id=self.id)
@@ -72,6 +74,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         except RecurringIncomeOrmModel.DoesNotExist as exception:
             raise EntityNotFoundException(self)
 
+    @override
     @staticmethod
     def set_orm_model(db_model: RecurringIncomeOrmModel,
                       model_to_match: RecurringIncomeOrmModel) -> RecurringIncomeOrmModel:
@@ -82,6 +85,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         db_model.income_history = model_to_match.income_history
         return db_model
 
+    @override
     def set_from_orm_model(self, orm_model: RecurringIncomeOrmModel) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
@@ -89,6 +93,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
         self.income_history = orm_model.income_history.get_orm_model()
 
+    @override
     def get_orm_model(self) -> RecurringIncomeOrmModel:
         return RecurringIncomeOrmModel(
             id=self.id,
@@ -98,6 +103,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
             income_history=self.income_history.get_orm_model()
         )
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: RecurringIncomeOrmModel) -> 'RecurringIncome':
         recurring_income: RecurringIncome = RecurringIncome()
