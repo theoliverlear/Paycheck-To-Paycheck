@@ -1,6 +1,8 @@
+from attr import attr
+from attrs import define
 from django.db import models
 
-
-class LoginRequest(models.Model):
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+@define
+class LoginRequest:
+    username: str = attr(default="")
+    password: str = attr(default="")

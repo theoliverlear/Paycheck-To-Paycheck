@@ -15,7 +15,7 @@ class UserService:
     def user_from_request(self, user_request: SignupRequest | LoginRequest) -> User:
         user: User = User(
             username=user_request.username,
-            password=SafePassword(user_request.password)
+            password=SafePassword(unhashed_password=user_request.password)
         )
         if isinstance(user_request, SignupRequest):
             user.email = user_request.email

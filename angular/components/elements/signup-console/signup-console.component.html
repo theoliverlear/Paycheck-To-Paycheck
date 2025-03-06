@@ -1,0 +1,12 @@
+<!-- signup-console.component.html -->
+<ng-container>
+    <ss-title [text]="'Get Started'"
+              [tagType]="TagType.H3"/>
+    <hr/>
+    <signup-inputs (credentialsChange)="this.handleCredentialChange($event)"/>
+    <div class="signup-console-bottom-row">
+        <ss-button (buttonClicked)="this.confirm()"
+                [text]="ButtonText.SIGNUP"
+                   [size]="ElementSize.LARGE"/>
+    </div>
+</ng-container>

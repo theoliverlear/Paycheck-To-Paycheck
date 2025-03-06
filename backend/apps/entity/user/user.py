@@ -1,8 +1,10 @@
 from __future__ import annotations
 from abc import ABC
+from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.identifiable import Identifiable
 
@@ -25,17 +27,23 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
     user_income_history: IncomeHistory = attr(default=None)
     user_bill_history: BillHistory = attr(default=None)
 
-
-    def save(self) -> 'User':
+    def handle_uninstantiated_fields(self):
+        if not self.user_income_history:
+            self.user_income_history = IncomeHistory()
+        if not self.user_bill_history:
+            self.user_bill_history = BillHistory()
+    @override
+    async def save(self) -> 'User':
         if self.is_initialized():
             self.update()
             return self
         else:
-            saved_password: SafePassword = self.password.save()
-            user_income_history: IncomeHistory = self.user_income_history.save()
-            user_bill_history: BillHistory = self.user_bill_history.save()
+            saved_password: SafePassword = await self.password.save()
+            self.handle_uninstantiated_fields()
+            user_income_history: IncomeHistory = await database_sync_to_async(self.user_income_history.save)()
+            user_bill_history: BillHistory = await database_sync_to_async(self.user_bill_history.save)()
             orm_model: UserOrmModel = self.get_orm_model()
-            saved_user = UserOrmModel.objects.create(
+            saved_user = await database_sync_to_async(UserOrmModel.objects.create)(
                 first_name=orm_model.first_name,
                 last_name=orm_model.last_name,
                 email=orm_model.email,
@@ -47,6 +55,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             self.set_from_orm_model(saved_user)
             return User.from_orm_model(saved_user)
 
+    @override
     def update(self) -> None:
         try:
             db_model: UserOrmModel = UserOrmModel.objects.get(id=self.id)
@@ -59,6 +68,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         except UserOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
+    @override
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
         self.first_name = orm_model.first_name
@@ -69,6 +79,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         self.user_income_history = IncomeHistory.from_orm_model(orm_model.income_history)
         self.user_bill_history = BillHistory.from_orm_model(orm_model.bill_history)
 
+    @override
     @staticmethod
     def set_orm_model(db_model, model_to_match) -> None:
         db_model.id = model_to_match.id
@@ -80,6 +91,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         db_model.income_history = model_to_match.income_history
         db_model.bill_history = model_to_match.bill_history
 
+    @override
     def get_orm_model(self) -> UserOrmModel:
         return UserOrmModel(
             id=self.id,
@@ -92,6 +104,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             bill_history=self.user_bill_history.get_orm_model()
         )
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: UserOrmModel) -> 'User':
         user: User = User()

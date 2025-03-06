@@ -12,6 +12,9 @@ import {WebSocketService} from "./server/websocket/websocket.service";
 import {
     IncomeWebSocketService
 } from "./server/websocket/income-websocket.service";
+import {
+    SignupWebSocketService
+} from "./server/websocket/signup-websocket.service";
 
 export const services: any[] = [
     // Guards
@@ -24,6 +27,7 @@ export const services: any[] = [
     // WebSocket
     BillWebSocketService,
     IncomeWebSocketService,
+    SignupWebSocketService,
     WebSocketService,
     // Client Services
     ErrorHandlerService,

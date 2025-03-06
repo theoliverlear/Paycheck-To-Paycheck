@@ -1,0 +1,6 @@
+<!-- service-terms-input.component.html -->
+<ng-container>
+    <ss-title [text]="'I accept the terms of service.'" [tagType]="TagType.H5"/>
+    <confirm-button (buttonClicked)="this.emitTermsAgreedChange($event)"
+                    [triggerType]="ButtonTriggerType.TOGGLE"/>
+</ng-container>

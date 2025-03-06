@@ -1,3 +1,5 @@
+from typing import override
+
 from attr import attr
 from attrs import define
 
@@ -28,6 +30,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
         else:
             RecurringIncome.recurring_date.fset(self, recurring_date)
 
+    @override
     def save(self) -> 'WageIncome':
         if self.is_initialized():
             self.update()
@@ -44,6 +47,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
             )
             return WageIncome.from_orm_model(saved_wage_income)
 
+    @override
     def update(self) -> None:
         try:
             db_model: WageIncomeOrmModel = WageIncomeOrmModel.objects.get(id=self.id)
@@ -55,6 +59,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
             raise EntityNotFoundException(self)
 
 
+    @override
     def set_from_orm_model(self, orm_model: WageIncomeOrmModel) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
@@ -63,7 +68,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
         self.weekly_hours = orm_model.weekly_hours
         self.income_history = orm_model.income_history.get_orm_model()
 
-
+    @override
     def get_orm_model(self) -> WageIncomeOrmModel:
         return WageIncomeOrmModel(
             id=self.id,
@@ -74,6 +79,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
             weekly_hours=self.weekly_hours
         )
 
+    @override
     @staticmethod
     def set_orm_model(db_model: WageIncomeOrmModel,
                       model_to_match: WageIncomeOrmModel) -> WageIncomeOrmModel:
@@ -85,6 +91,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
         db_model.weekly_hours = model_to_match.weekly_hours
         return db_model
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: WageIncomeOrmModel) -> 'WageIncome':
         wage_income: WageIncome = WageIncome()

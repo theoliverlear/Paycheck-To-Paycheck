@@ -6,7 +6,7 @@ import {AfterViewInit, Directive, ElementRef, OnDestroy} from "@angular/core";
 export class UnoptimizedImageDirective implements AfterViewInit, OnDestroy {
     private mutationObserver: MutationObserver;
     constructor(private imageElement: ElementRef<HTMLImageElement>) {
-        console.log('UnoptimizedImageDirective loaded');
+
     }
     ngAfterViewInit() {
         this.removeInlineStyles();

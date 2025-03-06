@@ -14,8 +14,6 @@
         <recurring-income-dropdown *ngIf="isRecurringIncome()"
                                    [@fadeInOut]="this.getAnimationProperties()"
                                    (dropdownSelected)="this.updateIncomeInterval($event)"/>
-        <ss-button class="confirm-button"
-                   [imageAsset]="confirmIconImageAsset"
-                   (buttonClicked)="this.confirm()"/>
+        <confirm-button (buttonClicked)="this.confirm()"/>
     </div>
 </div>

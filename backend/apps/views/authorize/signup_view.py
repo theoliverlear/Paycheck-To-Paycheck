@@ -13,11 +13,11 @@ class SignupView(APIView):
                  auth_service: AuthService):
         super().__init__()
         self.auth_service = auth_service
-    def post(self, http_request, *args, **kwargs):
+    async def post(self, http_request, *args, **kwargs):
         serializer: SignupRequestSerializer = SignupRequestSerializer(data=http_request.data)
         if serializer.is_valid():
             signup_request = serializer.get_instance()
-            payload_status = self.auth_service.signup(signup_request, http_request)
+            payload_status = await self.auth_service.signup(signup_request, http_request)
             return Response(payload_status.payload,
                             status=payload_status.status_code)
         else:

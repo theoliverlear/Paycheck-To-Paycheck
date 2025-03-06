@@ -1,0 +1,23 @@
+// login-console.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+login-console {
+    @include flex(center, center, column);
+    width: $thirty-five-percent;
+    margin: $one-percent 0;
+    padding: $one-percent;
+    background: radial-gradient(at center, $pristine-white, $alabaster-stone);
+    @extend %soft-border-radius;
+    @extend %softer-raise-above-box-shadow;
+    ss-title {
+        color: $light-charcoal;
+        text-shadow: 0 $eighth-percent $quarter-percent $mint;
+    }
+    .login-console-bottom-row {
+        width: 100%;
+        @include flex(flex-end, center, row);
+    }
+}

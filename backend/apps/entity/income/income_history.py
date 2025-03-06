@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
+from typing import override
 
 from attr import attr
 from attrs import define
@@ -34,6 +35,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
             self.wage_incomes.append(wage_income)
 
 
+    @override
     def save(self) -> 'IncomeHistory':
         if self.is_initialized():
             self.update()
@@ -54,6 +56,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
             self.save_all_recurring_incomes()
             return IncomeHistory.from_orm_model(saved_income_history)
 
+    @override
     def update(self) -> None:
         try:
             db_model = IncomeHistoryOrmModel.objects.get(id=self.id)
@@ -89,15 +92,16 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
             wage_income.income_history = self
             wage_income.update()
 
+    @override
     def get_orm_model(self) -> IncomeHistoryOrmModel:
         return IncomeHistoryOrmModel(
             id=self.id
         )
 
+    @override
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
-        # self.set_one_time_incomes_from_orm_model(orm_model)
-        # self.set_recurring_incomes_from_orm_model(orm_model)
+
 
     def set_recurring_incomes_from_orm_model(self, orm_model):
         self.recurring_incomes = []
@@ -141,10 +145,12 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
         self.wage_incomes = saved_wage_incomes
         return saved_wage_incomes
 
+    @override
     @staticmethod
     def set_orm_model(db_model: IncomeHistoryOrmModel, model_to_match: IncomeHistoryOrmModel) -> None:
         db_model.id = model_to_match.id
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: IncomeHistoryOrmModel) -> 'IncomeHistory':
         return IncomeHistory(id=orm_model.id)

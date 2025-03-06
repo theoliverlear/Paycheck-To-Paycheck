@@ -41,11 +41,38 @@ import {
 import {
     RecurringIncomeDropdownComponent
 } from "./recurring-income-dropdown/recurring-income-dropdown.component";
+import {AuthConsoleComponent} from "./auth-console/auth-console.component";
+import {
+    AuthTypeSliderComponent
+} from "./auth-type-slider/auth-type-slider.component";
+import {LoginConsoleComponent} from "./login-console/login-console.component";
+import {
+    SignupConsoleComponent
+} from "./signup-console/signup-console.component";
+import {LoginInputsComponent} from "./login-inputs/login-inputs.component";
+import {LoginInputComponent} from "./login-input/login-input.component";
+import {SignupInputsComponent} from "./signup-inputs/signup-inputs.component";
+import {SignupInputComponent} from "./signup-input/signup-input.component";
+import {
+    ServiceTermsInputComponent
+} from "./service-terms-input/service-terms-input.component";
+import {AuthPopupComponent} from "./auth-popup/auth-popup.component";
+import {
+    ConfirmButtonComponent
+} from "./confirm-button/confirm-button.component";
+import {
+    AuthTypeOptionComponent
+} from "./auth-type-option/auth-type-option.component";
 
 export const elements = [
+    AuthConsoleComponent,
+    AuthPopupComponent,
+    AuthTypeOptionComponent,
+    AuthTypeSliderComponent,
     BillInputComponent,
     BillInputFieldComponent,
     BillInputFieldsComponent,
+    ConfirmButtonComponent,
     DropdownComponent,
     HomeAnchorComponent,
     IncomeInputComponent,
@@ -54,11 +81,18 @@ export const elements = [
     InputPopupComponent,
     InputTimeTypeComponent,
     InputTimeTypeSelectorComponent,
+    LoginConsoleComponent,
+    LoginInputComponent,
+    LoginInputsComponent,
     NameInputComponent,
     NavBarComponent,
     NavItemComponent,
     RecurringBillDropdownComponent,
     RecurringIncomeDropdownComponent,
+    ServiceTermsInputComponent,
+    SignupConsoleComponent,
+    SignupInputComponent,
+    SignupInputsComponent,
     SsAnchorComponent,
     SsButtonComponent,
     SsFooterComponent,

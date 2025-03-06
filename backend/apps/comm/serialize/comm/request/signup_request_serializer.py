@@ -5,7 +5,7 @@ from backend.apps.comm.serialize.comm.request.login_request_serializer import \
     LoginRequestSerializer
 
 
-class SignupRequestSerializer(serializers.Serializer, LoginRequestSerializer):
+class SignupRequestSerializer(LoginRequestSerializer):
     class Meta:
         model = SignupRequest
         fields = '__all__'

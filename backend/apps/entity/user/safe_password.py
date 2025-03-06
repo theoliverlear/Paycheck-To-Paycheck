@@ -1,7 +1,9 @@
 from abc import ABC
+from typing import override
 
 import bcrypt
 from attr import attr
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.orm_compatible import OrmCompatible
@@ -28,13 +30,15 @@ class SafePassword(OrmCompatible['SafePassword', SafePasswordOrmModel], ABC, Ide
     def compare_unencoded_password(self, unencoded_password: str) -> bool:
         return bcrypt.checkpw(unencoded_password.encode(SafePassword.ENCODING_TYPE), self.encoded_password.encode(SafePassword.ENCODING_TYPE))
 
-    def save(self) -> 'SafePassword':
+    @override
+    async def save(self) -> 'SafePassword':
         orm_model: SafePasswordOrmModel = self.get_orm_model()
-        saved_password = SafePasswordOrmModel.objects.create(
+        saved_password = await database_sync_to_async(SafePasswordOrmModel.objects.create)(
             encoded_password=orm_model.encoded_password
         )
         return SafePassword.from_orm_model(saved_password)
 
+    @override
     def update(self) -> None:
         try:
             db_model = SafePasswordOrmModel.objects.get(id=self._id)
@@ -45,20 +49,24 @@ class SafePassword(OrmCompatible['SafePassword', SafePasswordOrmModel], ABC, Ide
         except SafePasswordOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
+    @override
     @staticmethod
     def set_orm_model(db_model, model_to_match) -> None:
         db_model.encoded_password = model_to_match.encoded_password
 
+    @override
     def get_orm_model(self) -> SafePasswordOrmModel:
         return SafePasswordOrmModel(
             id=self.id,
             encoded_password=self.encoded_password
         )
 
+    @override
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
         self.encoded_password = orm_model.encoded_password
 
+    @override
     @staticmethod
     def from_orm_model(orm_model: SafePasswordOrmModel) -> 'SafePassword':
         safe_password = SafePassword()

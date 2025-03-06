@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import override
 
 from asgiref.sync import sync_to_async
 from injector import inject, Injector
@@ -20,18 +21,21 @@ class BillConsumer(WebSocketConsumer[OneTimeBill]):
         super().__init__()
         self.one_time_bill_parser = one_time_bill_parser
 
+    @override
     async def connect(self):
         logging.info('WebSocket connected')
         await self.accept()
 
+    @override
     async def disconnect(self, close_code):
         logging.info('WebSocket disconnected')
 
+    @override
     async def receive(self, text_data=None, bytes_data=None):
         if text_data:
             logging.info(f"Received text data: {text_data}")
-            data = json.loads(text_data)
-            bill: OneTimeBill = self.get_bill(data)
+            json_data = json.loads(text_data)
+            bill: OneTimeBill = self.get_bill(json_data)
             await sync_to_async(bill.save)()
             bill_json: dict = self.get_serialized_bill(bill)
             await self.send(text_data=json.dumps({
@@ -51,5 +55,5 @@ class BillConsumer(WebSocketConsumer[OneTimeBill]):
         # return json_bill.model_dump_json()
 
     def get_bill(self, json_data):
-        return self.one_time_bill_parser.get_bill(json_data)
+        return self.one_time_bill_parser.get_one_time_bill(json_data)
 

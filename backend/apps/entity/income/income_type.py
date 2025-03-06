@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import override
 
 from attr import attr
 from attrs import define
@@ -15,6 +16,7 @@ from backend.apps.exception.entity_not_found_exception import \
 class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], ABC):
     interval: YearInterval = attr(default=YearInterval.MONTHLY)
 
+    @override
     @staticmethod
     def set_orm_model(db_model, model_to_match) -> IncomeTypeOrmModel:
         db_model.id = model_to_match.id
@@ -22,11 +24,13 @@ class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], 
         db_model.interval = model_to_match.interval
         return db_model
 
+    @override
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
         self.interval = YearInterval.from_interval(orm_model.interval)
 
+    @override
     def update(self) -> None:
         try:
             db_model: IncomeTypeOrmModel = IncomeTypeOrmModel.objects.get(id=self.id)
@@ -36,6 +40,7 @@ class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], 
         except Exception as exception:
             raise EntityNotFoundException(self)
 
+    @override
     def save(self) -> 'IncomeType':
         orm_model: IncomeTypeOrmModel = self.get_orm_model()
         saved_income_type: IncomeTypeOrmModel = IncomeTypeOrmModel.objects.create(
@@ -44,12 +49,15 @@ class IncomeType(Identifiable, OrmCompatible['IncomeType', IncomeTypeOrmModel], 
         )
         return IncomeType.from_orm_model(saved_income_type)
 
+    @override
     def get_orm_model(self) -> IncomeTypeOrmModel:
         return IncomeTypeOrmModel(
             id=self.id,
             name=self.name,
             interval=self.interval.value
         )
+
+    @override
     @staticmethod
     def from_orm_model(orm_model) -> 'IncomeType':
         income_type: IncomeType = IncomeType()
