@@ -12,7 +12,7 @@ injector = Injector(AppModule())
 
 websocket_url_patterns = [
     re_path('ws/bill', BillConsumer.factory(injector)),
-    re_path('ws/income', IncomeConsumer.as_asgi()),
+    re_path('ws/income', IncomeConsumer.factory(injector)),
     re_path('ws/signup', SignupConsumer.factory(injector)),
     re_path('ws/login', LoginConsumer.factory(injector))
 ]
