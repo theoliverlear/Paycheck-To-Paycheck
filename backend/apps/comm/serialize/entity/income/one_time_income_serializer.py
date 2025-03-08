@@ -3,10 +3,11 @@ from rest_framework import serializers
 from backend.apps.entity.income.one_time_income import OneTimeIncome
 
 
-class IncomeSerializer(serializers.Serializer):
+class OneTimeIncomeSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField()
     income_amount = serializers.FloatField()
+    date_received = serializers.DateField()
     class Meta:
         model = OneTimeIncome,
         fields = '__all__'
