@@ -5,5 +5,13 @@
 @import "../../../styles/global-placeholders";
 
 auth-popup {
-
+    @include flex(center, center, row);
+    @extend %soft-border-radius;
+    @extend %softer-raise-above-box-shadow;
+    background: radial-gradient(at center, $pristine-white, $alabaster-stone);
+    padding: $one-percent;
+    margin: $one-percent 0;
+    ss-title {
+        text-decoration: underline;
+    }
 }
