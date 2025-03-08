@@ -26,13 +26,13 @@ export class IncomeInputFieldsComponent {
                 this.income.name = incomeInputContent.inputValue as string;
                 break;
             case IncomeInputFieldType.AMOUNT:
-                this.income.amount = Number(incomeInputContent.inputValue);
+                this.income.incomeAmount = Number(incomeInputContent.inputValue);
                 break;
             case IncomeInputFieldType.HOURS:
                 this.income.hours = Number(incomeInputContent.inputValue);
                 break;
             case IncomeInputFieldType.DATE:
-                this.income.date = new Date(incomeInputContent.inputValue as string);
+                this.income.dateReceived = new Date(incomeInputContent.inputValue as string);
                 break;
         }
     }
