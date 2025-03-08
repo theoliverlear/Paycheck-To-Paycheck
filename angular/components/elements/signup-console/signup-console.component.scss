@@ -7,7 +7,7 @@
 signup-console {
     @include flex(center, center, column);
     width: $thirty-five-percent;
-    margin: $one-percent 0;
+    margin: $half-percent 0;
     padding: $one-percent;
     background: radial-gradient(at center, $pristine-white, $alabaster-stone);
     @extend %soft-border-radius;
