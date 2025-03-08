@@ -1,3 +1,4 @@
+import inspect
 from typing import TypeVar, Generic, Type
 
 from attr import fields
@@ -14,4 +15,7 @@ class ClassFieldParser(Generic[T]):
         for field in fields(self.target_class):
             if not field.name.startswith("_"):
                 field_names.append(field.name)
+        for name, attribute in inspect.getmembers(self.target_class,
+                                             lambda object: isinstance(object, property)):
+            field_names.append(name)
         return field_names
