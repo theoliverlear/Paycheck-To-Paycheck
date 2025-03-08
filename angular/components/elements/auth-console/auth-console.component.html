@@ -1,7 +1,9 @@
 <!-- auth-console.component.html -->
 <ng-container>
     <auth-type-slider (authTypeChange)="this.setAuthType($event)"/>
-    <signup-console *ngIf="isSignup()"/>
-    <login-console *ngIf="isLogin()"/>
-    <auth-popup/>
+    <signup-console (authPopupChange)="this.setAuthPopup($event)"
+                    *ngIf="isSignup()"/>
+    <login-console (authPopupChange)="this.setAuthPopup($event)"
+                   *ngIf="isLogin()"/>
+    <auth-popup *ngIf="this.authPopup" [authPopup]="this.authPopup"/>
 </ng-container>
