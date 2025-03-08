@@ -5,7 +5,6 @@ from injector import inject
 from backend.apps.entity.bill.bill_history import BillHistory
 from backend.apps.entity.bill.one_time_bill import OneTimeBill
 from backend.apps.entity.time.due_date import DueDate
-from backend.apps.models.date_utilities import iso_to_django_date
 from backend.apps.models.dict.class_field_parser import ClassFieldParser
 from backend.apps.models.dict.dict_parser import DictParser
 
@@ -16,8 +15,8 @@ class OneTimeBillDictParser(DictParser):
         self.class_dict_parser: ClassFieldParser[OneTimeBill] = class_dict_parser
 
     def get_one_time_bill(self, dict_data: dict) -> OneTimeBill:
-        keys_to_skip: [str] = ['id', 'bill_history']
-        bill = {}
+        keys_to_skip: list[str] = ['id', 'bill_history']
+        bill: dict = {}
         for key in self.class_dict_parser.get_class_fields():
             if key not in keys_to_skip:
                 print(f'Key: {key}')
