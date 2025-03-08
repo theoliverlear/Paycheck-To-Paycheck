@@ -4,7 +4,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-print("Base Dir: ", BASE_DIR)
 
 load_dotenv(BASE_DIR / '.env')
 
@@ -14,7 +13,6 @@ SECRET_KEY = getenv('DJANGO_SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -61,6 +59,15 @@ MIDDLEWARE = [
 INJECTOR_MODULES = [
     'backend.apps.injector.AppModule',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ),
+}
 
 ROOT_URLCONF = 'backend.paycheck_to_paycheck.urls'
 
