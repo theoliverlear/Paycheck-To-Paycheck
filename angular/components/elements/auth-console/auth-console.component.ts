@@ -1,7 +1,13 @@
 // auth-console.component.ts
-import {Component, Input} from "@angular/core";
+import {Component, Input, ViewChild} from "@angular/core";
 import {AuthType} from "../../../models/auth/AuthType";
 import {AuthPopup} from "../../../models/auth/AuthPopup";
+import {
+    SignupConsoleComponent
+} from "../signup-console/signup-console.component";
+import {
+    LoginConsoleComponent
+} from "../login-console/login-console.component";
 
 @Component({
     selector: 'auth-console',
@@ -11,11 +17,16 @@ import {AuthPopup} from "../../../models/auth/AuthPopup";
 export class AuthConsoleComponent {
     @Input() protected authType: AuthType = AuthType.SIGNUP;
     protected authPopup: AuthPopup | null = null;
+    @ViewChild(SignupConsoleComponent) signupConsole: SignupConsoleComponent;
+    @ViewChild(LoginConsoleComponent) loginConsole: LoginConsoleComponent;
     constructor() {
         
     }
     public setAuthType(authType: AuthType) {
         this.authType = authType;
+    }
+    public setAuthPopup(authPopup: AuthPopup | null) {
+        this.authPopup = authPopup;
     }
     protected isSignup(): boolean {
         return this.authType === AuthType.SIGNUP;
@@ -26,4 +37,6 @@ export class AuthConsoleComponent {
     protected hasPopup(): boolean {
         return this.authPopup !== null;
     }
+
+    protected readonly AuthPopup = AuthPopup;
 }
