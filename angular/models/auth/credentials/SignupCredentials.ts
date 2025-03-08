@@ -10,5 +10,8 @@ export class SignupCredentials extends LoginCredentials {
                        email: string = '',
                        termsAgreed: boolean = false) {
         super(username, password);
+        this.confirmPassword = confirmPassword;
+        this.email = email;
+        this.termsAgreed = termsAgreed;
     }
 }
