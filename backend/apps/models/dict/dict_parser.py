@@ -28,8 +28,12 @@ class DictParser:
         return iso_to_django_date(dict_data[key])
 
     def is_date_key(self, key: str) -> bool:
-        return "date" in key
+        date_in_key: bool = "date" in key
+        return date_in_key
 
     def add_normalized_date_key(self, dict_data: dict):
-        dict_data['due_date'] = dict_data['date']
-        return dict_data
+        if dict_data['date_received']:
+            return dict_data
+        else:
+            dict_data['due_date'] = dict_data['date']
+            return dict_data
