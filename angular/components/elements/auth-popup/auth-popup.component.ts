@@ -1,5 +1,7 @@
 // auth-popup.component.ts 
-import { Component } from "@angular/core";
+import {Component, Input} from "@angular/core";
+import {TagType} from "../../../models/html/TagType";
+import {PossibleAuthPopup} from "../auth-console/models/types";
 
 @Component({
     selector: 'auth-popup',
@@ -7,7 +9,10 @@ import { Component } from "@angular/core";
     styleUrls: ['./auth-popup.component.css']
 })
 export class AuthPopupComponent {
+    @Input() protected authPopup: PossibleAuthPopup;
     constructor() {
         
     }
+
+    protected readonly TagType = TagType;
 }
