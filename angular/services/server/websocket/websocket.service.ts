@@ -5,10 +5,10 @@ import {webSocket, WebSocketSubject} from "rxjs/webSocket";
 @Injectable({
     providedIn: 'root'
 })
-export class WebSocketService<T> {
-    private socket$: WebSocketSubject<T> | undefined;
-    private messagesSubject$: BehaviorSubject<T> = new BehaviorSubject<T>(null);
-    public messages$: Observable<T> = this.messagesSubject$.asObservable().pipe(shareReplay(1));
+export class WebSocketService<Send, Receive> {
+    private socket$: WebSocketSubject<Send> | undefined;
+    private messagesSubject$: BehaviorSubject<Receive> = new BehaviorSubject<Receive>(null);
+    public messages$: Observable<Receive> = this.messagesSubject$.asObservable().pipe(shareReplay(1));
     private _isConnected: boolean = false;
     private _url: string;
 
@@ -24,23 +24,28 @@ export class WebSocketService<T> {
         }
     }
 
-    private isSocketUnavailable() {
+    private isSocketUnavailable(): boolean {
         return !this.socket$ || this.socket$.closed;
     }
 
     private subscribeToServer(): void {
         this.socket$.subscribe(
-            (message) => this.messagesSubject$.next(message),
-            (error) => console.error('WebSocket error:', error),
+            (message: Send): void => this.messagesSubject$.next(message as unknown as Receive),
+            (error: any): void => console.error('WebSocket error:', error),
             (): boolean => this._isConnected = false
         );
     }
 
     private initializeSocket(url: string): void {
-        this.socket$ = webSocket(url);
+        this.socket$ = webSocket<Send>({
+            url: url,
+            serializer: (msg: Send) => JSON.stringify(msg),
+            deserializer: (event: MessageEvent<any>) => JSON.parse(event.data) as Send
+        });
+
     }
 
-    public sendMessage(message: T): void {
+    public sendMessage(message: Send): void {
         if (this.canSendMessage()) {
             console.log('Sending message:', message);
             this.socket$.next(message);
@@ -49,7 +54,7 @@ export class WebSocketService<T> {
         }
     }
 
-    private canSendMessage() {
+    private canSendMessage(): boolean {
         return this.socket$ && this.isConnected;
     }
 
@@ -64,7 +69,7 @@ export class WebSocketService<T> {
         this.socket$.complete();
     }
 
-    public getMessages(): Observable<T> {
+    public getMessages(): Observable<Receive> {
         return this.messages$;
     }
 
