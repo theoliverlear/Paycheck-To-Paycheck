@@ -119,6 +119,7 @@ export class SignupInputComponent {
             case AuthInputType.USERNAME:
                 return InputType.TEXT;
             case AuthInputType.PASSWORD:
+            case AuthInputType.CONFIRM_PASSWORD:
                 return InputType.PASSWORD;
             case AuthInputType.EMAIL:
                 return InputType.EMAIL;
