@@ -2,6 +2,7 @@ import json
 import logging
 from typing import override
 
+from djangorestframework_camel_case.util import camelize
 from injector import inject
 
 from backend.apps.comm.request.login_request import LoginRequest
@@ -46,7 +47,7 @@ class LoginConsumer(WebSocketConsumer[LoginRequest]):
                                                payload_status_response: PayloadStatusResponse[AuthStatusResponse]):
         serializer: PayloadStatusResponseSerializer = PayloadStatusResponseSerializer(payload_status_response)
         serialized_response = serializer.data
-        return serialized_response
+        return camelize(serialized_response)
 
     def get_serialized_login_request(self, login_request: LoginRequest):
         serializer: LoginRequestSerializer = LoginRequestSerializer(login_request)
