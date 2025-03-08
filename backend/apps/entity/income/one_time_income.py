@@ -23,13 +23,14 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
 
     @override
     def save(self) -> 'OneTimeIncome':
+        income_history: IncomeHistory = self.income_history.save()
         orm_model: OneTimeIncomeOrmModel = self.get_orm_model()
         saved_income = OneTimeIncomeOrmModel.objects.create(
             id=orm_model.id,
             name=orm_model.name,
             income_amount=orm_model.income_amount,
             date_received=orm_model.date_received,
-            income_history=self.income_history.get_orm_model()
+            income_history=income_history.get_orm_model()
         )
         return OneTimeIncome.from_orm_model(saved_income)
 
