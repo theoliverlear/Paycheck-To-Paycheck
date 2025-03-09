@@ -6,6 +6,7 @@ from backend.apps.comm.request.login_request import LoginRequest
 from backend.apps.comm.request.signup_request import SignupRequest
 from backend.apps.entity.bill.one_time_bill import OneTimeBill
 from backend.apps.entity.income.one_time_income import OneTimeIncome
+from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.models.dict.class_field_parser import ClassFieldParser
 from backend.apps.models.dict.class_field_parser_provider import \
     ClassDictParserProvider
@@ -14,8 +15,10 @@ from backend.apps.models.dict.entity.bill.one_time_bill_dict_parser import \
     OneTimeBillDictParser
 from backend.apps.models.dict.entity.income.one_time_income_dict_parser import \
     OneTimeIncomeDictParser
+from backend.apps.models.dict.entity.income.recurring_income_dict_parser import \
+    RecurringIncomeDictParser
 from backend.apps.repository.user_repository import UserRepository
-from backend.apps.routing.websocket.bill.bill_consumer import BillConsumer
+from backend.apps.routing.websocket.bill.one_time_bill_consumer import BillConsumer
 from backend.apps.services.auth_service import AuthService
 from backend.apps.services.websocket_session_service import WebSocketSessionService
 from backend.apps.services.user_service import UserService
@@ -35,10 +38,12 @@ class AppModule(Module):
         binder.bind(DictParser, to=DictParser, scope=singleton)
         binder.bind(OneTimeBillDictParser, to=OneTimeBillDictParser, scope=singleton)
         binder.bind(OneTimeIncomeDictParser, to=OneTimeIncomeDictParser, scope=singleton)
+        binder.bind(RecurringIncomeDictParser, to=RecurringIncomeDictParser, scope=singleton)
 
         binder.bind(ClassFieldParser, to=ClassFieldParser, scope=singleton)
         binder.bind(ClassFieldParser[OneTimeBill], to=ClassDictParserProvider(OneTimeBill), scope=singleton)
         binder.bind(ClassFieldParser[OneTimeIncome], to=ClassDictParserProvider(OneTimeIncome), scope=singleton)
+        binder.bind(ClassFieldParser[RecurringIncome], to=ClassDictParserProvider(RecurringIncome), scope=singleton)
         binder.bind(ClassFieldParser[SignupRequest], to=ClassDictParserProvider(SignupRequest), scope=singleton)
         binder.bind(ClassFieldParser[LoginRequest], to=ClassDictParserProvider(LoginRequest), scope=singleton)
 
