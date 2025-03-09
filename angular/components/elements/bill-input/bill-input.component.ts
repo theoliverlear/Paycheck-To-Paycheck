@@ -32,12 +32,12 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
     protected shown: boolean = true;
     bill: Bill = new Bill();
-    subscription: Subscription;
+    webSocketSubscription: Subscription;
     constructor(private billWebSocketService: BillWebSocketService) {
         console.log(RecurringBillTimeInterval.values())
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.setDefaultTimeType();
         console.log(this.bill);
         this.initializeWebSocket();
@@ -45,7 +45,7 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
 
     initializeWebSocket(): void {
         this.billWebSocketService.connect();
-        this.subscription = this.billWebSocketService.getMessages().subscribe(
+        this.webSocketSubscription = this.billWebSocketService.getMessages().subscribe(
             (bill: Bill): void => {
                 if (bill) {
                     console.log('WebSocket bill:', bill);
@@ -57,7 +57,7 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
         );
     }
 
-    private setDefaultTimeType() {
+    private setDefaultTimeType(): void {
         this.bill.timeType = InputTimeType.ONE_TIME;
     }
 
