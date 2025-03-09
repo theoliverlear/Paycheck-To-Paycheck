@@ -35,8 +35,8 @@ class SignupConsumer(WebSocketConsumer[SignupRequest]):
     async def receive(self, text_data=None, bytes_data=None) -> None:
         if text_data:
             logging.info(f"Received text data: {text_data}")
-            json_data = json.loads(text_data)
-            signup_request: SignupRequest = self.get_signup_request(json_data)
+            payload = json.loads(text_data)
+            signup_request: SignupRequest = self.get_signup_request(payload)
             payload_response: PayloadStatusResponse[AuthStatusResponse] = await self.auth_service.websocket_signup(signup_request, self.scope)
             await self.send(
                 text_data=json.dumps({
