@@ -7,7 +7,7 @@ export class Income {
     public name: string;
     public incomeAmount: number;
     public dateReceived: Date;
-    public timeType: InputTimeType;
+    private _timeType: InputTimeType;
     public incomeInterval?: RecurringIncomeTimeInterval;
     public hours?: number;
     public constructor(name: string = '',
@@ -19,8 +19,25 @@ export class Income {
         this.name = name;
         this.incomeAmount = incomeAmount;
         this.dateReceived = dateReceived;
-        this.timeType = timeType;
+        this._timeType = timeType;
         this.incomeInterval = incomeInterval;
         this.hours = hours;
+    }
+    get timeType(): InputTimeType {
+        this.handleDefaultInterval();
+        return this._timeType;
+    }
+
+    private handleDefaultInterval() {
+        if (this._timeType === InputTimeType.ONE_TIME) {
+            this.incomeInterval = undefined;
+        } else {
+            this.incomeInterval = RecurringIncomeTimeInterval.SALARY;
+        }
+    }
+
+    set timeType(timeType: InputTimeType) {
+        this._timeType = timeType;
+        this.handleDefaultInterval();
     }
 }
