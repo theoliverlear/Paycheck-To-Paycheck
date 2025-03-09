@@ -26,9 +26,9 @@ class BillConsumer(WebSocketConsumer[OneTimeBill]):
     async def receive(self, text_data=None, bytes_data=None):
         if text_data:
             logging.info(f"Received text data: {text_data}")
-            json_data = json.loads(text_data)
-            bill: OneTimeBill = self.get_bill(json_data)
-            await sync_to_async(bill.save)()
+            payload = json.loads(text_data)
+            bill: OneTimeBill = self.get_bill(payload)
+            bill = await sync_to_async(bill.save)()
             bill_json: dict = self.get_serialized_bill(bill)
             await self.send(text_data=json.dumps({
                 'message': bill_json
