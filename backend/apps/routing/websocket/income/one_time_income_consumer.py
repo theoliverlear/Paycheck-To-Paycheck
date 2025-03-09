@@ -15,7 +15,7 @@ from backend.apps.routing.websocket.websocket_consumer import \
     WebSocketConsumer
 
 @injectable
-class IncomeConsumer(WebSocketConsumer[OneTimeIncome]):
+class OneTimeIncomeConsumer(WebSocketConsumer[OneTimeIncome]):
     @inject
     def __init__(self, one_time_income_parser: OneTimeIncomeDictParser):
         super().__init__()
@@ -23,9 +23,9 @@ class IncomeConsumer(WebSocketConsumer[OneTimeIncome]):
 
     async def receive(self, text_data=None, bytes_data=None) -> None:
         if text_data:
-            data = json.loads(text_data)
-            income: OneTimeIncome = self.get_income(data)
-            await sync_to_async(income.save)()
+            payload = json.loads(text_data)
+            income: OneTimeIncome = self.get_income(payload)
+            income = await sync_to_async(income.save)()
             income_json = self.get_serialized_income(income)
             await self.send(text_data=json.dumps({
                 'message': income_json
