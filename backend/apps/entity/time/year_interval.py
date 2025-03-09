@@ -17,3 +17,15 @@ class YearInterval(Enum):
             if year_interval.value == interval:
                 return year_interval
         return YearInterval.NO_INTERVAL
+
+    @staticmethod
+    def from_title(interval_title: str) -> 'YearInterval':
+        match interval_title:
+            case 'Salary':
+                return YearInterval.YEARLY
+            case 'Paycheck':
+                return YearInterval.BI_WEEKLY
+            case 'Monthly':
+                return YearInterval.MONTHLY
+            case _:
+                return YearInterval.NO_INTERVAL
