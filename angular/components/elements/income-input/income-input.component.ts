@@ -1,4 +1,4 @@
-// income-input.component.ts 
+// income-input.component.ts
 import {Component, Input, OnInit} from "@angular/core";
 import {fadeInOutAnimation} from "../../animations/animations";
 import {InputTimeType} from "../../../models/input/InputTimeType";
@@ -17,8 +17,11 @@ import {
 import {WebSocketCapable} from "../../../models/WebSocketCapable";
 import {Subscription} from "rxjs";
 import {
-    IncomeWebSocketService
-} from "../../../services/server/websocket/income-websocket.service";
+    OneTimeIncomeWebSocketService
+} from "../../../services/server/websocket/one-time-income-websocket.service";
+import {
+    RecurringIncomeWebSocketService
+} from "../../../services/server/websocket/recurring-income-websocket.service";
 
 @Component({
     selector: 'income-input',
@@ -33,8 +36,10 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     protected shown: boolean = true;
     income: Income = new Income();
     isHourlyIncome: boolean = false;
-    subscription: Subscription;
-    constructor(private incomeWebSocketService: IncomeWebSocketService) {
+    webSocketSubscription: Subscription;
+    recurringIncomeSubscription: Subscription;
+    constructor(private oneTimeIncomeWebSocket: OneTimeIncomeWebSocketService,
+                private recurringIncomeWebSocket: RecurringIncomeWebSocketService) {
 
     }
 
@@ -45,8 +50,8 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     }
 
     initializeWebSocket(): void {
-        this.incomeWebSocketService.connect();
-        this.subscription = this.incomeWebSocketService.getMessages().subscribe(
+        this.oneTimeIncomeWebSocket.connect();
+        this.webSocketSubscription = this.oneTimeIncomeWebSocket.getMessages().subscribe(
             (income: Income): void => {
                 if (income) {
                     console.log('WebSocket income:', income);
@@ -56,6 +61,14 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
                 console.error('WebSocket error:', error);
             }
         );
+        this.recurringIncomeWebSocket.connect();
+        this.recurringIncomeSubscription = this.recurringIncomeWebSocket.getMessages().subscribe(
+            (income: Income): void => {
+                if (income) {
+                    console.log('WebSocket income:', income);
+                }
+            },
+        )
     }
 
     clearInputs(): void {
@@ -64,7 +77,13 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     }
 
     public confirm(): void {
-        this.incomeWebSocketService.sendMessage(this.income);
+        console.log('income before sending: ', this.income);
+        if (this.income.timeType === InputTimeType.ONE_TIME) {
+            this.oneTimeIncomeWebSocket.sendMessage(this.income);
+        } else {
+            this.recurringIncomeWebSocket.sendMessage(this.income);
+        }
+        // this.oneTimeIncomeWebSocket.sendMessage(this.income);
         this.shown = false;
     }
 
@@ -99,7 +118,8 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     }
 
     public isRecurringIncome(): boolean {
-        return this.income.timeType === InputTimeType.RECURRING;
+        const isRecurring: boolean = this.income.timeType === InputTimeType.RECURRING;
+        return isRecurring;
     }
 
 
