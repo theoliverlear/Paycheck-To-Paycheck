@@ -37,7 +37,7 @@ import {
 })
 export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestroy, CredentialSending {
     @Output() authPopupChange: AuthPopupEventEmitter = new EventEmitter<PossibleAuthPopup>();
-    subscription: Subscription;
+    webSocketSubscription: Subscription;
     private signupCredentials: SignupCredentials = new SignupCredentials();
     constructor(private signupWebSocket: SignupWebSocketService,
                 private hashPasswordService: HashPasswordService,
@@ -74,7 +74,7 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
 
     initializeWebSocket(): void {
         this.signupWebSocket.connect();
-        this.subscription = this.signupWebSocket.getMessages().subscribe(
+        this.webSocketSubscription = this.signupWebSocket.getMessages().subscribe(
             (response: any): void => {
                 console.log('Message received');
                 if (response) {
