@@ -87,11 +87,12 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
 
     @override
     def set_from_orm_model(self, orm_model: RecurringIncomeOrmModel) -> None:
+        from backend.apps.entity.income.income_history import IncomeHistory
         self.id = orm_model.id
         self.name = orm_model.name
         self.income_amount = orm_model.income_amount
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
-        self.income_history = orm_model.income_history.get_orm_model()
+        self.income_history = IncomeHistory.from_orm_model(orm_model.income_history)
 
     @override
     def get_orm_model(self) -> RecurringIncomeOrmModel:
