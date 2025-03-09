@@ -38,7 +38,7 @@ import {Router} from "@angular/router";
 export class LoginConsoleComponent implements WebSocketCapable, OnInit, OnDestroy, CredentialSending {
     private loginCredentials: LoginCredentials = new LoginCredentials();
     @Output() authPopupChange: AuthPopupEventEmitter = new EventEmitter<PossibleAuthPopup>();
-    subscription: Subscription;
+    webSocketSubscription: Subscription;
     constructor(private loginWebSocket: LoginWebSocketService,
                 private hashPasswordService: HashPasswordService,
                 private filledFieldsService: FilledFieldsService,
@@ -90,7 +90,7 @@ export class LoginConsoleComponent implements WebSocketCapable, OnInit, OnDestro
 
     initializeWebSocket() {
         this.loginWebSocket.connect();
-        this.subscription = this.loginWebSocket.getMessages().subscribe(
+        this.webSocketSubscription = this.loginWebSocket.getMessages().subscribe(
             (response: AuthResponse): void => {
                 console.log(response);
                 if (response) {
