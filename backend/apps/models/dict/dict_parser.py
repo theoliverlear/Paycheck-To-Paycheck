@@ -31,9 +31,10 @@ class DictParser:
         date_in_key: bool = "date" in key
         return date_in_key
 
-    def add_normalized_date_key(self, dict_data: dict):
-        if dict_data['date_received']:
-            return dict_data
+    def add_normalized_date_key(self, dict_data: dict, check_date_received: bool = True):
+        if check_date_received:
+            if dict_data['date_received']:
+                return dict_data
         else:
             dict_data['due_date'] = dict_data['date']
             return dict_data
