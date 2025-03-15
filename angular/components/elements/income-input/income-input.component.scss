@@ -25,6 +25,7 @@ income-input {
                 @include flex(flex-start, center, row);
                 ss-button {
                     margin: 0 $half-percent;
+                    padding: $quarter-percent;
                 }
             }
             hr {
