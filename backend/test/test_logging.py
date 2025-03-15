@@ -1,4 +1,5 @@
 import functools
+import inspect
 import logging
 from enum import Enum
 
@@ -20,7 +21,27 @@ def get_readable_function_name(function_name: str):
 
 def log_test_results(function):
     @functools.wraps(function)
-    def wrapper(*args, **kwargs):
+    async def async_wrapper(*args, **kwargs):
+        function_name: str = get_readable_function_name(function.__name__)
+        logging.info(f'Testing: {LoggingColors.BOLD_WHITE.value}'
+                     f'{function_name}{LoggingColors.RESET.value}')
+        try:
+            await function(*args, **kwargs)
+            logging.info(f'{LoggingColors.BOLD_GREEN.value}'
+                         f'Passed!{LoggingColors.RESET.value}')
+        except AssertionError as error:
+            logging.info(f'{LoggingColors.BOLD_RED.value}'
+                         f'{LoggingColors.UNDERLINE.value}'
+                         f'Failed!{LoggingColors.RESET.value}')
+            raise
+        except Exception as exception:
+            logging.info(exception)
+            raise
+        finally:
+            log_seperator()
+
+    @functools.wraps(function)
+    def sync_wrapper(*args, **kwargs):
         function_name: str = get_readable_function_name(function.__name__)
         logging.info(f'Testing: {LoggingColors.BOLD_WHITE.value}'
                      f'{function_name}{LoggingColors.RESET.value}')
@@ -39,7 +60,8 @@ def log_test_results(function):
         finally:
             log_seperator()
 
-    return wrapper
+    return async_wrapper if inspect.iscoroutinefunction(function) else sync_wrapper
+
 
 def log_test_class(class_tested: str):
     def decorator(cls):
