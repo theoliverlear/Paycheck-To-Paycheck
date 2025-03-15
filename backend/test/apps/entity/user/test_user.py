@@ -1,8 +1,10 @@
+import asyncio
 import logging
 import unittest
 from datetime import date
 
 import django
+from asgiref.sync import sync_to_async
 
 from backend.apps.entity.bill.bill_history import BillHistory
 from backend.apps.entity.income.income_history import IncomeHistory
@@ -12,6 +14,8 @@ from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.user.safe_password import SafePassword
 from backend.apps.entity.user.user import User
 from backend.test.test_logging import log_test_results, log_test_class
+asyncio.get_event_loop().set_debug(False)
+logging.getLogger('asyncio').setLevel(logging.ERROR)
 
 django.setup()
 
@@ -34,7 +38,7 @@ def setup_user() -> User:
     return user
 
 @log_test_class(class_tested='User')
-class UserTest(unittest.TestCase):
+class UserTest(unittest.IsolatedAsyncioTestCase):
     @log_test_results
     def test_user_exists(self):
         user: User = setup_user()
@@ -46,22 +50,22 @@ class UserTest(unittest.TestCase):
         self.assertIsNotNone(user.get_orm_model())
 
     @log_test_results
-    def test_save(self):
+    async def test_save(self):
         try:
             user: User = setup_user()
-            saved_user: User = user.save()
+            saved_user: User = await user.save()
             self.assertIsNotNone(saved_user)
         except Exception as exception:
             self.fail(exception)
 
     @log_test_results
-    def test_update(self):
+    async def test_update(self):
         try:
             user: User = setup_user()
             user.first_name = 'Jack'
-            saved_user: User = user.save()
+            saved_user: User = await user.save()
             saved_user.first_name = 'Jane'
-            saved_user.update()
+            await sync_to_async(saved_user.update)()
         except Exception as exception:
             self.fail(exception)
 
