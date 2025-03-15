@@ -19,7 +19,11 @@ import {WebSocketCapable} from "../../../models/WebSocketCapable";
 import {Subscription} from "rxjs";
 import {HashPasswordService} from "../../../services/hash-password.service";
 import {AuthPopup} from "../../../models/auth/AuthPopup";
-import {AuthPopupEventEmitter, PossibleAuthPopup} from "../auth-console/models/types";
+import {
+    AuthPopupEventEmitter,
+    AuthResponse,
+    PossibleAuthPopup
+} from "../auth-console/models/types";
 import {
     EmailValidatorService
 } from "../../../services/email-validator.service";
@@ -28,6 +32,7 @@ import {PasswordMatchService} from "../../../services/password-match.service";
 import {
     CredentialSending
 } from "../../../models/auth/credentials/CredentialSending";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -43,7 +48,8 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
                 private hashPasswordService: HashPasswordService,
                 private emailValidatorService: EmailValidatorService,
                 private filledFieldsService: FilledFieldsService,
-                private passwordMatchService: PasswordMatchService) {
+                private passwordMatchService: PasswordMatchService,
+                private router: Router) {
     }
 
     ngOnInit(): void {
@@ -68,17 +74,22 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
         this.signupCredentials = new SignupCredentials();
     }
 
-    emitAuthPopup(authPopup: AuthPopup) {
+    emitAuthPopup(authPopup: AuthPopup): void {
         this.authPopupChange.emit(authPopup);
     }
 
     initializeWebSocket(): void {
         this.signupWebSocket.connect();
         this.webSocketSubscription = this.signupWebSocket.getMessages().subscribe(
-            (response: any): void => {
+            (response: AuthResponse): void => {
                 console.log('Message received');
                 if (response) {
                     console.log('WebSocket Signup: ', response);
+                    if (response.message.payload.isAuthorized) {
+                        this.router.navigate(['/budget'])
+                    } else {
+                        this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
+                    }
                 } else {
                     console.log('No response found.');
                 }
