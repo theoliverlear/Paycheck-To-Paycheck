@@ -14,6 +14,9 @@ class OneTimeBillDictParser(DictParser):
     def __init__(self, class_dict_parser: ClassFieldParser[OneTimeBill]):
         self.class_dict_parser: ClassFieldParser[OneTimeBill] = class_dict_parser
 
+    def add_normalized_date_key(self, dict_data: dict, check_date_received: bool = False):
+        super().add_normalized_date_key(dict_data, False)
+
     def get_one_time_bill(self, dict_data: dict) -> OneTimeBill:
         keys_to_skip: list[str] = ['id', 'bill_history']
         bill: dict = {}
