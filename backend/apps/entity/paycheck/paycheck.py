@@ -37,6 +37,22 @@ class Paycheck(Identifiable):
     def __attrs_post_init__(self):
         self.update_totals()
 
+    @staticmethod
+    def from_user(user: User):
+        paycheck: Paycheck = Paycheck()
+        paycheck.one_time_incomes = user.income_history.one_time_incomes
+        paycheck.recurring_incomes = user.income_history.recurring_incomes
+        paycheck.wage_incomes = user.income_history.wage_incomes
+        paycheck.one_time_bills = user.bill_history.one_time_bills
+        paycheck.recurring_bills = user.bill_history.recurring_bills
+        paycheck.purge_outdated_items()
+        return paycheck
+
+    def purge_outdated_items(self):
+        self.purge_outdated_incomes()
+        self.purge_outdated_bills()
+        self.update_totals()
+
     def update_totals(self):
         self.update_total_income()
         self.update_total_bills()
@@ -46,7 +62,6 @@ class Paycheck(Identifiable):
 
     def update_total_bills(self):
         self.total_bills = self.get_total_bills()
-
 
     def get_num_incomes(self) -> int:
         return len(self.one_time_incomes) + len(self.recurring_incomes) + len(self.wage_incomes)
@@ -119,11 +134,6 @@ class Paycheck(Identifiable):
     def income_to_paycheck(yearly_income: float) -> float:
         return yearly_income / YearInterval.BI_WEEKLY.value
 
-    def purge_outdated_items(self):
-        self.purge_outdated_incomes()
-        self.purge_outdated_bills()
-        self.update_totals()
-
     def print_all_incomes(self) -> None:
         for one_time_income in self.one_time_incomes:
             logging.info(f'One time income - {one_time_income.name}: ${one_time_income.income_amount}')
@@ -159,6 +169,7 @@ class Paycheck(Identifiable):
         self.wage_incomes = updated_wage_incomes
         self.update_total_income()
 
+
     def purge_outdated_bills(self):
         updated_one_time_bills: list[OneTimeBill] = []
         for one_time_bill in self.one_time_bills:
@@ -175,19 +186,7 @@ class Paycheck(Identifiable):
         self.recurring_bills = updated_recurring_bills
         self.update_total_bills()
 
-
     def remove_one_time_income(self, income_title: str):
         for index, one_time_income in enumerate(self.one_time_incomes):
             if one_time_income.name == income_title:
                 self.one_time_incomes.pop(index)
-
-    @staticmethod
-    def from_user(user: User):
-        paycheck: Paycheck = Paycheck()
-        paycheck.one_time_incomes = user.income_history.one_time_incomes
-        paycheck.recurring_incomes = user.income_history.recurring_incomes
-        paycheck.wage_incomes = user.income_history.wage_incomes
-        paycheck.one_time_bills = user.bill_history.one_time_bills
-        paycheck.recurring_bills = user.bill_history.recurring_bills
-        paycheck.purge_outdated_items()
-        return paycheck
