@@ -5,7 +5,7 @@ from backend.apps.injector import AppModule
 from backend.apps.routing.websocket.auth.login_consumer import LoginConsumer
 from backend.apps.routing.websocket.auth.signup_consumer import SignupConsumer
 from backend.apps.routing.websocket.bill.one_time_bill_consumer import BillConsumer
-from backend.apps.routing.websocket.bill.recurring_income_consumer import \
+from backend.apps.routing.websocket.income.recurring_income_consumer import \
     RecurringIncomeConsumer
 from backend.apps.routing.websocket.income.one_time_income_consumer import \
     OneTimeIncomeConsumer
