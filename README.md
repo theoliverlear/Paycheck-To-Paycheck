@@ -27,7 +27,6 @@ little less stressful by helping you keep track of your finances.
 
 ## Get Started
 
-[//]: # (TODO: Create a URL on AWS.)
 1. 🌐 Head over to the [Paycheck to Paycheck]() website. (Not yet launched)
 2. 🤝 Create an account.
 3. 💵 Start tracking your finances!
@@ -114,7 +113,120 @@ in the beginning stages of the project.
 
 Below is a video about the progress made in the first milestone.
 
-[//]: # (TODO: Add video link.)
 [![Milestone One Progress](./assets/youtube_video_icon.png)](https://youtu.be/vJyiV0lwHPQ)
 
-_Or go to this [this link](https://youtu.be/vJyiV0lwHPQ) (https://youtu.be/vJyiV0lwHPQ)._
+_Or go to this [this link](https://youtu.be/vJyiV0lwHPQ) (https://youtu.be/vJyiV0lwHPQ)_
+
+---
+
+### Milestone 2 - 3/14/25
+
+The second milestone was a big step forward. Between that time, about 600 
+commits were added. The progress was made in both the front-end and back-end.
+Look below to see the progress made in each area.
+
+#### Both Front-end and Back-end
+
+A massive boilerplate issue was encountered with pure HTTP requests. The 
+ceasing of listening and then immediately calling for an update made it clear
+that WebSockets were needed. For both the front-end and back-end, models and 
+controllers were made to handle the WebSocket connections. The front-end
+using Angular services and the back-end using **Django Channels**. This type 
+of communication was seamlessly integrated into the app.
+
+#### Front-end
+
+There has been major strides in multiple components in the front-end. The 
+first is the input for income and bills. Using Reactive Programming, the tree
+of components takes input from the lowest level component and passes and 
+refines it to the top level component. The top level component validates the
+inputs and then passes them to the back-end.
+
+Authentication, a beating heart feature for the app, was added this milestone.
+Though not fully implemented, this functionality, in conjunction with session
+data binding, will allow inputs like bills and income to be saved to a given 
+user. As a core feature, this completion sets us up for a strong next 
+milestone.
+
+Features added:
+- **Input for Income**: The user can input their income.
+  - One-time income
+  - Recurring income
+  - Wage income
+- **Input for Bills**: The user can input their bills.
+  - One-time bills
+  - Recurring bills
+- **Authorization**: Getting user credentials and validating them.
+  - Input validation
+    - Filled fields
+    - Valid emails
+    - Matching passwords
+    - Terms of service agreement
+  - Signing up
+    - Signup console
+    - Signup WebSockets connection
+  - Logging in
+    - Login console
+    - Login WebSockets connection
+  - Authentication response
+    - WebSockets return user's authentication status
+
+##### New Components
+
+Below you can see the UI for the newly integrated components.
+
+##### Bill and Income Inputs
+
+![Milestone Two Bill and Income Inputs](./assets/p2p_milestone_two_inputs.png)
+
+##### Authentication Consoles
+
+![Milestone Two Authentication Consoles](./assets/p2p_milestone_two_auth_page.png)
+
+#### Back-end
+
+The back-end kept pace with the front-end during this sprint. The models for
+the back-end grew more complex with new refined models. The relationships 
+between users and their bills and income are now held in a single object each.
+
+- **Bill history**: The history of bills is now held in a single object.
+  - One-time bills
+  - Recurring bills
+- **Income history**: The history of income is now held in a single object.
+  - One-time income
+  - Recurring income
+  - Wage income
+
+Using Django Channels, the back-end was able to seamlessly implement two-way
+communication. Controllers, or views in Django, are replaced with consumers in
+Django Channels. Each entity is associated with its own consumer.
+
+##### New Consumers
+
+- Generic WebSocket consumer
+- Auth consumers
+  - Login consumer
+  - Signup consumer
+- Bill consumers
+  - One-time bill consumer
+- Income consumers
+  - One-time income consumer
+  - Recurring income consumer
+
+##### Dictionary Parsing
+
+Sending payloads from the front-end may include fields that are not 
+applicable to the back-end models. To handle this, specialized dictionary
+parsers were created. These parsers take the attributes of a normalize 
+front-end JSON payloads, finds appropriate class fields, and creates an object
+using the dictionary data.
+
+#### Watch the Progress
+
+Below is a video about the progress made in the second milestone.
+
+[![Milestone Two Progress](./assets/youtube_video_icon.png)](https://youtu.be/n5RN0N9qiiM)
+
+_Or go to this [this link](https://youtu.be/n5RN0N9qiiM) (https://youtu.be/n5RN0N9qiiM)_
+
+---
