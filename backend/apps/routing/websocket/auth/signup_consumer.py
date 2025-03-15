@@ -29,7 +29,6 @@ class SignupConsumer(WebSocketConsumer[SignupRequest]):
         super().__init__()
         self.signup_request_parser: SignupRequestDictParser = signup_request_parser
         self.auth_service: AuthService = auth_service
-        print(f'Auth service is not none: ', str(self.auth_service is not None))
 
     @override
     async def receive(self, text_data=None, bytes_data=None) -> None:
