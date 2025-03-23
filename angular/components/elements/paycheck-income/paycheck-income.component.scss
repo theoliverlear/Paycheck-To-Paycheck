@@ -1,0 +1,17 @@
+// paycheck-income.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+paycheck-income {
+    @include flex(flex-start, center, row);
+    width: 100%;
+    .income-title-div {
+        border-right: $pristine-white solid $very-thin-border;
+    }
+    .income-fields-div {
+        @include flex(space-between, center, row);
+        width: 100%;
+    }
+}
