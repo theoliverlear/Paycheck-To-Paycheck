@@ -63,6 +63,23 @@ import {
 import {
     AuthTypeOptionComponent
 } from "./auth-type-option/auth-type-option.component";
+import {PaycheckComponent} from "./paycheck/paycheck.component";
+import {
+    PaycheckPayPeriodComponent
+} from "./paycheck-pay-period/paycheck-pay-period.component";
+import {PaycheckBillComponent} from "./paycheck-bill/paycheck-bill.component";
+import {
+    PaycheckBillListComponent
+} from "./paycheck-bill-list/paycheck-bill-list.component";
+import {
+    PaycheckIncomeComponent
+} from "./paycheck-income/paycheck-income.component";
+import {
+    PaycheckIncomeListComponent
+} from "./paycheck-income-list/paycheck-income-list.component";
+import {
+    PaycheckIncomeFieldComponent
+} from "./paycheck-income-field/paycheck-income-field.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -87,6 +104,13 @@ export const elements = [
     NameInputComponent,
     NavBarComponent,
     NavItemComponent,
+    PaycheckBillComponent,
+    PaycheckBillListComponent,
+    PaycheckComponent,
+    PaycheckIncomeComponent,
+    PaycheckIncomeFieldComponent,
+    PaycheckIncomeListComponent,
+    PaycheckPayPeriodComponent,
     RecurringBillDropdownComponent,
     RecurringIncomeDropdownComponent,
     ServiceTermsInputComponent,
