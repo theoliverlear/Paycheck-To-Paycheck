@@ -1,0 +1,13 @@
+<!-- paycheck-income.component.html -->
+<ng-container>
+    <div class="income-title-div">
+        <ss-title [text]="income.name" [tagType]="TagType.H5"/>
+    </div>
+    <div class="income-fields-div">
+        <div>
+            <paycheck-income-field
+                    [income]="income"
+                    [fieldType]="PaycheckIncomeFieldType.AMOUNT"/>
+        </div>
+    </div>
+</ng-container>
