@@ -1,5 +1,6 @@
 //=================================-Imports-==================================
 @import "global-variables";
+@import "global-functions";
 //===============================-Placeholders-===============================
 %circle-border-radius {
     border-radius: 50%;
@@ -19,6 +20,10 @@
 
 %softer-raise-above-box-shadow {
     box-shadow: $navy-blue 0 0 $four-percent simplest-calc(0.05);
+}
+
+%softest-raise-above-box-shadow {
+    box-shadow: $navy-blue 0 0 $two-percent simplest-calc(0.0125);
 }
 
 %fill-container {
