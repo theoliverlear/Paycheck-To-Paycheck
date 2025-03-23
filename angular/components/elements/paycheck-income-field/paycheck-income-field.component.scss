@@ -1,0 +1,13 @@
+// paycheck-income-field.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+paycheck-income-field {
+    &.income-text {
+        subtitle {
+            color: green;
+        }
+    }
+}
