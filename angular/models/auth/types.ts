@@ -1,12 +1,17 @@
 import {EventEmitter} from "@angular/core";
-import {AuthPopup} from "../../../../models/auth/AuthPopup";
+import {AuthPopup} from "./AuthPopup";
 
 export type PossibleAuthPopup = AuthPopup | null;
 export type AuthPopupEventEmitter = EventEmitter<PossibleAuthPopup>;
-export type AuthResponse = {
+export type WebSocketAuthResponse = {
     message: {
         payload: {
             isAuthorized: boolean;
         }
     }
 };
+export type HttpAuthResponse = {
+    payload: {
+        isAuthorized: boolean;
+    }
+}
