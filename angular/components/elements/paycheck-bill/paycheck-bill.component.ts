@@ -1,5 +1,6 @@
 // paycheck-bill.component.ts 
-import { Component } from "@angular/core";
+import {Component, Input} from "@angular/core";
+import {Bill} from "../../../models/bill/Bill";
 
 @Component({
     selector: 'paycheck-bill',
@@ -7,6 +8,7 @@ import { Component } from "@angular/core";
     styleUrls: ['./paycheck-bill.component.css']
 })
 export class PaycheckBillComponent {
+    @Input() protected bill: Bill;
     constructor() {
         
     }
