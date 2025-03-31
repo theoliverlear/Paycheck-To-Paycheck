@@ -4,13 +4,13 @@ import {
     LoginCredentials
 } from "../../../models/auth/credentials/LoginCredentials";
 import {
-    AuthResponse
-} from "../../../components/elements/auth-console/models/types";
+    WebSocketAuthResponse
+} from "../../../models/auth/types";
 
 @Injectable({
     providedIn: 'root'
 })
-export class LoginWebSocketService extends WebSocketService<LoginCredentials, AuthResponse> {
+export class LoginWebSocketService extends WebSocketService<LoginCredentials, WebSocketAuthResponse> {
     private static readonly URL: string = 'ws://localhost:8001/ws/login';
     constructor() {
         super(LoginWebSocketService.URL);
