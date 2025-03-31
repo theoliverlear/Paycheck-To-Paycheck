@@ -20,9 +20,9 @@ import {
 import {HashPasswordService} from "../../../services/hash-password.service";
 import {
     AuthPopupEventEmitter,
-    AuthResponse,
+    WebSocketAuthResponse,
     PossibleAuthPopup
-} from "../auth-console/models/types";
+} from "../../../models/auth/types";
 import {
     CredentialSending
 } from "../../../models/auth/credentials/CredentialSending";
@@ -91,7 +91,7 @@ export class LoginConsoleComponent implements WebSocketCapable, OnInit, OnDestro
     initializeWebSocket() {
         this.loginWebSocket.connect();
         this.webSocketSubscription = this.loginWebSocket.getMessages().subscribe(
-            (response: AuthResponse): void => {
+            (response: WebSocketAuthResponse): void => {
                 console.log(response);
                 if (response) {
                     console.log('WebSocket Login: ', response);
