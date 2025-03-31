@@ -6,4 +6,5 @@
 
 paycheck-income-list {
     width: 100%;
+    @include flex(center, center, column);
 }
