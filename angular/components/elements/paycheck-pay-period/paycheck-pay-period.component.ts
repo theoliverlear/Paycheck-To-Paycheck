@@ -15,7 +15,7 @@ export class PaycheckPayPeriodComponent {
     }
 
     protected getPayPeriodText(): string {
-        return this.startDate + ' - ' + this.endDate;
+        return this.startDate.toDateString() + ' - ' + this.endDate.toDateString();
     }
     protected readonly TagType = TagType;
 }
