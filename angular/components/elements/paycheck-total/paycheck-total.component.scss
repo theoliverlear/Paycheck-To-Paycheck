@@ -1,0 +1,12 @@
+// paycheck-total.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+paycheck-total {
+    @include flex(center, center, column);
+    subtitle {
+        color: green;
+    }
+}
