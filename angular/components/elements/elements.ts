@@ -80,6 +80,12 @@ import {
 import {
     PaycheckIncomeFieldComponent
 } from "./paycheck-income-field/paycheck-income-field.component";
+import {
+    PaycheckIncomeFieldsComponent
+} from "./paycheck-income-fields/paycheck-income-fields.component";
+import {
+    PaycheckTotalComponent
+} from "./paycheck-total/paycheck-total.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -109,8 +115,10 @@ export const elements = [
     PaycheckComponent,
     PaycheckIncomeComponent,
     PaycheckIncomeFieldComponent,
+    PaycheckIncomeFieldsComponent,
     PaycheckIncomeListComponent,
     PaycheckPayPeriodComponent,
+    PaycheckTotalComponent,
     RecurringBillDropdownComponent,
     RecurringIncomeDropdownComponent,
     ServiceTermsInputComponent,
