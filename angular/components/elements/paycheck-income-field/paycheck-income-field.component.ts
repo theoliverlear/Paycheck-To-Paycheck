@@ -12,18 +12,18 @@ import {TagType} from "../../../models/html/TagType";
 export class PaycheckIncomeFieldComponent {
     @Input() protected fieldType: PaycheckIncomeFieldType
     @Input() protected income: Income;
-    @HostBinding('class.income-text') get isAmount() {
+    @HostBinding('class.income-text') get isAmount(): boolean {
         return this.fieldType === PaycheckIncomeFieldType.AMOUNT;
     }
     constructor() {
         
     }
-    protected getFieldValue() {
+    protected getFieldValue(): string {
         switch (this.fieldType) {
             case PaycheckIncomeFieldType.AMOUNT:
                 return `+$${this.income.incomeAmount}`;
             case PaycheckIncomeFieldType.DATE_RECEIVED:
-                return this.income.dateReceived.getDate();
+                return this.income.dateReceived.toDateString();
             case PaycheckIncomeFieldType.TIME_TYPE:
                 return this.income.timeType;
             default:
