@@ -5,6 +5,8 @@
 @import "../../../styles/global-placeholders";
 
 paycheck-income-field {
+    @include flex(flex-start, center, column);
+    margin: 0 $half-percent;
     &.income-text {
         subtitle {
             color: green;
