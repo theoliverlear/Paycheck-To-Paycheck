@@ -29,9 +29,12 @@ class WebSocketSessionService:
     async def save_session(self, session):
         await sync_to_async(session.save)()
 
-    async def user_in_session(self, session_scope):
+    async def user_in_session(self, session_scope) -> bool:
         user_value = await self.get_value(session_scope, "user_id")
         return user_value is not None
 
     async def save_user_to_session(self, session_scope, user: User):
         await self.set_value(session_scope, "user_id", user.id)
+
+    async def remove_user_from_session(self, session_scope):
+        await self.set_value(session_scope,"user_id", None)
