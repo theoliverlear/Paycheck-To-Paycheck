@@ -21,9 +21,9 @@ import {HashPasswordService} from "../../../services/hash-password.service";
 import {AuthPopup} from "../../../models/auth/AuthPopup";
 import {
     AuthPopupEventEmitter,
-    AuthResponse,
-    PossibleAuthPopup
-} from "../auth-console/models/types";
+    WebSocketAuthResponse,
+    PossibleAuthPopup, HttpAuthResponse
+} from "../../../models/auth/types";
 import {
     EmailValidatorService
 } from "../../../services/email-validator.service";
@@ -33,6 +33,9 @@ import {
     CredentialSending
 } from "../../../models/auth/credentials/CredentialSending";
 import {Router} from "@angular/router";
+import {
+    LoggedInStatusService
+} from "../../../services/server/http/logged-in-status.service";
 
 
 @Component({
@@ -49,12 +52,20 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
                 private emailValidatorService: EmailValidatorService,
                 private filledFieldsService: FilledFieldsService,
                 private passwordMatchService: PasswordMatchService,
-                private router: Router) {
+                private router: Router,
+                private loggedInStatusService: LoggedInStatusService) {
     }
 
     ngOnInit(): void {
         this.initializeWebSocket();
         this.subscribeToAuthEvents();
+        this.loggedInStatusService.isLoggedIn().subscribe((authResponse: HttpAuthResponse) => {
+            if (authResponse.payload.isAuthorized) {
+                this.router.navigate(['/budget']);
+            } else {
+                console.log('User is not logged in.');
+            }
+        });
     }
 
     subscribeToAuthEvents(): void {
@@ -81,7 +92,7 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
     initializeWebSocket(): void {
         this.signupWebSocket.connect();
         this.webSocketSubscription = this.signupWebSocket.getMessages().subscribe(
-            (response: AuthResponse): void => {
+            (response: WebSocketAuthResponse): void => {
                 console.log('Message received');
                 if (response) {
                     console.log('WebSocket Signup: ', response);
