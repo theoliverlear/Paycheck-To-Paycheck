@@ -7,10 +7,14 @@ from rest_framework.response import Response
 from backend.apps.comm.request.login_request import LoginRequest
 from backend.apps.comm.request.signup_request import SignupRequest
 from backend.apps.comm.response.auth_status_response import AuthStatusResponse
+from backend.apps.comm.response.operation_success_response import \
+    OperationSuccessResponse
 from backend.apps.entity.user.user import User
 from backend.apps.models.http.auth_response import AuthResponse
 from backend.apps.models.http.auth_status import AuthStatus
 from backend.apps.models.http.communication_type import CommunicationType
+from backend.apps.models.http.operation_sucess_status import \
+    OperationSuccessStatus
 from backend.apps.models.http.payload_status_response import \
     PayloadStatusResponse
 from backend.apps.services.session_service import SessionService
@@ -30,19 +34,32 @@ class AuthService:
         self.websocket_session_service: WebSocketSessionService = websocket_session_service
 
 
-    def user_in_session(self,
+    async def user_in_session(self,
                         communication_type = CommunicationType.HTTP,
                         http_request = None,
-                        session_scope = None):
+                        session_scope: dict = None):
         if communication_type == CommunicationType.HTTP:
-            return self.session_service.user_in_session(http_request)
+            user_in_session: bool = self.session_service.user_in_session(http_request)
         else:
-            return self.websocket_session_service.user_in_session(session_scope)
+            user_in_session: bool= await self.websocket_session_service.user_in_session(session_scope)
+        if user_in_session:
+            return AuthResponse.AUTHORIZED.value
+        else:
+            return AuthResponse.UNAUTHORIZED.value
+
+    async def is_logged_in(self,
+                     communication_type: CommunicationType = CommunicationType.HTTP,
+                     http_request = None,
+                     session_scope: dict = None):
+        if communication_type == CommunicationType.HTTP:
+            return await self.user_in_session(communication_type, http_request=http_request)
+        else:
+            return await self.user_in_session(communication_type, session_scope=session_scope)
 
     async def signup(self,
-               signup_request: SignupRequest,
-               http_request = None,
-               session_scope = None) -> PayloadStatusResponse[AuthStatusResponse]:
+                     signup_request: SignupRequest,
+                     http_request = None,
+                     session_scope: dict = None) -> PayloadStatusResponse[AuthStatusResponse]:
         if http_request is not None:
             return await self.http_signup(signup_request, http_request)
         else:
@@ -50,8 +67,8 @@ class AuthService:
 
     # TODO: Similar logic in HTTP and WebSocket can be combined
     async def http_signup(self,
-                    signup_request: SignupRequest,
-                    http_request) -> PayloadStatusResponse[AuthStatusResponse]:
+                          signup_request: SignupRequest,
+                          http_request) -> PayloadStatusResponse[AuthStatusResponse]:
         user_in_session: bool = self.session_service.user_in_session(http_request)
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
@@ -64,10 +81,10 @@ class AuthService:
             self.session_service.save_user_to_session(user, http_request)
             return AuthResponse.AUTHORIZED.value
 
-    async def websocket_signup(self, signup_request: SignupRequest, session_scope):
-        print('entering signup')
+    async def websocket_signup(self,
+                               signup_request: SignupRequest,
+                               session_scope: dict):
         user_in_session: bool = await self.websocket_session_service.user_in_session(session_scope)
-        print('in session ', user_in_session)
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
         user: User = self.user_service.user_from_request(signup_request)
@@ -76,23 +93,22 @@ class AuthService:
             return AuthResponse.CONFLICT.value
         else:
             user: User = await user.save()
-            print(f'Saving user: {user.username}')
             await self.websocket_session_service.save_user_to_session(session_scope, user)
             return AuthResponse.AUTHORIZED.value
 
 
     async def login(self,
-              login_request: LoginRequest,
-              http_request = None,
-              session_scope = None) -> PayloadStatusResponse[AuthStatusResponse]:
+                    login_request: LoginRequest,
+                    http_request = None,
+                    session_scope: dict = None) -> PayloadStatusResponse[AuthStatusResponse]:
         if http_request:
             return await self.http_login(login_request, http_request)
         else:
             return await self.websocket_login(login_request, session_scope)
 
     async def http_login(self,
-                   login_request: LoginRequest,
-                   http_request) -> PayloadStatusResponse[AuthStatusResponse]:
+                         login_request: LoginRequest,
+                         http_request) -> PayloadStatusResponse[AuthStatusResponse]:
         user_in_session: bool = self.session_service.user_in_session(
             http_request)
         if user_in_session:
@@ -107,8 +123,8 @@ class AuthService:
             return AuthResponse.UNAUTHORIZED.value
 
     async def websocket_login(self,
-                        login_request: LoginRequest,
-                        session_scope) -> PayloadStatusResponse[AuthStatusResponse]:
+                              login_request: LoginRequest,
+                              session_scope: dict) -> PayloadStatusResponse[AuthStatusResponse]:
         user_in_session: bool = await self.websocket_session_service.user_in_session(session_scope)
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
@@ -124,20 +140,32 @@ class AuthService:
         else:
             return AuthResponse.UNAUTHORIZED.value
 
-
-    def logout(self, http_request) -> PayloadStatusResponse[AuthStatusResponse]:
-        user_in_session: bool = self.session_service.user_in_session(http_request)
-        if not user_in_session:
-            return PayloadStatusResponse[AuthStatusResponse](
-                payload=AuthStatusResponse(auth_status=AuthStatus.UNAUTHORIZED),
-                status_code=status.HTTP_401_UNAUTHORIZED
-            )
+    async def logout(self,
+               communication_type: CommunicationType = CommunicationType.HTTP,
+               http_request = None,
+               session_scope: dict = None) -> PayloadStatusResponse[OperationSuccessResponse]:
+        if communication_type == CommunicationType.HTTP:
+            return await self.http_logout(http_request)
         else:
+            return await self.websocket_logout(session_scope)
+
+
+    async def http_logout(self, http_request) -> PayloadStatusResponse[OperationSuccessResponse]:
+        if self.session_service.user_in_session(http_request):
             self.session_service.remove_user_from_session(http_request)
-            return PayloadStatusResponse[AuthStatusResponse](
-                payload=AuthStatusResponse(auth_status=AuthStatus.UNAUTHORIZED),
-                status_code=status.HTTP_200_OK
-            )
+            return OperationSuccessStatus.OPERATION_SUCCESS.value
+        else:
+            return OperationSuccessStatus.OPERATION_DENIED.value
+
+
+
+    async def websocket_logout(self,
+                         session_scope: dict) -> PayloadStatusResponse[OperationSuccessResponse]:
+        if self.websocket_session_service.user_in_session(session_scope):
+            await self.websocket_session_service.remove_user_from_session(session_scope)
+            return OperationSuccessStatus.OPERATION_SUCCESS.value
+        else:
+            return OperationSuccessStatus.OPERATION_DENIED.value
 
     def get_response(self, payload_status_response: PayloadStatusResponse):
         return Response(payload_status_response.payload,
