@@ -2,7 +2,11 @@ import {HttpClientService} from "./http-client.service";
 import {OperationSuccessResponse} from "../../../models/http/types";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Injectable} from "@angular/core";
 
+@Injectable({
+    providedIn: 'root'
+})
 export class LogoutService extends HttpClientService<any, OperationSuccessResponse> {
     static readonly LOGOUT_URL: string = 'http://localhost:8000/api/authorize/logout';
 
