@@ -6,12 +6,12 @@
 
 paycheck-income {
     @include flex(flex-start, center, row);
-    width: 100%;
-    .income-title-div {
-        border-right: $pristine-white solid $very-thin-border;
-    }
-    .income-fields-div {
-        @include flex(space-between, center, row);
-        width: 100%;
+    margin: $three-quarter-percent 0;
+    width: 95%;
+    background-color: $faded-neutral-black;
+    padding: $half-percent;
+    @extend %soft-border-radius;
+    .income-name {
+        text-decoration: underline;
     }
 }
