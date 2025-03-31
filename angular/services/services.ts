@@ -18,10 +18,17 @@ import {
 import {
     RecurringIncomeWebSocketService
 } from "./server/websocket/recurring-income-websocket.service";
+import {HttpClientService} from "./server/http/http-client.service";
+import {LoggedInStatusService} from "./server/http/logged-in-status.service";
+import {LogoutService} from "./server/http/logout.service";
 
 export const services: any[] = [
     // Guards
     AuthGuard,
+    // HTTP
+    HttpClientService,
+    LoggedInStatusService,
+    LogoutService,
     // Server
     LoginService,
     SignupService,
