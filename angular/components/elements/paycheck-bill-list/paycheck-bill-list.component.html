@@ -1,1 +1,5 @@
 <!-- paycheck-bill-list.component.html -->
+<ng-container>
+    <paycheck-bill *ngFor="let bill of bills" [bill]="bill"/>
+    <hr/>
+</ng-container>
