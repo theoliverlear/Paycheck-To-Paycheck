@@ -7,4 +7,4 @@ from backend.apps.entity.identifiable import Identifiable
 
 @define
 class Debt(Holding, Identifiable):
-    amount: float = attr(default=0.0)
+    pass
