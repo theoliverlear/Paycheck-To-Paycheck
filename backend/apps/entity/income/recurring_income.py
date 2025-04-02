@@ -33,18 +33,18 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
     @property
     def income_amount(self):
         self.calculate_yearly_income()
-        return self._income_amount
+        return self._amount
 
     @income_amount.setter
-    def income_amount(self, income_amount):
-        self._income_amount = income_amount
+    def amount(self, amount):
+        self._amount = amount
         self.calculate_yearly_income()
 
     def __attrs_post_init__(self):
         self.calculate_yearly_income()
 
     def calculate_yearly_income(self):
-        self.yearly_income = self._income_amount * self._recurring_date.interval.value
+        self.yearly_income = self._amount * self._recurring_date.interval.value
 
     @override
     def save(self) -> 'RecurringIncome':
@@ -90,7 +90,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         from backend.apps.entity.income.income_history import IncomeHistory
         self.id = orm_model.id
         self.name = orm_model.name
-        self.income_amount = orm_model.income_amount
+        self.amount = orm_model.income_amount
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
         self.income_history = IncomeHistory.from_orm_model(orm_model.income_history)
 
