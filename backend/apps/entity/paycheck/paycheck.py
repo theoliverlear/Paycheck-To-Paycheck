@@ -1,4 +1,5 @@
 import logging
+from typing import TYPE_CHECKING
 
 from attr import attr
 from attrs import define
@@ -11,7 +12,8 @@ from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.income.wage_income import WageIncome
 from backend.apps.entity.time.date_range import DateRange
 from backend.apps.entity.time.year_interval import YearInterval
-from backend.apps.entity.user.user import User
+if TYPE_CHECKING:
+    from backend.apps.entity.user.user import User
 
 
 @define
@@ -42,7 +44,7 @@ class Paycheck(Identifiable):
         self.update_totals()
 
     @staticmethod
-    def from_user(user: User):
+    def from_user(user: 'User'):
         paycheck: Paycheck = Paycheck()
         paycheck.one_time_incomes = user.income_history.one_time_incomes
         paycheck.recurring_incomes = user.income_history.recurring_incomes
