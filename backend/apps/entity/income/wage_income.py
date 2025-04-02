@@ -17,7 +17,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
     weekly_hours: int = attr(default=0)
 
     def calculate_yearly_income(self):
-        income_per_week: float = self._income_amount * self.weekly_hours
+        income_per_week: float = self._amount * self.weekly_hours
         self.yearly_income = income_per_week * YearInterval.WEEKLY.value
 
     @RecurringIncome.recurring_date.setter
