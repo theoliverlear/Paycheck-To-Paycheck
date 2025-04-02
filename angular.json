@@ -50,6 +50,8 @@
               "angular/components/elements/name-input/name-input.component.css",
               "angular/components/elements/nav-bar/nav-bar.component.css",
               "angular/components/elements/nav-item/nav-item.component.css",
+              "angular/components/elements/paycheck-bill-field/paycheck-bill-field.component.css",
+              "angular/components/elements/paycheck-bill-fields/paycheck-bill-fields.component.css",
               "angular/components/elements/paycheck-bill-list/paycheck-bill-list.component.css",
               "angular/components/elements/paycheck-bill/paycheck-bill.component.css",
               "angular/components/elements/paycheck-income-field/paycheck-income-field.component.css",
