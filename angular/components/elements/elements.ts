@@ -86,6 +86,12 @@ import {
 import {
     PaycheckTotalComponent
 } from "./paycheck-total/paycheck-total.component";
+import {
+    PaycheckBillFieldComponent
+} from "./paycheck-bill-field/paycheck-bill-field.component";
+import {
+    PaycheckBillFieldsComponent
+} from "./paycheck-bill-fields/paycheck-bill-fields.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -111,6 +117,8 @@ export const elements = [
     NavBarComponent,
     NavItemComponent,
     PaycheckBillComponent,
+    PaycheckBillFieldComponent,
+    PaycheckBillFieldsComponent,
     PaycheckBillListComponent,
     PaycheckComponent,
     PaycheckIncomeComponent,
