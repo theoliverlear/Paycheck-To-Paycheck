@@ -41,7 +41,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
             self.update()
             return self
         else:
-            saved_income_history = IncomeHistoryOrmModel.objects.create()
+            saved_income_history: IncomeHistoryOrmModel = IncomeHistoryOrmModel.objects.create()
             self.set_from_orm_model(saved_income_history)
             return IncomeHistory.from_orm_model(saved_income_history)
 
@@ -145,12 +145,13 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
         self.wage_incomes = saved_wage_incomes
         return saved_wage_incomes
 
-    @override
+
     @staticmethod
+    @override
     def set_orm_model(db_model: IncomeHistoryOrmModel, model_to_match: IncomeHistoryOrmModel) -> None:
         db_model.id = model_to_match.id
 
-    @override
     @staticmethod
+    @override
     def from_orm_model(orm_model: IncomeHistoryOrmModel) -> 'IncomeHistory':
         return IncomeHistory(id=orm_model.id)
