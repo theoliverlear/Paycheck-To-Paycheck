@@ -5,5 +5,6 @@
 @import "../../../styles/global-placeholders";
 
 paycheck-bill-list {
-
+    width: 100%;
+    @include flex(center, center, column);
 }
