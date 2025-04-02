@@ -13,6 +13,7 @@ from backend.apps.entity.income.income_history import IncomeHistory
 from backend.apps.entity.orm_compatible import OrmCompatible
 from backend.apps.entity.user.models import UserOrmModel
 from backend.apps.entity.user.safe_password import SafePassword
+from backend.apps.entity.wallet.wallet import Wallet
 from backend.apps.exception.entity_not_found_exception import \
     EntityNotFoundException
 
@@ -26,12 +27,15 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
     password: SafePassword = attr(factory=SafePassword)
     user_income_history: IncomeHistory = attr(default=None)
     user_bill_history: BillHistory = attr(default=None)
+    wallet: Wallet = attr(default=None)
 
     def handle_uninstantiated_fields(self):
         if not self.user_income_history:
             self.user_income_history = IncomeHistory()
         if not self.user_bill_history:
             self.user_bill_history = BillHistory()
+        if not self.wallet:
+            self.wallet = Wallet()
     @override
     async def save(self) -> 'User':
         if self.is_initialized():
@@ -42,6 +46,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             self.handle_uninstantiated_fields()
             user_income_history: IncomeHistory = await database_sync_to_async(self.user_income_history.save)()
             user_bill_history: BillHistory = await database_sync_to_async(self.user_bill_history.save)()
+            # TODO: Add wallet saving.
             orm_model: UserOrmModel = self.get_orm_model()
             saved_user = await database_sync_to_async(UserOrmModel.objects.create)(
                 first_name=orm_model.first_name,
@@ -79,8 +84,8 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         self.user_income_history = IncomeHistory.from_orm_model(orm_model.income_history)
         self.user_bill_history = BillHistory.from_orm_model(orm_model.bill_history)
 
-    @override
     @staticmethod
+    @override
     def set_orm_model(db_model, model_to_match) -> None:
         db_model.id = model_to_match.id
         db_model.first_name = model_to_match.first_name
@@ -104,8 +109,8 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             bill_history=self.user_bill_history.get_orm_model()
         )
 
-    @override
     @staticmethod
+    @override
     def from_orm_model(orm_model: UserOrmModel) -> 'User':
         user: User = User()
         user.set_from_orm_model(orm_model)
