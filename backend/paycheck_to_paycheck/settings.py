@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'backend.apps.entity.tax',
     'backend.apps.entity.time',
     'backend.apps.entity.user',
+    'backend.apps.entity.wallet',
     'backend.apps.routing',
     'livereload',
     'django_injector',
