@@ -24,6 +24,10 @@ class Paycheck(Identifiable):
     recurring_bills: list[RecurringBill] = attr(default=[])
     total_income: float = attr(default=0.0)
     total_bills: float = attr(default=0.0)
+    left_over_income: float = attr(default=0.0)
+
+    def calculate_leftover_income(self):
+        self.left_over_income = self.total_income - self.total_bills
 
     @property
     def date_range(self):
@@ -56,6 +60,7 @@ class Paycheck(Identifiable):
     def update_totals(self):
         self.update_total_income()
         self.update_total_bills()
+        self.calculate_leftover_income()
 
     def update_total_income(self):
         self.total_income = self.get_total_income()
