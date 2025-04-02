@@ -2,8 +2,8 @@
 import {Component, Input} from "@angular/core";
 import {Income} from "../../../models/income/Income";
 import {
-    PaycheckIncomeFieldType
-} from "../paycheck-income-field/models/PaycheckIncomeFieldType";
+    PaycheckFieldType
+} from "../paycheck/models/PaycheckFieldType";
 
 @Component({
     selector: 'paycheck-income-fields',
@@ -16,5 +16,5 @@ export class PaycheckIncomeFieldsComponent {
         
     }
 
-    protected readonly PaycheckIncomeFieldType = PaycheckIncomeFieldType;
+    protected readonly PaycheckFieldType = PaycheckFieldType;
 }
