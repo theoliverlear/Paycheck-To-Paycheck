@@ -1,3 +1,4 @@
+import logging
 import unittest
 from datetime import date
 
@@ -12,7 +13,7 @@ from backend.apps.entity.time.date_range import DateRange
 from backend.apps.entity.time.due_date import DueDate
 from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.time.year_interval import YearInterval
-from backend.apps.models.date_utilities import get_next_friday, \
+from backend.apps.models.date_utilities import get_next_friday_from_now, \
     get_next_bi_week, get_next_month, get_next_week, get_next_year, \
     get_tomorrow
 from backend.test.apps.entity.user.test_user import setup_user
@@ -22,24 +23,24 @@ from backend.test.test_logging import log_test_class, log_test_results
 def setup_income_history() -> IncomeHistory:
     bonus: OneTimeIncome = OneTimeIncome(
         name="Bonus",
-        income_amount=800,
+        amount=800,
         date_received=date.today()
     )
     payday: RecurringDate = RecurringDate(interval=YearInterval.BI_WEEKLY,
-                                   day=get_next_friday())
+                                          day=get_next_friday_from_now())
     job: RecurringIncome = RecurringIncome(
-        income_amount=1570,
+        amount=1570,
         recurring_date=payday,
         name="Primary Job"
     )
     side_job: RecurringIncome = RecurringIncome(
-        income_amount=210,
+        amount=210,
         recurring_date=payday,
         name="Second Job"
     )
     wage_job: WageIncome = WageIncome(
         name="Volunteer Stipend",
-        income_amount=13,
+        amount=13,
         recurring_date=payday,
         weekly_hours=10
     )
@@ -78,17 +79,17 @@ class PaycheckTest(unittest.TestCase):
     @log_test_results
     def test_date_range_increase(self):
         paycheck: Paycheck = get_test_paycheck()
-        original_date_range: DateRange = DateRange(starting_date=date.today(),
-                                                   ending_date=get_next_bi_week(date.today()))
-        paycheck.date_range.starting_date = get_next_bi_week(paycheck.date_range.starting_date)
-        paycheck.date_range.ending_date = get_next_bi_week(paycheck.date_range.ending_date)
+        original_date_range: DateRange = DateRange(start_date=date.today(),
+                                                   end_date=get_next_bi_week(date.today()))
+        paycheck.date_range.start_date = get_next_bi_week(paycheck.date_range.start_date)
+        paycheck.date_range.end_date = get_next_bi_week(paycheck.date_range.end_date)
         self.assertNotEqual(original_date_range, paycheck.date_range)
 
     @log_test_results
     def test_purge_outdated_items(self):
         paycheck: Paycheck = get_test_paycheck()
-        paycheck.date_range.starting_date = date.today()
-        paycheck.date_range.ending_date = get_next_bi_week(date.today())
+        paycheck.date_range.start_date = date.today()
+        paycheck.date_range.end_date = get_next_bi_week(date.today())
         paycheck.add_one_time_bill(OneTimeBill(
             due_date=DueDate(due_date=get_next_month(date.today())),
             name="Tires",
@@ -103,18 +104,18 @@ class PaycheckTest(unittest.TestCase):
         paycheck.add_one_time_income(OneTimeIncome(
             name="Birthday Present",
             date_received=get_tomorrow(date.today()),
-            income_amount=50
+            amount=50
         ))
         paycheck.add_recurring_income(RecurringIncome(
             name="Stock Dividends",
-            income_amount=60,
+            amount=60,
             recurring_date=RecurringDate(day=get_next_year(date.today()),
                                          interval=YearInterval.MONTHLY)
         ))
         paycheck.add_wage_income(WageIncome(
             recurring_date=RecurringDate(day=date.today(),
                                          interval=YearInterval.BI_WEEKLY),
-            income_amount=14.25,
+            amount=14.25,
             name="Third Job",
             weekly_hours=40,
         ))
@@ -132,6 +133,15 @@ class PaycheckTest(unittest.TestCase):
         )
         self.assertEqual(num_incomes, expected_incomes)
         self.assertEqual(num_bills, expected_bills)
+
+    @log_test_results
+    def test_paycheck_date_differences(self):
+        base_paycheck: Paycheck = get_test_paycheck()
+        test_paycheck: Paycheck = get_test_paycheck()
+        test_paycheck.date_range = DateRange.get_paycheck_range(get_next_year(date.today()))
+        logging.info(f'Base paycheck: {base_paycheck}')
+        logging.info(f'Test paycheck: {test_paycheck}')
+        self.assertNotEqual(base_paycheck, test_paycheck)
 
 if __name__ == '__main__':
     unittest.main()
