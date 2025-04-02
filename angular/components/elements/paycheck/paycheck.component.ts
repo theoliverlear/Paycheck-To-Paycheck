@@ -48,6 +48,27 @@ export class PaycheckComponent implements OnInit {
             InputTimeType.RECURRING
         )];
         this.paycheck.totalIncome = 1550.65;
+
+        this.paycheck.bills = [new Bill(
+            "Rent",
+            1200,
+            new Date(),
+            InputTimeType.RECURRING
+        ),
+        new Bill(
+            "Car Payment",
+            300,
+            new Date(),
+            InputTimeType.RECURRING
+        ),
+        new Bill(
+            "Haircut",
+            38,
+            new Date(),
+            InputTimeType.ONE_TIME
+        )]
+        this.paycheck.totalBills = 1538.00;
+
     }
 
     protected readonly PaycheckTotalType = PaycheckTotalType;
