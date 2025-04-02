@@ -6,5 +6,12 @@
     <paycheck-income-list [incomes]="paycheck.incomes"/>
     <paycheck-total [totalType]="PaycheckTotalType.INCOME"
                     [totalAmount]="paycheck.totalIncome"/>
-    <paycheck-bill-list/>
+
+    <paycheck-bill-list [bills]="paycheck.bills"/>
+    <paycheck-total [totalType]="PaycheckTotalType.BILL"
+                    [totalAmount]="paycheck.totalBills"/>
+    <hr/>
+    <paycheck-total
+        [totalType]="PaycheckTotalType.LEFTOVER"
+        [totalAmount]="paycheck.leftOverIncome"/>
 </ng-container>
