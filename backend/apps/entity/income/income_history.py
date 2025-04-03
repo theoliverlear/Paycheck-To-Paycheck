@@ -45,7 +45,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
             self.set_from_orm_model(saved_income_history)
             return IncomeHistory.from_orm_model(saved_income_history)
 
-    def save_all(self):
+    def save_all(self) -> 'IncomeHistory':
         if self.is_initialized():
             self.update_all()
             return self
@@ -59,7 +59,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
     @override
     def update(self) -> None:
         try:
-            db_model = IncomeHistoryOrmModel.objects.get(id=self.id)
+            db_model: IncomeHistoryOrmModel = IncomeHistoryOrmModel.objects.get(id=self.id)
             orm_model: IncomeHistoryOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
             db_model.save()
@@ -68,7 +68,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
 
     def update_all(self) -> None:
         try:
-            db_model = IncomeHistoryOrmModel.objects.get(id=self.id)
+            db_model: IncomeHistoryOrmModel = IncomeHistoryOrmModel.objects.get(id=self.id)
             self.update_all_one_time_incomes()
             self.update_all_recurring_incomes()
             orm_model: IncomeHistoryOrmModel = self.get_orm_model()
@@ -102,24 +102,8 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
     def set_from_orm_model(self, orm_model) -> None:
         self.id = orm_model.id
 
-
-    def set_recurring_incomes_from_orm_model(self, orm_model):
-        self.recurring_incomes = []
-        for recurring_income in orm_model.recurring_incomes:
-            self.recurring_incomes.append(
-                RecurringIncome.from_orm_model(recurring_income))
-
-    def set_one_time_incomes_from_orm_model(self, orm_model):
-        self.one_time_incomes = []
-        for income in orm_model.one_time_incomes:
-            self.one_time_incomes.append(OneTimeIncome.from_orm_model(income))
-
-    # def set_wage_incomes_from_orm_model(self, orm_model):
-    #     self.wage_incomes = []
-    #     for wage_income in orm_model.wage_incomes
-
     def save_all_one_time_incomes(self) -> list[OneTimeIncome]:
-        saved_incomes = []
+        saved_incomes: list[OneTimeIncome] = []
         for income in self.one_time_incomes:
             income.income_history = self
             saved_income: OneTimeIncome = income.save()
@@ -128,7 +112,7 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
         return saved_incomes
 
     def save_all_recurring_incomes(self) -> list[RecurringIncome]:
-        saved_recurring_incomes = []
+        saved_recurring_incomes: list[RecurringIncome] = []
         for recurring_income in self.recurring_incomes:
             recurring_income.income_history = self
             saved_recurring_income = recurring_income.save()
