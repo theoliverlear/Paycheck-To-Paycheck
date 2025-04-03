@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import TypeVar, Generic
 
 from backend.apps.entity.identifiable import Identifiable
 
 T = TypeVar("T")
 
-class DatabaseAccessible(ABC):
+class DatabaseAccessible(Generic[T], ABC):
     @abstractmethod
     def save(self, model_to_save) -> T:
         pass
