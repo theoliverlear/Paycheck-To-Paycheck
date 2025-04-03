@@ -26,7 +26,7 @@ class Saving(Holding, OrmCompatible['Saving', SavingOrmModel], ABC):
             return Saving.from_orm_model(saved_model)
 
     @override
-    def update(self) -> 'Saving':
+    def update(self) -> None:
         try:
             db_model: SavingOrmModel = SavingOrmModel.objects.get(id=self.id)
             orm_model: SavingOrmModel = self.get_orm_model()
