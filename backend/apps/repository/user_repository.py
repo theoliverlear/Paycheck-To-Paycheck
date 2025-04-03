@@ -23,12 +23,12 @@ class UserRepository(DatabaseAccessible, ABC):
             id_num = identifiable
         return UserOrmModel.objects.filter(id=id_num).exists()
 
-    def save_or_update_user(self, user: User) -> Optional[User]:
+    async def save_or_update_user(self, user: User) -> Optional[User]:
         if self.exists_by_id(user):
             self.update(user)
             return None
         else:
-            return self.save(user)
+            return await self.save(user)
 
     def get_by_id(self, identifiable: Identifiable | int) -> T:
         id_num: int = 0
@@ -38,8 +38,9 @@ class UserRepository(DatabaseAccessible, ABC):
             id_num = identifiable
         user_orm_model = UserOrmModel.objects.get(id=id_num)
         return User.from_orm_model(user_orm_model)
-    def save(self, user: User) -> User:
-        return user.save()
+
+    async def save(self, user: User) -> User:
+        return await user.save()
 
     def update(self, user: User) -> None:
         user.update()
