@@ -14,7 +14,7 @@ def log_yearly_income_calculation(income_amount: float, interval: YearInterval.M
 
 @log_test_class(class_tested="Recurring Income")
 class RecurringIncomeTest(unittest.TestCase):
-    recurring_income_test: RecurringIncome = RecurringIncome(income_amount=10,
+    recurring_income_test: RecurringIncome = RecurringIncome(amount=10,
                                                              recurring_date=RecurringDate(
                                                                  day=date.today(),
                                                                  interval=YearInterval.NO_INTERVAL
@@ -25,7 +25,7 @@ class RecurringIncomeTest(unittest.TestCase):
         recurring_income.recurring_date.interval = YearInterval.DAILY
         year_interval = recurring_income.recurring_date.interval
         yearly_income = recurring_income.yearly_income
-        income_amount = recurring_income.income_amount
+        income_amount = recurring_income.amount
         log_yearly_income_calculation(income_amount, year_interval)
         self.assertEqual(yearly_income, 3650.0)
 
@@ -35,7 +35,7 @@ class RecurringIncomeTest(unittest.TestCase):
         recurring_income.recurring_date.interval = YearInterval.MONTHLY
         year_interval = recurring_income.recurring_date.interval
         yearly_income = recurring_income.yearly_income
-        income_amount = recurring_income.income_amount
+        income_amount = recurring_income.amount
         log_yearly_income_calculation(income_amount, year_interval)
         self.assertEqual(yearly_income, 120.0)
 
