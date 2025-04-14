@@ -11,6 +11,7 @@ from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.bill.bill_history import BillHistory
 from backend.apps.entity.income.income_history import IncomeHistory
 from backend.apps.entity.orm_compatible import OrmCompatible
+from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.user.models import UserOrmModel
 from backend.apps.entity.user.safe_password import SafePassword
 from backend.apps.entity.wallet.wallet import Wallet
@@ -28,24 +29,27 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
     user_income_history: IncomeHistory = attr(default=None)
     user_bill_history: BillHistory = attr(default=None)
     wallet: Wallet = attr(default=None)
+    payday: RecurringDate = attr(factory=RecurringDate)
 
     def handle_uninstantiated_fields(self):
-        if not self.user_income_history:
+        if self.user_income_history is None:
             self.user_income_history = IncomeHistory()
-        if not self.user_bill_history:
+        if self.user_bill_history is None:
             self.user_bill_history = BillHistory()
-        if not self.wallet:
+        if self.wallet is None:
             self.wallet = Wallet()
+
     @override
     async def save(self) -> 'User':
         if self.is_initialized():
             self.update()
             return self
         else:
-            saved_password: SafePassword = await self.password.save()
             self.handle_uninstantiated_fields()
+            saved_password: SafePassword = await self.password.save()
             user_income_history: IncomeHistory = await database_sync_to_async(self.user_income_history.save)()
             user_bill_history: BillHistory = await database_sync_to_async(self.user_bill_history.save)()
+            wallet: Wallet = await database_sync_to_async(self.wallet.save)()
             # TODO: Add wallet saving.
             orm_model: UserOrmModel = self.get_orm_model()
             saved_user = await database_sync_to_async(UserOrmModel.objects.create)(
@@ -55,7 +59,8 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
                 username=orm_model.username,
                 password=saved_password.get_orm_model(),
                 income_history=user_income_history.get_orm_model(),
-                bill_history=user_bill_history.get_orm_model()
+                bill_history=user_bill_history.get_orm_model(),
+                wallet=wallet.get_orm_model(),
             )
             self.set_from_orm_model(saved_user)
             return User.from_orm_model(saved_user)
@@ -63,6 +68,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
     @override
     def update(self) -> None:
         try:
+            self.handle_uninstantiated_fields()
             db_model: UserOrmModel = UserOrmModel.objects.get(id=self.id)
             self.password.update()
             self.user_income_history.update()
@@ -83,6 +89,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         self.password = SafePassword.from_orm_model(orm_model.password)
         self.user_income_history = IncomeHistory.from_orm_model(orm_model.income_history)
         self.user_bill_history = BillHistory.from_orm_model(orm_model.bill_history)
+        self.wallet = Wallet.from_orm_model(orm_model.wallet)
 
     @staticmethod
     @override
@@ -95,6 +102,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         db_model.password = model_to_match.password
         db_model.income_history = model_to_match.income_history
         db_model.bill_history = model_to_match.bill_history
+        db_model.wallet = model_to_match.wallet
 
     @override
     def get_orm_model(self) -> UserOrmModel:
@@ -106,7 +114,8 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             username=self.username,
             password=self.password.get_orm_model(),
             income_history=self.user_income_history.get_orm_model(),
-            bill_history=self.user_bill_history.get_orm_model()
+            bill_history=self.user_bill_history.get_orm_model(),
+            wallet=self.wallet.get_orm_model(),
         )
 
     @staticmethod
