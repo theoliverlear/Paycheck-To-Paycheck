@@ -23,6 +23,12 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
     savings: list['Saving'] = attr(default=[])
     debts: list['Debt'] = attr(default=[])
 
+    def handle_uninitialized_fields(self):
+        from backend.apps.entity.holding.saving.saving import Saving
+        if self.checking_account is None:
+            self.checking_account = Saving()
+            self.checking_account.wallet = self
+
     def process_bill(self, bill: UndatedBill):
         self.checking_account -= bill.amount
 
@@ -46,7 +52,11 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
             self.update()
             return self
         else:
-            saved_wallet: WalletOrmModel = WalletOrmModel.objects.create()
+            self.handle_uninitialized_fields()
+            checking_account: Saving = self.checking_account.save()
+            saved_wallet: WalletOrmModel = WalletOrmModel.objects.create(
+                checking_account=checking_account.get_orm_model()
+            )
             self.set_from_orm_model(saved_wallet)
             return Wallet.from_orm_model(saved_wallet)
 
@@ -55,7 +65,11 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
         if self.is_initialized():
             self.update_all()
         else:
-            saved_wallet: WalletOrmModel = WalletOrmModel.objects.create()
+            self.handle_uninitialized_fields()
+            checking_account: Saving = self.checking_account.save()
+            saved_wallet: WalletOrmModel = WalletOrmModel.objects.create(
+                checking_account=checking_account.get_orm_model()
+            )
             self.set_from_orm_model(saved_wallet)
             self.save_checking()
             self.save_all_savings()
@@ -86,6 +100,7 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
     @override
     def update(self) -> None:
         try:
+            self.handle_uninitialized_fields()
             db_model: WalletOrmModel = WalletOrmModel.objects.get(id=self.id)
             orm_model: WalletOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
@@ -95,6 +110,7 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
 
     def update_all(self) -> None:
         try:
+            self.handle_uninitialized_fields()
             db_model: WalletOrmModel = WalletOrmModel.objects.get(id=self.id)
             self.update_checking()
             self.update_all_savings()
@@ -118,6 +134,7 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
 
     @override
     def set_from_orm_model(self, orm_model: WalletOrmModel) -> None:
+        from backend.apps.entity.holding.saving.saving import Saving
         self.id = orm_model.id
         self.checking_account = Saving.from_orm_model(orm_model.checking_account)
         # TODO: Use a service to get all savings.
@@ -126,8 +143,10 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
 
     @override
     def get_orm_model(self) -> WalletOrmModel:
+        self.handle_uninitialized_fields()
         return WalletOrmModel(
-            id=self.id
+            id=self.id,
+            checking_account=self.checking_account.get_orm_model()
         )
 
     @staticmethod
