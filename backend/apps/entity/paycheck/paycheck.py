@@ -1,4 +1,5 @@
 import logging
+from datetime import date
 from typing import TYPE_CHECKING
 
 from attr import attr
@@ -44,13 +45,16 @@ class Paycheck(Identifiable):
         self.update_totals()
 
     @staticmethod
-    def from_user(user: 'User'):
+    def from_user(user: 'User',
+                  start_date=date.today()):
         paycheck: Paycheck = Paycheck()
-        paycheck.one_time_incomes = user.income_history.one_time_incomes
-        paycheck.recurring_incomes = user.income_history.recurring_incomes
-        paycheck.wage_incomes = user.income_history.wage_incomes
-        paycheck.one_time_bills = user.bill_history.one_time_bills
-        paycheck.recurring_bills = user.bill_history.recurring_bills
+        date_range: DateRange = DateRange().get_paycheck_range(start_date)
+        paycheck.date_range = date_range
+        paycheck.one_time_incomes = user.user_income_history.one_time_incomes
+        paycheck.recurring_incomes = user.user_income_history.recurring_incomes
+        paycheck.wage_incomes = user.user_income_history.wage_incomes
+        paycheck.one_time_bills = user.user_bill_history.one_time_bills
+        paycheck.recurring_bills = user.user_bill_history.recurring_bills
         paycheck.purge_outdated_items()
         return paycheck
 
@@ -126,7 +130,7 @@ class Paycheck(Identifiable):
             total_yearly_income += wage_income.yearly_income
         total_yearly_income /= YearInterval.BI_WEEKLY.value
         for one_time_income in self.one_time_incomes:
-            total_yearly_income += one_time_income.income_amount
+            total_yearly_income += one_time_income.amount
         return total_yearly_income
 
     def get_total_bills(self):
@@ -143,12 +147,12 @@ class Paycheck(Identifiable):
 
     def print_all_incomes(self) -> None:
         for one_time_income in self.one_time_incomes:
-            logging.info(f'One time income - {one_time_income.name}: ${one_time_income.income_amount}')
+            logging.info(f'One time income - {one_time_income.name}: ${one_time_income.amount}')
         for recurring_income in self.recurring_incomes:
             paycheck_income: float = recurring_income.yearly_income / YearInterval.BI_WEEKLY.value
             logging.info(f'Recurring income - {recurring_income.name}: ${paycheck_income}')
         for wage_income in self.wage_incomes:
-            paycheck_income = wage_income.income_amount * wage_income.weekly_hours * 2
+            paycheck_income = wage_income.amount * wage_income.weekly_hours * 2
             logging.info(f'Wage income - {wage_income.name}: ${paycheck_income}')
 
     def purge_outdated_incomes(self):
