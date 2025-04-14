@@ -21,6 +21,7 @@ from backend.apps.repository.user_repository import UserRepository
 from backend.apps.repository.wallet_repository import WalletRepository
 from backend.apps.routing.websocket.bill.one_time_bill_consumer import BillConsumer
 from backend.apps.services.auth_service import AuthService
+from backend.apps.services.paycheck_service import PaycheckService
 from backend.apps.services.wallet_service import WalletService
 from backend.apps.services.websocket_session_service import WebSocketSessionService
 from backend.apps.services.user_service import UserService
@@ -32,7 +33,8 @@ class AppModule(Module):
     @override
     def configure(self, binder: Binder):
         repositories = [UserRepository, WalletRepository]
-        services = [AuthService, UserService, WalletService, WebSocketSessionService]
+        services = [AuthService, UserService, WalletService,
+                    WebSocketSessionService, PaycheckService]
         dict_parsers = [DictParser, OneTimeBillDictParser, OneTimeIncomeDictParser,
                         RecurringIncomeDictParser]
         class_parser_targets = [OneTimeBill, OneTimeIncome, RecurringIncome,
