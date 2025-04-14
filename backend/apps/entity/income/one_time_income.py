@@ -28,7 +28,7 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
         saved_income = OneTimeIncomeOrmModel.objects.create(
             id=orm_model.id,
             name=orm_model.name,
-            income_amount=orm_model.income_amount,
+            amount=orm_model.amount,
             date_received=orm_model.date_received,
             income_history=income_history.get_orm_model()
         )
@@ -49,26 +49,26 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
     def from_orm_model(orm_model: OneTimeIncomeOrmModel) -> 'OneTimeIncome':
         income = OneTimeIncome()
         income.name = orm_model.name
-        income.income_amount = orm_model.income_amount
+        income.amount = orm_model.amount
         return income
 
     @override
     def set_from_orm_model(self, orm_model: OneTimeIncomeOrmModel) -> None:
         self.name = orm_model.name
-        self.income_amount = orm_model.income_amount
+        self.amount = orm_model.amount
 
     @override
     @staticmethod
     def set_orm_model(db_model: OneTimeIncomeOrmModel, model_to_match: OneTimeIncomeOrmModel) -> OneTimeIncomeOrmModel:
         db_model.name = model_to_match.name
-        db_model.income_amount = model_to_match.income_amount
+        db_model.amount = model_to_match.amount
         return db_model
 
     @override
     def get_orm_model(self) -> OneTimeIncomeOrmModel:
         return OneTimeIncomeOrmModel(
             name=self.name,
-            income_amount=self.income_amount,
+            amount=self.amount,
             date_received=self.date_received,
             income_history=self.income_history.get_orm_model()
         )
