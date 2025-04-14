@@ -23,9 +23,14 @@ class UserOrmModel(models.Model):
                                         related_name='bill_history_user',
                                         default=None)
     wallet = models.OneToOneField('wallet.WalletOrmModel',
-                                    on_delete=models.CASCADE,
-                                    related_name='user_wallet',
-                                    default=None)
+                                  on_delete=models.CASCADE,
+                                  related_name='user_wallet',
+                                  default=None)
+    payday = models.OneToOneField('time.RecurringDateOrmModel',
+                                  on_delete=models.CASCADE,
+                                  related_name='user_payday',
+                                  null=True,
+                                  blank=True)
     class Meta:
         db_table = 'users'
         abstract = False
