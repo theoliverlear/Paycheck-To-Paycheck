@@ -31,11 +31,11 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         self.calculate_yearly_income()
 
     @property
-    def income_amount(self):
+    def amount(self):
         self.calculate_yearly_income()
         return self._amount
 
-    @income_amount.setter
+    @amount.setter
     def amount(self, amount):
         self._amount = amount
         self.calculate_yearly_income()
@@ -57,7 +57,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
             orm_model: RecurringIncomeOrmModel = self.get_orm_model()
             saved_recurring_income: RecurringIncomeOrmModel = RecurringIncomeOrmModel.objects.create(
                 name=orm_model.name,
-                income_amount=orm_model.income_amount,
+                amount=orm_model.amount,
                 recurring_date=saved_recurring_date.get_orm_model(),
                 income_history=saved_income_history.get_orm_model()
             )
@@ -80,7 +80,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
                       model_to_match: RecurringIncomeOrmModel) -> RecurringIncomeOrmModel:
         db_model.id = model_to_match.id
         db_model.name = model_to_match.name
-        db_model.income_amount = model_to_match.income_amount
+        db_model.amount = model_to_match.amount
         db_model.recurring_date = model_to_match.recurring_date
         db_model.income_history = model_to_match.income_history
         return db_model
@@ -90,7 +90,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         from backend.apps.entity.income.income_history import IncomeHistory
         self.id = orm_model.id
         self.name = orm_model.name
-        self.amount = orm_model.income_amount
+        self.amount = orm_model.amount
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
         self.income_history = IncomeHistory.from_orm_model(orm_model.income_history)
 
@@ -99,7 +99,7 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         return RecurringIncomeOrmModel(
             id=self.id,
             name=self.name,
-            income_amount=self.income_amount,
+            amount=self.amount,
             recurring_date=self.recurring_date.get_orm_model(),
             income_history=self.income_history.get_orm_model()
         )
