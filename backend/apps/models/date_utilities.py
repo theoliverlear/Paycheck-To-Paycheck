@@ -8,6 +8,9 @@ def get_weeks_before_date(start_date: date, num_weeks: int) -> date:
 def get_weeks_after_date(start_date: date, num_weeks: int) -> date:
     return start_date + timedelta(weeks=num_weeks)
 
+def get_bi_weeks_after_date(start_date: date, num_bi_weeks: int) -> date:
+    return start_date + timedelta(weeks=num_bi_weeks * 2)
+
 def get_next_friday_from_now() -> date:
     today = date.today()
     while today.weekday() != 4:
