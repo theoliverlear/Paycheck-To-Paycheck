@@ -12,3 +12,15 @@ class WalletService:
 
     def get_by_user(self, user: User) -> Wallet:
         return self.wallet_repository.get_by_user_id(user.id)
+
+    def save(self, wallet: Wallet):
+        wallet.save()
+
+    def update(self, wallet: Wallet):
+        wallet.update()
+
+    def save_or_update_wallet(self, wallet: Wallet):
+        if wallet.is_initialized():
+            self.update(wallet)
+        else:
+            self.save(wallet)
