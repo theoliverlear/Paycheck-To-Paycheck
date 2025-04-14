@@ -13,6 +13,7 @@ from backend.apps.entity.time.year_interval import YearInterval
 from backend.apps.entity.time.recurring_date import RecurringDate
 from backend.apps.entity.user.safe_password import SafePassword
 from backend.apps.entity.user.user import User
+from backend.apps.entity.wallet.wallet import Wallet
 from backend.test.test_logging import log_test_results, log_test_class
 asyncio.get_event_loop().set_debug(False)
 logging.getLogger('asyncio').setLevel(logging.ERROR)
@@ -22,7 +23,7 @@ django.setup()
 recurring_date: RecurringDate = RecurringDate(day=date.today(),
                                               interval=YearInterval.YEARLY)
 recurring_income: RecurringIncome = RecurringIncome(name="Walmart Income",
-                                                    income_amount=43_000,
+                                                    amount=43_000,
                                                     recurring_date=recurring_date)
 safe_password: SafePassword = SafePassword(unhashed_password='password')
 
@@ -33,7 +34,8 @@ def setup_user() -> User:
         username='johndoe',
         password=safe_password,
         user_income_history=IncomeHistory(),
-        user_bill_history=BillHistory()
+        user_bill_history=BillHistory(),
+        wallet=Wallet()
     )
     return user
 
