@@ -40,7 +40,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
             orm_model: WageIncomeOrmModel = self.get_orm_model()
             saved_wage_income: WageIncomeOrmModel = WageIncomeOrmModel.objects.create(
                 name=orm_model.name,
-                income_amount=orm_model.income_amount,
+                amount=orm_model.amount,
                 recurring_date=saved_recurring_date.get_orm_model(),
                 weekly_hours=self.weekly_hours,
                 income_history=self.income_history.get_orm_model()
@@ -63,7 +63,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
     def set_from_orm_model(self, orm_model: WageIncomeOrmModel) -> None:
         self.id = orm_model.id
         self.name = orm_model.name
-        self.income_amount = orm_model.income_amount
+        self.amount = orm_model.amount
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
         self.weekly_hours = orm_model.weekly_hours
         self.income_history = orm_model.income_history.get_orm_model()
@@ -73,7 +73,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
         return WageIncomeOrmModel(
             id=self.id,
             name=self.name,
-            income_amount=self.income_amount,
+            amount=self.amount,
             recurring_date=self._recurring_date.get_orm_model(),
             income_history=self.income_history.get_orm_model(),
             weekly_hours=self.weekly_hours
@@ -85,7 +85,7 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
                       model_to_match: WageIncomeOrmModel) -> WageIncomeOrmModel:
         db_model.id = model_to_match.id
         db_model.name = model_to_match.name
-        db_model.income_amount = model_to_match.income_amount
+        db_model.amount = model_to_match.amount
         db_model.recurring_date = model_to_match.recurring_date
         db_model.income_history = model_to_match.income_history
         db_model.weekly_hours = model_to_match.weekly_hours
