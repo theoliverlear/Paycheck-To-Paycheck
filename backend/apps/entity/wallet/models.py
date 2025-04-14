@@ -6,4 +6,8 @@ class WalletOrmModel(models.Model):
     checking_account = models.OneToOneField('saving.SavingOrmModel',
                                             on_delete=models.CASCADE,
                                             related_name='wallet',
-                                            default=None)
+                                            default=None,
+                                            null=True,
+                                            blank=True)
+    class Meta:
+        db_table = 'wallets'
