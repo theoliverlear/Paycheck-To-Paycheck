@@ -14,7 +14,7 @@ class IncomeTypeOrmModel(models.Model):
 class OneTimeIncomeOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default='')
-    income_amount = models.FloatField(default=0.0)
+    amount = models.FloatField(default=0.0)
     date_received = models.DateField(default=now)
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
                                        on_delete=models.CASCADE,
@@ -26,7 +26,7 @@ class OneTimeIncomeOrmModel(models.Model):
 class RecurringIncomeOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default='')
-    income_amount = models.FloatField(default=0.0)
+    amount = models.FloatField(default=0.0)
     recurring_date = models.ForeignKey(RecurringDateOrmModel, on_delete=models.CASCADE)
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
                                        on_delete=models.CASCADE,
@@ -38,7 +38,7 @@ class RecurringIncomeOrmModel(models.Model):
 class WageIncomeOrmModel(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default='')
-    income_amount = models.FloatField(default=0.0)
+    amount = models.FloatField(default=0.0)
     recurring_date = models.ForeignKey(RecurringDateOrmModel, on_delete=models.CASCADE)
     weekly_hours = models.IntegerField(default=0)
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
