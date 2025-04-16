@@ -11,6 +11,15 @@ def get_weeks_after_date(start_date: date, num_weeks: int) -> date:
 def get_bi_weeks_after_date(start_date: date, num_bi_weeks: int) -> date:
     return start_date + timedelta(weeks=num_bi_weeks * 2)
 
+def get_bi_weeks_before_date(start_date: date, num_bi_weeks: int) -> date:
+    return start_date - timedelta(weeks=num_bi_weeks * 2)
+
+def get_num_weeks_between_dates(start_date: date, end_date: date) -> int:
+    return abs((end_date - start_date).days) // 7
+
+def get_num_bi_weeks_between_dates(start_date: date, end_date: date) -> int:
+    return abs((end_date - start_date).days) // 14
+
 def get_next_friday_from_now() -> date:
     today = date.today()
     while today.weekday() != 4:
