@@ -1,12 +1,19 @@
+# websocket_session_service.py
 from asgiref.sync import sync_to_async
 from attrs import define
+from django.contrib.sessions.backends.db import SessionStore
 from django.utils.functional import LazyObject
+from injector import inject
 
 from backend.apps.entity.user.user import User
+from backend.apps.services.user_service import UserService
 
 
-@define
 class WebSocketSessionService:
+    @inject
+    def __init__(self,
+                 user_service: UserService):
+        self.user_service: UserService = user_service
 
     def get_session(self, session_scope: dict):
         session = session_scope.get("session")
@@ -38,3 +45,9 @@ class WebSocketSessionService:
 
     async def remove_user_from_session(self, session_scope):
         await self.set_value(session_scope,"user_id", None)
+
+    async def get_user_from_session(self, session_scope):
+        # user_id: int = await self.get_value(session_scope, 'user_id')
+        user_id: int = session_scope["session"].get("user_id")
+        return await self.user_service.get_by_id(user_id)
+
