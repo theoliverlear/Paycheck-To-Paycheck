@@ -2,6 +2,7 @@ from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.bill.bill_history import BillHistory
 from backend.apps.entity.bill.models import OneTimeBillOrmModel
@@ -18,9 +19,9 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
     bill_history: BillHistory = attr(default=None)
 
     @override
-    def save(self) -> 'OneTimeBill':
+    async def save(self) -> 'OneTimeBill':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         else:
             saved_due_date: DueDate = self.due_date.save()
@@ -35,11 +36,11 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
             return OneTimeBill.from_orm_model(saved_bill)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.get(id=self.id)
+            db_model: OneTimeBillOrmModel = await database_sync_to_async(OneTimeBillOrmModel.objects.get)(id=self.id)
             self.due_date.update()
-            self.bill_history.update()
+            await self.bill_history.update()
             orm_model: OneTimeBillOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
             db_model.save()
