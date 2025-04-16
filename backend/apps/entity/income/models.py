@@ -40,7 +40,7 @@ class WageIncomeOrmModel(models.Model):
     name = models.CharField(max_length=255, default='')
     amount = models.FloatField(default=0.0)
     recurring_date = models.ForeignKey(RecurringDateOrmModel, on_delete=models.CASCADE)
-    weekly_hours = models.IntegerField(default=0)
+    weekly_hours = models.FloatField(default=0.0)
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
                                         on_delete=models.CASCADE,
                                         default=None,
