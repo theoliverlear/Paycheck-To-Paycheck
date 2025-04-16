@@ -5,6 +5,7 @@ from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.income.one_time_income import OneTimeIncome
@@ -57,12 +58,12 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
             return IncomeHistory.from_orm_model(saved_income_history)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model: IncomeHistoryOrmModel = IncomeHistoryOrmModel.objects.get(id=self.id)
+            db_model: IncomeHistoryOrmModel = await database_sync_to_async(IncomeHistoryOrmModel.objects.get)(id=self.id)
             orm_model: IncomeHistoryOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except IncomeHistoryOrmModel.DoesNotExist as exception:
             raise EntityNotFoundException(self)
 
