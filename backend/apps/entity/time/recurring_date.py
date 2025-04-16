@@ -4,6 +4,7 @@ from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.orm_compatible import OrmCompatible
@@ -34,19 +35,23 @@ class RecurringDate(OrmCompatible['RecurringDate', RecurringDateOrmModel], ABC, 
                 return get_next_year(self.day)
 
     @override
-    def save(self) -> 'RecurringDate':
+    async def save(self) -> 'RecurringDate':
         orm_model: RecurringDateOrmModel = self.get_orm_model()
-        saved_recurring_date_orm: RecurringDateOrmModel = RecurringDateOrmModel.objects.create(
+        saved_recurring_date_orm: RecurringDateOrmModel = await database_sync_to_async(RecurringDateOrmModel.objects.create)(
             day=self.day,
             interval=orm_model.interval
         )
         saved_recurring_date: RecurringDate = RecurringDate.from_orm_model(saved_recurring_date_orm)
+        self.set_from_orm_model(saved_recurring_date_orm)
         return saved_recurring_date
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
+        if not self.is_initialized():
+            await self.save()
+            return
         try:
-            db_model: RecurringDateOrmModel = RecurringDateOrmModel.objects.get(id=self.id)
+            db_model: RecurringDateOrmModel = await database_sync_to_async(RecurringDateOrmModel.objects.get)(id=self.id)
             orm_model: RecurringDateOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
             db_model.save()
