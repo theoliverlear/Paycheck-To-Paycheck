@@ -14,4 +14,4 @@ export type HttpAuthResponse = {
     payload: {
         isAuthorized: boolean;
     }
-}
+};
