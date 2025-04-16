@@ -24,6 +24,7 @@ def setup_user() -> User:
         user_income_history=setup_income_history(),
         user_bill_history=BillHistory(),
         wallet=setup_wallet(),
+        payday=RecurringDate(day=date(day=4, month=4, year=2025), interval=YearInterval.BI_WEEKLY)
     )
     return user
 
