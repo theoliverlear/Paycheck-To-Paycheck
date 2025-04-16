@@ -21,7 +21,7 @@ import {HashPasswordService} from "../../../services/hash-password.service";
 import {
     AuthPopupEventEmitter,
     WebSocketAuthResponse,
-    PossibleAuthPopup
+    PossibleAuthPopup, HttpAuthResponse
 } from "../../../models/auth/types";
 import {
     CredentialSending
@@ -29,6 +29,9 @@ import {
 import {AuthPopup} from "../../../models/auth/AuthPopup";
 import {FilledFieldsService} from "../../../services/filled-fields.service";
 import {Router} from "@angular/router";
+import {
+    HttpLoginService
+} from "../../../services/server/http/http-login.service";
 
 @Component({
     selector: 'login-console',
@@ -39,11 +42,13 @@ export class LoginConsoleComponent implements WebSocketCapable, OnInit, OnDestro
     private loginCredentials: LoginCredentials = new LoginCredentials();
     @Output() authPopupChange: AuthPopupEventEmitter = new EventEmitter<PossibleAuthPopup>();
     webSocketSubscription: Subscription;
-    constructor(private loginWebSocket: LoginWebSocketService,
+    constructor(
+        // private loginWebSocket: LoginWebSocketService,
                 private hashPasswordService: HashPasswordService,
                 private filledFieldsService: FilledFieldsService,
-                private router: Router) {
-        
+                private router: Router,
+                private httpLoginService: HttpLoginService) {
+
     }
 
     isFilledFields(): boolean {
@@ -70,12 +75,23 @@ export class LoginConsoleComponent implements WebSocketCapable, OnInit, OnDestro
         const originalPassword: string = this.loginCredentials.password;
         const hashedPassword: string = this.hashPasswordService.hashPassword(originalPassword);
         this.loginCredentials.password = hashedPassword;
-        this.loginWebSocket.sendMessage(this.loginCredentials);
+        // this.loginWebSocket.sendMessage(this.loginCredentials);
+        this.httpLoginService.login(this.loginCredentials).subscribe((response: HttpAuthResponse) => {
+            console.log('Login response: ', response);
+            if (response.payload.isAuthorized) {
+                this.router.navigate(['/budget']);
+            } else {
+                this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
+            }
+        }, (error) => {
+            console.error('Login error: ', error);
+            this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
+        });
         this.loginCredentials.password = originalPassword;
     }
 
     ngOnInit() {
-        this.initializeWebSocket();
+        // this.initializeWebSocket();
         this.subscribeToAuthEvents();
     }
 
@@ -89,25 +105,25 @@ export class LoginConsoleComponent implements WebSocketCapable, OnInit, OnDestro
     }
 
     initializeWebSocket() {
-        this.loginWebSocket.connect();
-        this.webSocketSubscription = this.loginWebSocket.getMessages().subscribe(
-            (response: WebSocketAuthResponse): void => {
-                console.log(response);
-                if (response) {
-                    console.log('WebSocket Login: ', response);
-                    if (response.message.payload.isAuthorized) {
-                        this.router.navigate(['/budget'])
-                    } else {
-                        this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
-                    }
-                } else {
-                    console.log('No response found.');
-                }
-            },
-            (error) => {
-                console.error('WebSocket error: ', error);
-            }
-        )
+        // this.loginWebSocket.connect();
+        // this.webSocketSubscription = this.loginWebSocket.getMessages().subscribe(
+        //     (response: WebSocketAuthResponse): void => {
+        //         console.log(response);
+        //         if (response) {
+        //             console.log('WebSocket Login: ', response);
+        //             if (response.message.payload.isAuthorized) {
+        //                 this.router.navigate(['/budget'])
+        //             } else {
+        //                 this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
+        //             }
+        //         } else {
+        //             console.log('No response found.');
+        //         }
+        //     },
+        //     (error) => {
+        //         console.error('WebSocket error: ', error);
+        //     }
+        // )
     }
 
     handleFilledFields(): void {
