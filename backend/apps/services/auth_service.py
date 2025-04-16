@@ -1,3 +1,6 @@
+# auth_service.py
+import logging
+
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from injector import inject
@@ -73,7 +76,7 @@ class AuthService:
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
         user: User = self.user_service.user_from_request(signup_request)
-        user_from_db: User = self.user_service.get_by_username(user.username)
+        user_from_db: User = await self.user_service.get_by_username(user.username)
         if user_from_db:
             return AuthResponse.CONFLICT.value
         else:
@@ -88,7 +91,7 @@ class AuthService:
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
         user: User = self.user_service.user_from_request(signup_request)
-        user_from_db: User = await database_sync_to_async(self.user_service.get_by_username)(user.username)
+        user_from_db: User = await self.user_service.get_by_username(user.username)
         if user_from_db:
             return AuthResponse.CONFLICT.value
         else:
@@ -112,12 +115,20 @@ class AuthService:
         user_in_session: bool = self.session_service.user_in_session(
             http_request)
         if user_in_session:
+            session_user: User = await self.session_service.get_user_from_session(http_request)
+            if session_user.username == login_request.username:
+                self.session_service.remove_user_from_session(http_request)
+                return await self.http_login(login_request, http_request)
             return AuthResponse.IN_SESSION_CONFLICT.value
         user: User = self.user_service.user_from_request(login_request)
-        db_user: User = self.user_service.get_by_username(user.username)
+        db_user: User = await self.user_service.get_by_username(user.username)
+        if db_user is None:
+            return AuthResponse.UNAUTHORIZED.value
+
         password_matches: bool = db_user.password.compare_unencoded_password(login_request.password)
+
         if password_matches:
-            self.session_service.save_user_to_session(user, http_request)
+            self.session_service.save_user_to_session(db_user, http_request)
             return AuthResponse.AUTHORIZED.value
         else:
             return AuthResponse.UNAUTHORIZED.value
@@ -129,11 +140,12 @@ class AuthService:
         if user_in_session:
             return AuthResponse.IN_SESSION_CONFLICT.value
         user: User = self.user_service.user_from_request(login_request)
-        db_user: User = await database_sync_to_async(
-            self.user_service.get_by_username)(user.username)
+        # db_user: User = self.user_service.get_by_username(user.username)
+        db_user = await self.user_service.get_by_username(user.username)
         if db_user:
-            password_matches: bool = user.password.compare_unencoded_password(login_request.password)
+            password_matches: bool = db_user.password.compare_unencoded_password(login_request.password)
             if password_matches:
+                await self.websocket_session_service.save_user_to_session(session_scope, db_user)
                 return AuthResponse.AUTHORIZED.value
             else:
                 return AuthResponse.UNAUTHORIZED.value
