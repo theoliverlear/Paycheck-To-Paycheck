@@ -5,7 +5,7 @@ from backend.apps.comm.response.operation_success_response import \
 
 
 class OperationSuccessResponseSerializer(serializers.Serializer):
-    operation_successful = serializers.BooleanField()
+    operation_success = serializers.BooleanField()
     class Meta:
         model = OperationSuccessResponse
         fields = '__all__'
