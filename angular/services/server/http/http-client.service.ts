@@ -1,6 +1,11 @@
+// http-client.service.ts
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {HttpOptions, httpOptions} from "./httpProperties";
+import {
+    HttpOptions,
+    httpOptions,
+    httpOptionsWithCredentials
+} from "./httpProperties";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -27,8 +32,8 @@ export class HttpClientService<Send, Receive> {
         return this.httpClient.get<Receive>(this._url, customHttpOptions);
     }
 
-    public post(payload: Send, customHttpOptions?: HttpOptions): Observable<Receive> {
-        customHttpOptions = this.resolveHttpOptions(customHttpOptions);
+    public post(payload: Send, includeCredentials: boolean = false, customHttpOptions?: HttpOptions): Observable<Receive> {
+        customHttpOptions = this.resolveHttpOptions(customHttpOptions, includeCredentials);
         return this.httpClient.post<Receive>(this._url, payload, customHttpOptions);
     }
 
@@ -42,9 +47,13 @@ export class HttpClientService<Send, Receive> {
         return this.httpClient.delete<Receive>(this._url, customHttpOptions);
     }
 
-    private resolveHttpOptions(customHttpOptions: HttpOptions) {
+    private resolveHttpOptions(customHttpOptions: HttpOptions, includeCredentials: boolean = false): HttpOptions {
         if (customHttpOptions === undefined) {
-            customHttpOptions = httpOptions;
+            if (includeCredentials) {
+                customHttpOptions = httpOptionsWithCredentials;
+            } else {
+                customHttpOptions = httpOptions;
+            }
         }
         return customHttpOptions;
     }
