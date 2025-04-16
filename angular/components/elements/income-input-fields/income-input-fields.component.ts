@@ -26,7 +26,7 @@ export class IncomeInputFieldsComponent {
                 this.income.name = incomeInputContent.inputValue as string;
                 break;
             case IncomeInputFieldType.AMOUNT:
-                this.income.incomeAmount = Number(incomeInputContent.inputValue);
+                this.income.amount = Number(incomeInputContent.inputValue);
                 break;
             case IncomeInputFieldType.HOURS:
                 this.income.hours = Number(incomeInputContent.inputValue);
