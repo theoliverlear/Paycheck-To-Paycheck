@@ -14,7 +14,7 @@ export class PaycheckIncomeComponent {
 
     }
     protected getIncomeAmount(): string {
-        return `$${this.income.incomeAmount}`;
+        return `$${this.income.amount}`;
     }
     protected readonly TagType = TagType;
 }
