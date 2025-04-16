@@ -36,6 +36,9 @@ import {Router} from "@angular/router";
 import {
     LoggedInStatusService
 } from "../../../services/server/http/logged-in-status.service";
+import {
+    HttpSignupService
+} from "../../../services/server/http/http-signup.service";
 
 
 @Component({
@@ -47,17 +50,19 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
     @Output() authPopupChange: AuthPopupEventEmitter = new EventEmitter<PossibleAuthPopup>();
     webSocketSubscription: Subscription;
     private signupCredentials: SignupCredentials = new SignupCredentials();
-    constructor(private signupWebSocket: SignupWebSocketService,
+    constructor(
+        // private signupWebSocket: SignupWebSocketService,
                 private hashPasswordService: HashPasswordService,
                 private emailValidatorService: EmailValidatorService,
                 private filledFieldsService: FilledFieldsService,
                 private passwordMatchService: PasswordMatchService,
                 private router: Router,
-                private loggedInStatusService: LoggedInStatusService) {
+                private loggedInStatusService: LoggedInStatusService,
+                private httpSignupService: HttpSignupService) {
     }
 
     ngOnInit(): void {
-        this.initializeWebSocket();
+        // this.initializeWebSocket();
         this.subscribeToAuthEvents();
         this.loggedInStatusService.isLoggedIn().subscribe((authResponse: HttpAuthResponse) => {
             if (authResponse.payload.isAuthorized) {
@@ -66,6 +71,8 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
                 console.log('User is not logged in.');
             }
         });
+
+
     }
 
     subscribeToAuthEvents(): void {
@@ -90,26 +97,26 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
     }
 
     initializeWebSocket(): void {
-        this.signupWebSocket.connect();
-        this.webSocketSubscription = this.signupWebSocket.getMessages().subscribe(
-            (response: WebSocketAuthResponse): void => {
-                console.log('Message received');
-                if (response) {
-                    console.log('WebSocket Signup: ', response);
-                    if (response.message.payload.isAuthorized) {
-                        this.router.navigate(['/budget'])
-                    } else {
-                        this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
-                    }
-                } else {
-                    console.log('No response found.');
-                }
-            },
-            (error) => {
-                console.error('WebSocket error: ', error);
-            }
-        );
-        console.log('WebSocket subscription setup completed.');
+        // this.signupWebSocket.connect();
+        // this.webSocketSubscription = this.signupWebSocket.getMessages().subscribe(
+        //     (response: WebSocketAuthResponse): void => {
+        //         console.log('Message received');
+        //         if (response) {
+        //             console.log('WebSocket Signup: ', response);
+        //             if (response.message.payload.isAuthorized) {
+        //                 this.router.navigate(['/budget'])
+        //             } else {
+        //                 this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
+        //             }
+        //         } else {
+        //             console.log('No response found.');
+        //         }
+        //     },
+        //     (error) => {
+        //         console.error('WebSocket error: ', error);
+        //     }
+        // );
+        // console.log('WebSocket subscription setup completed.');
     }
 
 
@@ -176,7 +183,17 @@ export class SignupConsoleComponent implements OnInit, WebSocketCapable, OnDestr
         const hashedConfirmPassword: string = this.hashPasswordService.hashPassword(originalConfirmPassword);
         this.signupCredentials.password = hashedPassword;
         this.signupCredentials.confirmPassword = hashedConfirmPassword;
-        this.signupWebSocket.sendMessage(this.signupCredentials);
+        // this.signupWebSocket.sendMessage(this.signupCredentials);
+        this.httpSignupService.signup(this.signupCredentials).subscribe((httoAuthResponse: HttpAuthResponse) => {
+            if (httoAuthResponse.payload.isAuthorized) {
+                this.router.navigate(['/budget']);
+            } else {
+                console.log('User is not logged in.');
+            }
+        }, (error) => {
+            console.error('Signup error: ', error);
+            this.emitAuthPopup(AuthPopup.INCORRECT_USERNAME_OR_PASSWORD);
+        });
         this.signupCredentials.password = originalPassword;
         this.signupCredentials.confirmPassword = originalConfirmPassword;
     }
