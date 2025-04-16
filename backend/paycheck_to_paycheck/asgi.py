@@ -1,5 +1,8 @@
+# asgi.py
 import os
 import sys
+
+from channels.sessions import SessionMiddlewareStack
 
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -20,9 +23,10 @@ from backend.apps.routing.routing import websocket_url_patterns
 
 application = ProtocolTypeRouter({
     "http": django_application,
-    "websocket": AuthMiddlewareStack(
-        URLRouter(
-            websocket_url_patterns
-        )
-    ),
+    "websocket": SessionMiddlewareStack(
+        AuthMiddlewareStack(
+            URLRouter(
+                websocket_url_patterns
+            )
+        )),
 })
