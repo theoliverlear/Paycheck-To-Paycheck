@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.bill.recurring_bill import RecurringBill
 from backend.apps.exception.entity_not_found_exception import \
@@ -22,7 +23,9 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
     recurring_bills: list[RecurringBill] = attr(default=[])
 
     def add_one_time_bill(self, bill: OneTimeBill) -> None:
-        if bill not in self.one_time_bills:
+        bill_in_list: bool = bill not in self.one_time_bills
+        print(f'Bill not in list: {bill_in_list}')
+        if bill_in_list:
             self.one_time_bills.append(bill)
 
     def add_recurring_bill(self, recurring_bill: RecurringBill) -> None:
@@ -40,14 +43,14 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
             return BillHistory.from_orm_model(saved_bill_history)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model = BillHistoryOrmModel.objects.get(id=self.id)
+            db_model = await database_sync_to_async(BillHistoryOrmModel.objects.get)(id=self.id)
             self.update_all_one_time_bills()
             self.update_all_recurring_bills()
             orm_model: BillHistoryOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except BillHistoryOrmModel.DoesNotExist as exception:
             raise EntityNotFoundException(self)
 
@@ -77,10 +80,6 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
 
     @override
     def get_orm_model(self) -> BillHistoryOrmModel:
-        one_time_bill_orm_models = [bill.get_orm_model() for bill in
-                                    self.one_time_bills]
-        recurring_bill_orm_models = [bill.get_orm_model() for
-                                     bill in self.recurring_bills]
         return BillHistoryOrmModel(
             id=self.id
         )
