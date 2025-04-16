@@ -67,7 +67,7 @@ class UserTest(unittest.IsolatedAsyncioTestCase):
             user.first_name = 'Jack'
             saved_user: User = await user.save()
             saved_user.first_name = 'Jane'
-            await sync_to_async(saved_user.update)()
+            await saved_user.update()
         except Exception as exception:
             self.fail(exception)
 
