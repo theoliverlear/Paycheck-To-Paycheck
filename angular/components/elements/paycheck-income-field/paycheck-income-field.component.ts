@@ -21,7 +21,7 @@ export class PaycheckIncomeFieldComponent {
     protected getFieldValue(): string {
         switch (this.fieldType) {
             case PaycheckFieldType.AMOUNT:
-                return `+$${this.income.incomeAmount}`;
+                return `+$${this.income.amount}`;
             case PaycheckFieldType.DATE:
                 return this.income.dateReceived.toDateString();
             case PaycheckFieldType.TIME_TYPE:
