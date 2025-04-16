@@ -5,19 +5,19 @@ import {
 
 export class Income {
     public name: string;
-    public incomeAmount: number;
+    public amount: number;
     public dateReceived: Date;
     private _timeType: InputTimeType;
     public incomeInterval?: RecurringIncomeTimeInterval;
     public hours?: number;
     public constructor(name: string = '',
-                       incomeAmount: number = 0,
+                       amount: number = 0,
                        dateReceived: Date = new Date(),
                        timeType: InputTimeType = InputTimeType.ONE_TIME,
                        incomeInterval?: RecurringIncomeTimeInterval,
                        hours?: number) {
         this.name = name;
-        this.incomeAmount = incomeAmount;
+        this.amount = amount;
         this.dateReceived = dateReceived;
         this._timeType = timeType;
         this.incomeInterval = incomeInterval;
