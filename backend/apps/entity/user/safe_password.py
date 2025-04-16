@@ -39,13 +39,13 @@ class SafePassword(OrmCompatible['SafePassword', SafePasswordOrmModel], ABC, Ide
         return SafePassword.from_orm_model(saved_password)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model = SafePasswordOrmModel.objects.get(id=self._id)
+            db_model = await database_sync_to_async(SafePasswordOrmModel.objects.get)(id=self._id)
 
             orm_model = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except SafePasswordOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
