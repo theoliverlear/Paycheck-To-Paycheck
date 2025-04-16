@@ -38,11 +38,13 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             self.user_bill_history = BillHistory()
         if self.wallet is None:
             self.wallet = Wallet()
+        if self.payday is None:
+            self.payday = RecurringDate()
 
     @override
     async def save(self) -> 'User':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         else:
             self.handle_uninstantiated_fields()
@@ -50,6 +52,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             user_income_history: IncomeHistory = await database_sync_to_async(self.user_income_history.save)()
             user_bill_history: BillHistory = await database_sync_to_async(self.user_bill_history.save)()
             wallet: Wallet = await database_sync_to_async(self.wallet.save)()
+            payday: RecurringDate = await database_sync_to_async(self.payday.save)()
             # TODO: Add wallet saving.
             orm_model: UserOrmModel = self.get_orm_model()
             saved_user = await database_sync_to_async(UserOrmModel.objects.create)(
@@ -61,21 +64,24 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
                 income_history=user_income_history.get_orm_model(),
                 bill_history=user_bill_history.get_orm_model(),
                 wallet=wallet.get_orm_model(),
+                payday=payday.get_orm_model(),
             )
             self.set_from_orm_model(saved_user)
             return User.from_orm_model(saved_user)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
             self.handle_uninstantiated_fields()
-            db_model: UserOrmModel = UserOrmModel.objects.get(id=self.id)
-            self.password.update()
-            self.user_income_history.update()
-            self.user_bill_history.update()
+            db_model: UserOrmModel = await database_sync_to_async(UserOrmModel.objects.get)(id=self.id)
+            await self.password.update()
+            await self.user_income_history.update()
+            await self.user_bill_history.update()
+            # await self.wallet.update()
+            await self.payday.update()
             orm_model: UserOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except UserOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
@@ -103,6 +109,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         db_model.income_history = model_to_match.income_history
         db_model.bill_history = model_to_match.bill_history
         db_model.wallet = model_to_match.wallet
+        db_model.payday = model_to_match.payday
 
     @override
     def get_orm_model(self) -> UserOrmModel:
@@ -116,6 +123,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             income_history=self.user_income_history.get_orm_model(),
             bill_history=self.user_bill_history.get_orm_model(),
             wallet=self.wallet.get_orm_model(),
+            payday=self.payday.get_orm_model(),
         )
 
     @staticmethod
