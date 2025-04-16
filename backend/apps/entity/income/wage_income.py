@@ -14,7 +14,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 @define
 class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel]):
-    weekly_hours: int = attr(default=0)
+    weekly_hours: float = attr(default=0.0)
 
     def calculate_yearly_income(self):
         income_per_week: float = self._amount * self.weekly_hours
