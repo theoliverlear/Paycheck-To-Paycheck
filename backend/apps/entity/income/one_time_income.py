@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.identifiable import Identifiable
 if TYPE_CHECKING:
@@ -22,16 +23,17 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
     income_history: IncomeHistory = attr(default=None)
 
     @override
-    def save(self) -> 'OneTimeIncome':
-        income_history: IncomeHistory = self.income_history.save()
+    async def save(self) -> 'OneTimeIncome':
+        income_history: IncomeHistory = await self.income_history.save()
         orm_model: OneTimeIncomeOrmModel = self.get_orm_model()
-        saved_income = OneTimeIncomeOrmModel.objects.create(
+        saved_income = await database_sync_to_async(OneTimeIncomeOrmModel.objects.create)(
             id=orm_model.id,
             name=orm_model.name,
             amount=orm_model.amount,
             date_received=orm_model.date_received,
             income_history=income_history.get_orm_model()
         )
+        self.set_from_orm_model(saved_income)
         return OneTimeIncome.from_orm_model(saved_income)
 
     @override
