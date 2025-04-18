@@ -49,10 +49,10 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         else:
             self.handle_uninstantiated_fields()
             saved_password: SafePassword = await self.password.save()
-            user_income_history: IncomeHistory = await database_sync_to_async(self.user_income_history.save)()
+            user_income_history: IncomeHistory = await self.user_income_history.save()
             user_bill_history: BillHistory = await database_sync_to_async(self.user_bill_history.save)()
             wallet: Wallet = await database_sync_to_async(self.wallet.save)()
-            payday: RecurringDate = await database_sync_to_async(self.payday.save)()
+            payday: RecurringDate = await self.payday.save()
             # TODO: Add wallet saving.
             orm_model: UserOrmModel = self.get_orm_model()
             saved_user = await database_sync_to_async(UserOrmModel.objects.create)(
