@@ -96,6 +96,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         self.user_income_history = IncomeHistory.from_orm_model(orm_model.income_history)
         self.user_bill_history = BillHistory.from_orm_model(orm_model.bill_history)
         self.wallet = Wallet.from_orm_model(orm_model.wallet)
+        self.payday = RecurringDate.from_orm_model(orm_model.payday)
 
     @staticmethod
     @override
