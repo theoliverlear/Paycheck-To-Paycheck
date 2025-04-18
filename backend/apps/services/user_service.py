@@ -45,76 +45,9 @@ class UserService:
         return await database_sync_to_async(self.user_repository.get_by_username)(username)
 
     async def get_by_id(self, user_id: int):
-        # user: User = await database_sync_to_async(self.user_repository.get_by_id)(user_id)
-        # bill_history = await self.get_user_bill_history(user)
-        # income_history = await self.get_user_income_history(user)
-        #
-        # user.user_bill_history = bill_history
-        # user.user_income_history = income_history
         user: User = await database_sync_to_async(self.user_repository.get_by_id)(user_id)
         bill_history: BillHistory = await self.bill_history_service.initialize_bill_history(user)
         income_history: IncomeHistory = await self.income_history_service.initialize_income_history(user)
         user.user_bill_history = bill_history
         user.user_income_history = income_history
         return user
-
-    async def get_user_income_history(self, user: User):
-        income_history_orm: IncomeHistoryOrmModel = await database_sync_to_async(
-            lambda: IncomeHistoryOrmModel.objects.filter(
-                id=user.user_income_history.id).first()
-        )()
-        one_time_incomes: list[
-            OneTimeIncomeOrmModel] = await database_sync_to_async(
-            lambda: list(OneTimeIncomeOrmModel.objects.filter(
-                income_history=income_history_orm))
-        )()
-        recurring_incomes: list[
-            RecurringIncomeOrmModel] = await database_sync_to_async(
-            lambda: list(RecurringIncomeOrmModel.objects.filter(
-                income_history=income_history_orm))
-        )()
-        wage_incomes: list[WageIncomeOrmModel] = await database_sync_to_async(
-            lambda: list(WageIncomeOrmModel.objects.filter(
-                income_history=income_history_orm))
-        )()
-        income_history: IncomeHistory = IncomeHistory.from_orm_model(
-            income_history_orm)
-        for income in one_time_incomes:
-            income_history.add_one_time_income(
-                await database_sync_to_async(OneTimeIncome.from_orm_model)(
-                    income))
-        for income in recurring_incomes:
-            income_history.add_recurring_income(
-                await database_sync_to_async(RecurringIncome.from_orm_model)(
-                    income))
-        for income in wage_incomes:
-            income_history.add_wage_income(
-                await database_sync_to_async(WageIncome.from_orm_model)(
-                    income))
-        return income_history
-
-    async def get_user_bill_history(self, user: User):
-        bill_history_orm: BillHistoryOrmModel = await database_sync_to_async(
-            lambda: BillHistoryOrmModel.objects.filter(
-                id=user.user_bill_history.id).first()
-        )()
-        one_time_bills: list[
-            OneTimeBillOrmModel] = await database_sync_to_async(
-            lambda: list(OneTimeBillOrmModel.objects.filter(
-                bill_history=bill_history_orm))
-        )()
-        recurring_bills: list[
-            RecurringBillOrmModel] = await database_sync_to_async(
-            lambda: list(RecurringBillOrmModel.objects.filter(
-                bill_history=bill_history_orm))
-        )()
-        bill_history = BillHistory.from_orm_model(bill_history_orm)
-        for bill in one_time_bills:
-            bill_history.add_one_time_bill(
-                await database_sync_to_async(OneTimeBill.from_orm_model)(
-                    bill))
-        for bill in recurring_bills:
-            bill_history.add_recurring_bill(
-                await database_sync_to_async(OneTimeBill.from_orm_model)(
-                    bill))
-        return bill_history
