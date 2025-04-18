@@ -327,16 +327,18 @@ Below is a graph of just some of the dependencies in the back-end. There are
 so many that text cannot fit in the diagram. Instead, you can see how the app,
 and the microservice pattern, is complex and interdependent.
 
+![Codebase Dependencies Web](./assets/codebase_dependencies_map.png)
+[Click Here to See the File Zoomed In](./assets/codebase_dependencies_map.png)
+
 #### Microservice Justification
 
-The microservice pattern was chosen because it matched a paradigm I was used 
-to as well as an optimal solution pattern. The problem is that there is a lot 
+The microservice pattern was chosen because it matched a paradigm I was used
+to as well as an optimal solution pattern. The problem is that there is a lot
 of logic that is similar, but some, very important logic, that is different.
 Creating services allow for the broad brush functionality of the app. The
 properties of each class have specific logic, and so the repositories used for
 access carefully select these entities based on their unique nature.
 
-![Codebase Dependencies Web](./assets/codebase_dependencies_map.png)
 
 #### Watch the Progress
 
