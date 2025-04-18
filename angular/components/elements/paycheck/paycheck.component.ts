@@ -1,10 +1,15 @@
 // paycheck.component.ts 
 import {Component, Input, OnInit} from "@angular/core";
-import {Paycheck} from "../../../models/paycheck/Paycheck";
-import {Income} from "../../../models/income/Income";
-import {InputTimeType} from "../../../models/input/InputTimeType";
-import {Bill} from "../../../models/bill/Bill";
 import {PaycheckTotalType} from "../paycheck-total/models/PaycheckTotalType";
+import {
+    HttpPaycheckService
+} from "../../../services/server/http/http-paycheck.service";
+import {
+    OneTimeBill,
+    OneTimeIncome,
+    Paycheck, RecurringBill,
+    RecurringIncome, WageIncome
+} from "../../../models/paycheck/types";
 
 @Component({
     selector: 'paycheck',
@@ -12,63 +17,35 @@ import {PaycheckTotalType} from "../paycheck-total/models/PaycheckTotalType";
     styleUrls: ['./paycheck.component.css']
 })
 export class PaycheckComponent implements OnInit {
-    @Input() protected paycheck: Paycheck = new Paycheck()
-    constructor() {
+    // TODO: Create an asset that holds a default paycheck.
+    @Input() protected paycheck: Paycheck = {
+        dateRange: {
+            endDate: new Date(),
+            startDate: new Date()
+        },
+        leftOverIncome: 0,
+        oneTimeBills: [],
+        oneTimeIncomes: [],
+        recurringBills: [],
+        recurringIncomes: [],
+        wageIncomes: [],
+        totalBills: 0,
+        totalIncome: 0
+    };
+    incomes: (OneTimeIncome | RecurringIncome | WageIncome)[] = [];
+    bills: (OneTimeBill | RecurringBill)[] = [];
+
+    constructor(private httpPaycheckService: HttpPaycheckService) {
         
     }
     ngOnInit(): void {
-        this.paycheck.incomes = [new Income(
-            "Job at Target",
-            540,
-            new Date(),
-            InputTimeType.RECURRING
-        ),
-        new Income(
-            "Birthday Money",
-            100,
-            new Date(),
-            InputTimeType.ONE_TIME
-        )];
-        this.paycheck.bills = [new Bill(
-            "Rent",
-            1200,
-            new Date(),
-            InputTimeType.RECURRING
-        ),
-        new Bill(
-            "Car Payment",
-            300,
-            new Date(),
-            InputTimeType.RECURRING
-        ),
-        new Bill(
-            "Haircut",
-            38,
-            new Date(),
-            InputTimeType.RECURRING
-        )];
-        this.paycheck.totalIncome = 1550.65;
-
-        this.paycheck.bills = [new Bill(
-            "Rent",
-            1200,
-            new Date(),
-            InputTimeType.RECURRING
-        ),
-        new Bill(
-            "Car Payment",
-            300,
-            new Date(),
-            InputTimeType.RECURRING
-        ),
-        new Bill(
-            "Haircut",
-            38,
-            new Date(),
-            InputTimeType.ONE_TIME
-        )]
-        this.paycheck.totalBills = 1538.00;
-
+        this.httpPaycheckService.getPaycheck(0).subscribe(paycheck => {
+            if (paycheck) {
+                this.paycheck = paycheck;
+                this.incomes = [...paycheck.oneTimeIncomes, ...paycheck.recurringIncomes, ...paycheck.wageIncomes];
+                this.bills = [...paycheck.oneTimeBills, ...paycheck.recurringBills];
+            }
+        });
     }
 
     protected readonly PaycheckTotalType = PaycheckTotalType;
