@@ -44,11 +44,10 @@ class PaycheckView(APIView):
             http_request=http_request)
         if user_in_session:
             logging.info(http_request)
-            serializer: PayloadStatusResponseSerializer = (
-                PayloadStatusResponseSerializer(OperationSuccessStatus.OPERATION_SUCCESS.value))
             user: User = await self.session_service.get_user_from_session(http_request)
             logging.info(user)
             paycheck: Paycheck = self.paycheck_service.get_paycheck_from_now(user=user, num_paychecks=paycheck_num)
+            # TODO: Refactor this into their respective classes.
             for income in paycheck.recurring_incomes:
                 if income.recurring_date.interval == YearInterval.YEARLY:
                     income.amount = income.yearly_income / YearInterval.BI_WEEKLY.value
@@ -64,7 +63,6 @@ class PaycheckView(APIView):
                 wage_income._amount = wage_income.calculate_paycheck_income()
             return Response(paycheck_serializer.data, status=200)
         else:
-            logging.info("User not in session")
             serializer: PayloadStatusResponseSerializer = (
                 PayloadStatusResponseSerializer(OperationSuccessStatus.OPERATION_DENIED.value))
             return Response(serializer.data, status=401)
