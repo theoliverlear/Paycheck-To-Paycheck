@@ -8,7 +8,7 @@ from backend.apps.entity.income.recurring_income import RecurringIncome
 class RecurringIncomeSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField()
-    income_amount = serializers.FloatField()
+    amount = serializers.FloatField()
     recurring_date = RecurringDateSerializer()
     yearly_income = serializers.FloatField()
     class Meta:
