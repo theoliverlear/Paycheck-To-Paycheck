@@ -22,6 +22,9 @@ import {
 import {
     RecurringIncomeWebSocketService
 } from "../../../services/server/websocket/recurring-income-websocket.service";
+import {
+    WageIncomeWebSocketService
+} from "../../../services/server/websocket/wage-income-websocket.service";
 
 @Component({
     selector: 'income-input',
@@ -41,7 +44,7 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     wageIncomeSubscription: Subscription;
     constructor(private oneTimeIncomeWebSocket: OneTimeIncomeWebSocketService,
                 private recurringIncomeWebSocket: RecurringIncomeWebSocketService,
-                private wageIncomeWebSocket: OneTimeIncomeWebSocketService) {
+                private wageIncomeWebSocket: WageIncomeWebSocketService) {
 
     }
 
@@ -107,7 +110,9 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
         if (this.income.timeType === InputTimeType.ONE_TIME) {
             this.oneTimeIncomeWebSocket.sendMessage(this.income);
         } else {
+            console.log('income before sending: ', this.income);
             if (this.income.incomeInterval === RecurringIncomeTimeInterval.HOURLY_WAGE) {
+                console.log('Sending a wage income');
                 this.wageIncomeWebSocket.sendMessage(this.income);
             } else {
                 this.recurringIncomeWebSocket.sendMessage(this.income);
