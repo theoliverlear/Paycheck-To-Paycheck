@@ -2,6 +2,7 @@ from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.income.models import WageIncomeOrmModel
 from backend.apps.entity.income.recurring_income import RecurringIncome
@@ -31,20 +32,21 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
             RecurringIncome.recurring_date.fset(self, recurring_date)
 
     @override
-    def save(self) -> 'WageIncome':
+    async def save(self) -> 'WageIncome':
         if self.is_initialized():
             self.update()
             return self
         else:
-            saved_recurring_date: RecurringDate = self._recurring_date.save()
+            saved_recurring_date: RecurringDate = await self._recurring_date.save()
             orm_model: WageIncomeOrmModel = self.get_orm_model()
-            saved_wage_income: WageIncomeOrmModel = WageIncomeOrmModel.objects.create(
+            saved_wage_income: WageIncomeOrmModel = await database_sync_to_async(WageIncomeOrmModel.objects.create)(
                 name=orm_model.name,
                 amount=orm_model.amount,
                 recurring_date=saved_recurring_date.get_orm_model(),
                 weekly_hours=self.weekly_hours,
                 income_history=self.income_history.get_orm_model()
             )
+            self.set_from_orm_model(saved_wage_income)
             return WageIncome.from_orm_model(saved_wage_income)
 
     @override
@@ -61,12 +63,13 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
 
     @override
     def set_from_orm_model(self, orm_model: WageIncomeOrmModel) -> None:
+        from backend.apps.entity.income.income_history import IncomeHistory
         self.id = orm_model.id
         self.name = orm_model.name
         self.amount = orm_model.amount
         self.recurring_date = RecurringDate.from_orm_model(orm_model.recurring_date)
         self.weekly_hours = orm_model.weekly_hours
-        self.income_history = orm_model.income_history.get_orm_model()
+        self.income_history = IncomeHistory.from_orm_model(orm_model.income_history)
 
     @override
     def get_orm_model(self) -> WageIncomeOrmModel:
@@ -95,5 +98,5 @@ class WageIncome(RecurringIncome, OrmCompatible['WageIncome', WageIncomeOrmModel
     @staticmethod
     def from_orm_model(orm_model: WageIncomeOrmModel) -> 'WageIncome':
         wage_income: WageIncome = WageIncome()
-        wage_income.from_orm_model(orm_model)
+        wage_income.set_from_orm_model(orm_model)
         return wage_income
