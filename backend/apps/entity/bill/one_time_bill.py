@@ -24,10 +24,10 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
             await self.update()
             return self
         else:
-            saved_due_date: DueDate = self.due_date.save()
+            saved_due_date: DueDate = await self.due_date.save()
             saved_bill_history: BillHistory = self.bill_history.save()
             orm_model: OneTimeBillOrmModel = self.get_orm_model()
-            saved_bill: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.create(
+            saved_bill: OneTimeBillOrmModel = await database_sync_to_async(OneTimeBillOrmModel.objects.create)(
                 name=orm_model.name,
                 amount=orm_model.amount,
                 due_date=DueDate.get_orm_model(saved_due_date),
