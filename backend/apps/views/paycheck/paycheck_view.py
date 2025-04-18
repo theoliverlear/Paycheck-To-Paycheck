@@ -1,5 +1,6 @@
 # paycheck_view.py
 import logging
+from datetime import date
 
 from asgiref.sync import async_to_sync
 from injector import inject
@@ -11,7 +12,10 @@ from backend.apps.comm.serialize.entity.paycheck.paycheck_serializer import \
 from backend.apps.comm.serialize.models.http.payload_status_response_serializer import \
     PayloadStatusResponseSerializer
 from backend.apps.entity.paycheck.paycheck import Paycheck
+from backend.apps.entity.time.date_range import DateRange
+from backend.apps.entity.time.year_interval import YearInterval
 from backend.apps.entity.user.user import User
+from backend.apps.models.date_utilities import get_next_week
 from backend.apps.models.http.communication_type import CommunicationType
 from backend.apps.models.http.operation_sucess_status import \
     OperationSuccessStatus
@@ -45,8 +49,19 @@ class PaycheckView(APIView):
             user: User = await self.session_service.get_user_from_session(http_request)
             logging.info(user)
             paycheck: Paycheck = self.paycheck_service.get_paycheck_from_now(user=user, num_paychecks=paycheck_num)
+            for income in paycheck.recurring_incomes:
+                if income.recurring_date.interval == YearInterval.YEARLY:
+                    income.amount = income.yearly_income / YearInterval.BI_WEEKLY.value
             paycheck_serializer: PaycheckSerializer = PaycheckSerializer(instance=paycheck)
-            logging.info(paycheck)
+            for bill in paycheck.recurring_bills:
+                if bill.recurring_date.interval == YearInterval.WEEKLY:
+                    date_range: DateRange = DateRange(start_date=bill.recurring_date.day, end_date=paycheck.date_range.end_date)
+                    next_bill_week: date = get_next_week(date_range.start_date)
+                    if date_range.in_range(next_bill_week):
+                        bill.amount *= 2
+
+            for wage_income in paycheck.wage_incomes:
+                wage_income._amount = wage_income.calculate_paycheck_income()
             return Response(paycheck_serializer.data, status=200)
         else:
             logging.info("User not in session")
