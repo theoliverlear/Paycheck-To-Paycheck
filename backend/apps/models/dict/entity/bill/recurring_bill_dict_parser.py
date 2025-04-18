@@ -18,6 +18,7 @@ class RecurringBillDictParser(DictParser):
 
     def get_recurring_bill(self, dict_data: dict) -> RecurringBill:
         dict_data = underscoreize(dict_data)
+        dict_data['recurring_date'] = dict_data['date']
         keys_to_skip: list[str] = ['id', 'bill_history', 'bill_interval']
         bill_dict: dict = {}
         for key in self.class_dict_parser.get_class_fields():
