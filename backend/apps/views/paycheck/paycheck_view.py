@@ -1,9 +1,7 @@
 # paycheck_view.py
 import logging
-from datetime import date
 
 from asgiref.sync import async_to_sync
-from django.http import HttpResponse
 from injector import inject
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,7 +17,7 @@ from backend.apps.models.http.operation_sucess_status import \
     OperationSuccessStatus
 from backend.apps.services.auth_service import AuthService
 from backend.apps.services.paycheck_service import PaycheckService
-from backend.apps.services.session_service import SessionService
+from backend.apps.services.session.session_service import SessionService
 from backend.apps.services.user_service import UserService
 
 
