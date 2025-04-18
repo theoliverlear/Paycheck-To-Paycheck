@@ -230,3 +230,118 @@ Below is a video about the progress made in the second milestone.
 _Or go to this [this link](https://youtu.be/n5RN0N9qiiM) (https://youtu.be/n5RN0N9qiiM)_
 
 ---
+
+### Milestone 3 - 4/18/25
+
+The third milestone was a massive. It took everything previous and finally 
+tied it into a bow. The app now tracks, manages, and displays the web of user
+data. It can dynamically determine paychecks, bills, and income. It also can 
+assemble and save them using the microservice pattern. While not all UI
+components are made, the app is functional. An effort still needs to be made
+in terms of efficiency. Using eager fetching, in the current codebase, is
+necessary, and will be replaced with lazy fetching in the future.
+
+#### Both Front-end and Back-end
+
+The back-end and front-end were able to work together to create a seamless
+experience. With a mixed protocol of WebSockets and HTTP, the user gets the 
+best of both. They get the initial session communication with HTTP and the
+the dynamic updates with WebSockets. The back-end does important calculations
+and slicing of data that the front-end renders. This allows for the server to
+maintain context and a user to navigate the app without losing their place.
+
+#### Front-end
+
+This milestone, the front-end was important, but less so than the back-end. 
+The front-end finally implemented the UI of paychecks. More is yet to come 
+with these components, but currently, the components show:
+
+- **Incomes**: See how much you are making.
+  - One-time income
+  - Recurring income
+  - Wage income
+- **Bills**: See where your money is going.
+  - One-time bills
+  - Recurring bills
+- **Date**: See when you are getting paid.
+  - Pay period
+  - Income and bill dates
+- **Time Type**: Know whether it an item affects just this paycheck or all future
+paychecks.
+  - One-time
+  - Recurring
+- **Income and Bill Totals**: See the balance in your paycheck.
+- **Leftover Money**: See where your bank acount is left after the paycheck.
+
+The interface for a user is shown like a check or paycheck stub to give a 
+retro look to a modern app. You can see the line items and the totals clearly
+displayed. The app is responsive and works on mobile devices no matter how 
+many line items are on a given paycheck. You can see the UI below.
+
+![Milestone Three Paycheck UI](./assets/p2p_milestone_three_paychecks_page.png)
+
+#### Back-end
+
+The work done in the back-end was complex. The growing web of 
+intercommunication caused dependencies to explode. Much of the time was 
+managing and implementing the microservice pattern. The back-end is now 
+operates is an orderly fashion. 
+
+The tightrope of synchronous versus asynchronous communication was carefully
+walked. Given how interconnected the app is and how making a method 
+asynchronous affects an entire dependency tree, the care for asynchronous 
+operations was needed. Asynchronous operations were implemented **only where
+explicitly needed.** Since optimization is not currently a priority, and 
+velocity of features is, the app selectively uses asynchronous operations.
+The general fields for asynchronous operations include:
+
+- **Database Operations**
+  - Access through ORM models
+  - Access through repositories
+  - Access through services
+- **Consumers**
+  - WebSockets of all varieties
+- **Views**
+  - Any view that accesses any asynchronous operation
+
+##### To Create an Entity
+
+The pattern starts with the web app, moves to the back-end. The back-end
+consumes the request. The back-end parses the request and creates an entity.
+The entity is saved to the database. The saved entity is returned to the 
+consumer. The consumer serializes the entity and sends it back to the 
+front-end ready for display.
+
+##### To Update an Entity
+
+The pattern gets a request from the web app. The back-end consumes the 
+requests parameters and determines which microservice to use. Once determined,
+the appropriate service is called from a consumer or view. The service 
+accesses the database to get the specified entity. The ORM model is parsed 
+into a back-end model. The back-end model is updated with the new data. The
+model is saved to the database. The success of the update is tracked and 
+returned to the view or consumer. The consumer or view serializes the status
+for the front-end.
+
+Below is a graph of just some of the dependencies in the back-end. There are 
+so many that text cannot fit in the diagram. Instead, you can see how the app,
+and the microservice pattern, is complex and interdependent.
+
+#### Microservice Justification
+
+The microservice pattern was chosen because it matched a paradigm I was used 
+to as well as an optimal solution pattern. The problem is that there is a lot 
+of logic that is similar, but some, very important logic, that is different.
+Creating services allow for the broad brush functionality of the app. The
+properties of each class have specific logic, and so the repositories used for
+access carefully select these entities based on their unique nature.
+
+![Codebase Dependencies Web](./assets/codebase_dependencies_map.png)
+
+#### Watch the Progress
+
+Below is a video about the progress made in the third milestone.
+
+[![Milestone Three Progress](./assets/youtube_video_icon.png)]()
+
+_Or go to [this link]()_ ()
