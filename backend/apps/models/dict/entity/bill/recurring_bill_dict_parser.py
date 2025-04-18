@@ -1,5 +1,6 @@
 from datetime import date
 
+from djangorestframework_camel_case.util import underscoreize
 from injector import inject
 
 from backend.apps.entity.bill.bill_history import BillHistory
@@ -16,13 +17,17 @@ class RecurringBillDictParser(DictParser):
         self.class_dict_parser: ClassFieldParser[RecurringBill] = class_dict_parser
 
     def get_recurring_bill(self, dict_data: dict) -> RecurringBill:
+        dict_data = underscoreize(dict_data)
         keys_to_skip: list[str] = ['id', 'bill_history', 'bill_interval']
         bill_dict: dict = {}
         for key in self.class_dict_parser.get_class_fields():
             if key not in keys_to_skip:
                 bill_dict[key] = self.parse(dict_data, key)
                 if isinstance(bill_dict[key], date):
-                    bill_interval: YearInterval = self.interval_text_to_enum(dict_data['bill_interval'])
+                    if 'bill_interval' not in dict_data:
+                        bill_interval: YearInterval = YearInterval.MONTHLY
+                    else:
+                        bill_interval: YearInterval = self.interval_text_to_enum(dict_data['bill_interval'])
                     bill_dict[key] = RecurringDate(day=bill_dict[key],
                                                    interval=bill_interval)
         recurring_bill: RecurringBill = RecurringBill(**bill_dict)
