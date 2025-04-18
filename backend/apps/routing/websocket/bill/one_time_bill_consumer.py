@@ -4,7 +4,7 @@ from typing import override
 
 from asgiref.sync import sync_to_async
 from djangorestframework_camel_case.util import camelize
-from injector import inject, Injector
+from injector import inject
 
 from backend.apps.comm.serialize.entity.bill.one_time_bill_serializer import \
     OneTimeBillSerializer
@@ -15,7 +15,7 @@ from backend.apps.models.dict.entity.bill.one_time_bill_dict_parser import \
     OneTimeBillDictParser
 from backend.apps.routing.websocket.websocket_consumer import \
     WebSocketConsumer
-from backend.apps.services.websocket_session_service import \
+from backend.apps.services.session.websocket_session_service import \
     WebSocketSessionService
 
 
@@ -45,7 +45,7 @@ class BillConsumer(WebSocketConsumer[OneTimeBill]):
         from backend.apps.entity.user.user import User
         user: User = await self.websocket_session_service.get_user_from_session(self.scope)
         bill.bill_history = user.user_bill_history
-        bill = await sync_to_async(bill.save)()
+        bill = await bill.save()
         user.user_bill_history.add_one_time_bill(bill)
         print(user)
         await user.update()
@@ -57,6 +57,6 @@ class BillConsumer(WebSocketConsumer[OneTimeBill]):
         serializer: OneTimeBillSerializer = OneTimeBillSerializer(bill)
         return camelize(serializer.data)
 
-    def get_bill(self, json_data):
+    def get_bill(self, json_data: dict) -> OneTimeBill:
         return self.one_time_bill_parser.get_one_time_bill(json_data)
 
