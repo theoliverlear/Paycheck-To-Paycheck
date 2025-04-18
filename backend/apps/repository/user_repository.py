@@ -16,7 +16,6 @@ class UserRepository(DatabaseAccessible, ABC):
         return user
 
     def exists_by_id(self, identifiable: Identifiable | int) -> bool:
-        id_num: int = 0
         if isinstance(identifiable, Identifiable):
             id_num = identifiable.id
         else:
@@ -31,7 +30,6 @@ class UserRepository(DatabaseAccessible, ABC):
             return await self.save(user)
 
     def get_by_id(self, identifiable: Identifiable | int) -> T:
-        id_num: int = 0
         if isinstance(identifiable, Identifiable):
             id_num = identifiable.id
         else:
