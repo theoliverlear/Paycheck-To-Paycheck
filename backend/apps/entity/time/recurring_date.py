@@ -33,6 +33,8 @@ class RecurringDate(OrmCompatible['RecurringDate', RecurringDateOrmModel], ABC, 
                 return get_next_month(self.day)
             case YearInterval.YEARLY:
                 return get_next_year(self.day)
+            case _:
+                raise ValueError(f'Invalid interval: {self.interval}')
 
     @override
     async def save(self) -> 'RecurringDate':
@@ -54,7 +56,7 @@ class RecurringDate(OrmCompatible['RecurringDate', RecurringDateOrmModel], ABC, 
             db_model: RecurringDateOrmModel = await database_sync_to_async(RecurringDateOrmModel.objects.get)(id=self.id)
             orm_model: RecurringDateOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except RecurringDateOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
