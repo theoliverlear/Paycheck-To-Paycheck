@@ -13,8 +13,8 @@ import {TagType} from "../../../models/html/TagType";
 export class IncomeInputFieldComponent implements OnInit {
     // TODO: If the income type of WAGE is selected, then the program should
     //       display hours worked in addition to income.
-    @Input() protected fieldType: IncomeInputFieldType;
-    @Input() protected placeholder: string | number;
+    @Input() fieldType: IncomeInputFieldType;
+    @Input() placeholder: string | number;
     @Output() inputEvent: EventEmitter<IncomeInputContent> = new EventEmitter<IncomeInputContent>();
     protected inputContent: IncomeInputContent = new IncomeInputContent();
     constructor() {
