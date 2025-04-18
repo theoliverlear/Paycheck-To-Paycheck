@@ -3,6 +3,8 @@ import {Component, HostBinding, Input} from "@angular/core";
 import {PaycheckFieldType} from "../paycheck/models/PaycheckFieldType";
 import {Bill} from "../../../models/bill/Bill";
 import {TagType} from "../../../models/html/TagType";
+import {OneTimeBill, RecurringBill} from "../../../models/paycheck/types";
+import {InputTimeType} from "../../../models/input/InputTimeType";
 
 @Component({
     selector: 'paycheck-bill-field',
@@ -11,7 +13,7 @@ import {TagType} from "../../../models/html/TagType";
 })
 export class PaycheckBillFieldComponent {
     @Input() protected fieldType: PaycheckFieldType;
-    @Input() protected bill: Bill;
+    @Input() protected bill: OneTimeBill | RecurringBill;
     @HostBinding('class.bill-text') get isAmount(): boolean {
         return this.fieldType === PaycheckFieldType.AMOUNT;
     }
@@ -21,11 +23,29 @@ export class PaycheckBillFieldComponent {
     protected getFieldValue(): string {
         switch (this.fieldType) {
             case PaycheckFieldType.AMOUNT:
-                return `-$${this.bill.amount}`;
+                const amountFormatted: string = new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                        minimumFractionDigits: 2
+                    }).format(this.bill.amount);
+                return `-${amountFormatted}`;
             case PaycheckFieldType.DATE:
-                return this.bill.date.toDateString();
+                if ('dueDate' in this.bill) {
+                    if (this.bill.dueDate) {
+                        return this.bill.dueDate.dueDate.toDateString();
+                    }
+                } else {
+                    if (this.bill.recurringDate) {
+                        return this.bill.recurringDate.day.toDateString();
+                    }
+                }
+                return 'N/A';
             case PaycheckFieldType.TIME_TYPE:
-                return this.bill.timeType;
+                if ('recurringDate' in this.bill) {
+                    return InputTimeType.RECURRING;
+                } else {
+                    return InputTimeType.ONE_TIME;
+                }
             default:
                 return '';
         }
