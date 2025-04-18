@@ -14,9 +14,7 @@ class OneTimeIncomeDictParser(DictParser):
     def get_one_time_income(self, dict_data: dict):
         keys_to_skip: list[str] = ['id', 'income_history']
         income: dict = {}
-        print(dict_data)
         for key in self.class_dict_parser.get_class_fields():
-            print(key)
             if key not in keys_to_skip:
                 income[key] = self.parse(dict_data, key)
         one_time_income: OneTimeIncome = OneTimeIncome(**income)
