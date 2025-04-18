@@ -9,35 +9,51 @@ export class Income {
     public dateReceived: Date;
     private _timeType: InputTimeType;
     public incomeInterval?: RecurringIncomeTimeInterval;
-    public hours?: number;
+    public weeklyHours?: number;
     public constructor(name: string = '',
                        amount: number = 0,
                        dateReceived: Date = new Date(),
                        timeType: InputTimeType = InputTimeType.ONE_TIME,
                        incomeInterval?: RecurringIncomeTimeInterval,
-                       hours?: number) {
+                       weeklyHours?: number) {
         this.name = name;
         this.amount = amount;
         this.dateReceived = dateReceived;
         this._timeType = timeType;
         this.incomeInterval = incomeInterval;
-        this.hours = hours;
+        this.weeklyHours = weeklyHours;
     }
     get timeType(): InputTimeType {
-        this.handleDefaultInterval();
+        // this.handleDefaultInterval();
         return this._timeType;
     }
 
     private handleDefaultInterval() {
-        if (this._timeType === InputTimeType.ONE_TIME) {
-            this.incomeInterval = undefined;
-        } else {
+        if (this._timeType === InputTimeType.RECURRING) {
             this.incomeInterval = RecurringIncomeTimeInterval.SALARY;
+        } else {
+            this.incomeInterval = undefined;
         }
     }
 
+    handleOneTimeInterval(timeType: InputTimeType) {
+        if (timeType === InputTimeType.ONE_TIME) {
+            this.incomeInterval = undefined;
+        }
+    }
+
+    shouldHandleDefault(): boolean {
+        return this.incomeInterval === undefined;
+    }
+
     set timeType(timeType: InputTimeType) {
-        this._timeType = timeType;
-        this.handleDefaultInterval();
+        this.handleOneTimeInterval(timeType);
+        if (this.shouldHandleDefault()) {
+            this._timeType = timeType;
+            this.handleDefaultInterval();
+        } else {
+            this._timeType = timeType;
+        }
+
     }
 }
