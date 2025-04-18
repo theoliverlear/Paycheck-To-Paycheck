@@ -15,8 +15,8 @@ import {TagType} from "../../../models/html/TagType";
     styleUrls: ['./input-time-type.component.css']
 })
 export class InputTimeTypeComponent implements OnInit {
-    @Input() protected timeType: InputTimeType;
-    @Input() protected isSelected: boolean;
+    @Input() timeType: InputTimeType;
+    @Input() isSelected: boolean;
     @HostBinding('class.selected') get selected(): boolean {
         return this.isSelected;
     }
