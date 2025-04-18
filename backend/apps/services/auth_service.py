@@ -1,10 +1,6 @@
 # auth_service.py
-import logging
 
-from asgiref.sync import sync_to_async
-from channels.db import database_sync_to_async
 from injector import inject
-from rest_framework import status
 from rest_framework.response import Response
 
 from backend.apps.comm.request.login_request import LoginRequest
@@ -14,15 +10,14 @@ from backend.apps.comm.response.operation_success_response import \
     OperationSuccessResponse
 from backend.apps.entity.user.user import User
 from backend.apps.models.http.auth_response import AuthResponse
-from backend.apps.models.http.auth_status import AuthStatus
 from backend.apps.models.http.communication_type import CommunicationType
 from backend.apps.models.http.operation_sucess_status import \
     OperationSuccessStatus
 from backend.apps.models.http.payload_status_response import \
     PayloadStatusResponse
-from backend.apps.services.session_service import SessionService
+from backend.apps.services.session.session_service import SessionService
 from backend.apps.services.user_service import UserService
-from backend.apps.services.websocket_session_service import \
+from backend.apps.services.session.websocket_session_service import \
     WebSocketSessionService
 
 
