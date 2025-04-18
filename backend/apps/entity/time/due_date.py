@@ -3,6 +3,7 @@ from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.orm_compatible import OrmCompatible
@@ -25,9 +26,9 @@ class DueDate(Identifiable, OrmCompatible['DueDate', DueDateOrmModel]):
         return self.due_date > date_to_check
 
     @override
-    def save(self) -> 'DueDate':
+    async def save(self) -> 'DueDate':
         orm_model: DueDateOrmModel = self.get_orm_model()
-        saved_due_date = DueDateOrmModel.objects.create(
+        saved_due_date = await database_sync_to_async(DueDateOrmModel.objects.create)(
             due_date=orm_model.due_date
         )
         return DueDate.from_orm_model(saved_due_date)
