@@ -38,8 +38,10 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     isHourlyIncome: boolean = false;
     webSocketSubscription: Subscription;
     recurringIncomeSubscription: Subscription;
+    wageIncomeSubscription: Subscription;
     constructor(private oneTimeIncomeWebSocket: OneTimeIncomeWebSocketService,
-                private recurringIncomeWebSocket: RecurringIncomeWebSocketService) {
+                private recurringIncomeWebSocket: RecurringIncomeWebSocketService,
+                private wageIncomeWebSocket: OneTimeIncomeWebSocketService) {
 
     }
 
@@ -50,6 +52,23 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     }
 
     initializeWebSocket(): void {
+        this.initializeOneTimeIncomeWebSocket();
+        this.initializeRecurringIncomeWebSocket();
+        this.initializeWageIncomeWebSocket();
+    }
+
+    private initializeRecurringIncomeWebSocket(): void {
+        this.recurringIncomeWebSocket.connect();
+        this.recurringIncomeSubscription = this.recurringIncomeWebSocket.getMessages().subscribe(
+            (income: Income): void => {
+                if (income) {
+                    console.log('WebSocket income:', income);
+                }
+            },
+        )
+    }
+
+    private initializeOneTimeIncomeWebSocket(): void {
         this.oneTimeIncomeWebSocket.connect();
         this.webSocketSubscription = this.oneTimeIncomeWebSocket.getMessages().subscribe(
             (income: Income): void => {
@@ -61,15 +80,22 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
                 console.error('WebSocket error:', error);
             }
         );
-        this.recurringIncomeWebSocket.connect();
-        this.recurringIncomeSubscription = this.recurringIncomeWebSocket.getMessages().subscribe(
+    }
+
+    private initializeWageIncomeWebSocket(): void {
+        this.wageIncomeWebSocket.connect();
+        this.wageIncomeSubscription = this.wageIncomeWebSocket.getMessages().subscribe(
             (income: Income): void => {
                 if (income) {
                     console.log('WebSocket income:', income);
                 }
             },
+            (error) => {
+                console.error('WebSocket error:', error);
+            }
         )
     }
+
 
     clearInputs(): void {
         this.income = new Income();
@@ -81,7 +107,12 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
         if (this.income.timeType === InputTimeType.ONE_TIME) {
             this.oneTimeIncomeWebSocket.sendMessage(this.income);
         } else {
-            this.recurringIncomeWebSocket.sendMessage(this.income);
+            if (this.income.incomeInterval === RecurringIncomeTimeInterval.HOURLY_WAGE) {
+                this.wageIncomeWebSocket.sendMessage(this.income);
+            } else {
+                this.recurringIncomeWebSocket.sendMessage(this.income);
+            }
+
         }
         // this.oneTimeIncomeWebSocket.sendMessage(this.income);
         this.shown = false;
