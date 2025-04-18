@@ -27,5 +27,7 @@ class YearInterval(Enum):
                 return YearInterval.BI_WEEKLY
             case 'Monthly':
                 return YearInterval.MONTHLY
+            case 'Hourly Wage':
+                return YearInterval.BI_WEEKLY
             case _:
                 return YearInterval.NO_INTERVAL
