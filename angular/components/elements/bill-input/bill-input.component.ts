@@ -19,6 +19,9 @@ import {WebSocketCapable} from "../../../models/WebSocketCapable";
 import {
     RecurringBillTimeInterval
 } from "../recurring-bill-dropdown/models/RecurringBillTimeInterval";
+import {
+    RecurringBillWebSocketService
+} from "../../../services/server/websocket/recurring-bill-websocket.service";
 
 @Component({
     selector: 'bill-input',
@@ -35,7 +38,7 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     webSocketSubscription: Subscription;
     recurringBillSubscription: Subscription;
     constructor(private billWebSocket: OneTimeBillWebsocketService,
-                private recurringBillWebSocket: OneTimeBillWebsocketService) {
+                private recurringBillWebSocket: RecurringBillWebSocketService) {
     }
 
     ngOnInit(): void {
