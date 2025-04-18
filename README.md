@@ -344,6 +344,6 @@ access carefully select these entities based on their unique nature.
 
 Below is a video about the progress made in the third milestone.
 
-[![Milestone Three Progress](./assets/youtube_video_icon.png)]()
+[![Milestone Three Progress](./assets/youtube_video_icon.png)](https://youtu.be/wLZAdLEIYDA)
 
-_Or go to [this link]()_ ()
+_Or go to [this link](https://youtu.be/wLZAdLEIYDA)_ (https://youtu.be/wLZAdLEIYDA)
