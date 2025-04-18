@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
+
 if TYPE_CHECKING:
     from backend.apps.entity.income.income_history import IncomeHistory
 from backend.apps.entity.income.models import RecurringIncomeOrmModel
@@ -47,20 +49,21 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
         self.yearly_income = self._amount * self._recurring_date.interval.value
 
     @override
-    def save(self) -> 'RecurringIncome':
+    async def save(self) -> 'RecurringIncome':
         if self.is_initialized():
             self.update()
             return self
         else:
-            saved_recurring_date: RecurringDate = self._recurring_date.save()
-            saved_income_history: IncomeHistory = self.income_history.save()
+            saved_recurring_date: RecurringDate = await self._recurring_date.save()
+            saved_income_history: IncomeHistory = await self.income_history.save()
             orm_model: RecurringIncomeOrmModel = self.get_orm_model()
-            saved_recurring_income: RecurringIncomeOrmModel = RecurringIncomeOrmModel.objects.create(
+            saved_recurring_income: RecurringIncomeOrmModel = await database_sync_to_async(RecurringIncomeOrmModel.objects.create)(
                 name=orm_model.name,
                 amount=orm_model.amount,
                 recurring_date=saved_recurring_date.get_orm_model(),
                 income_history=saved_income_history.get_orm_model()
             )
+            self.set_from_orm_model(saved_recurring_income)
             return RecurringIncome.from_orm_model(saved_recurring_income)
 
     @override
