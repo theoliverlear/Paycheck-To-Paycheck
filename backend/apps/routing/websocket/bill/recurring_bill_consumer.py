@@ -27,7 +27,7 @@ class RecurringBillConsumer(WebSocketConsumer[RecurringBill]):
     @override
     async def receive(self, text_data=None, bytes_data=None):
         if text_data:
-            payload = text_data
+            payload = json.loads(text_data)
             bill: RecurringBill = self.get_bill(payload)
             bill = await self.add_bill_to_session_user(bill)
             bill_json: dict = self.get_serialized_bill(bill)
