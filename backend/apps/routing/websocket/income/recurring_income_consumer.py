@@ -42,7 +42,7 @@ class RecurringIncomeConsumer(WebSocketConsumer[RecurringIncome]):
         from backend.apps.entity.user.user import User
         user: User = await self.websocket_session_service.get_user_from_session(self.scope)
         income.income_history = user.user_income_history
-        income = await sync_to_async(income.save)()
+        income = await income.save()
         user.user_income_history.add_recurring_income(income)
         await user.update()
         return income
