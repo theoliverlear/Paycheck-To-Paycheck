@@ -6,7 +6,7 @@ import {WebSocketService} from "./websocket.service";
     providedIn: 'root'
 })
 export class OneTimeIncomeWebSocketService extends WebSocketService<Income, any> {
-    private static readonly URL: string = 'ws://localhost:8001/ws/income';
+    private static readonly URL: string = 'ws://localhost:8001/ws/one-time-income';
     constructor() {
         super(OneTimeIncomeWebSocketService.URL);
     }
