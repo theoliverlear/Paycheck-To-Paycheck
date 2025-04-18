@@ -46,6 +46,9 @@ export type WageIncome = {
     weeklyHours: number;
 };
 
+export type Income = OneTimeIncome | RecurringIncome | WageIncome;
+export type Bill = OneTimeBill | RecurringBill;
+
 export type Paycheck = {
     dateRange: DateRange;
     leftOverIncome: number;
