@@ -13,6 +13,8 @@ from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.income.wage_income import WageIncome
 from backend.apps.entity.time.date_range import DateRange
 from backend.apps.entity.time.year_interval import YearInterval
+from backend.apps.models.date_utilities import get_next_week
+
 if TYPE_CHECKING:
     from backend.apps.entity.user.user import User
 
@@ -138,7 +140,15 @@ class Paycheck(Identifiable):
         for one_time_bill in self.one_time_bills:
             total_bills += one_time_bill.amount
         for recurring_bill in self.recurring_bills:
-            total_bills += recurring_bill.amount
+            if recurring_bill.recurring_date.interval == YearInterval.WEEKLY:
+                date_range: DateRange = DateRange(start_date=recurring_bill.recurring_date.day, end_date=self._date_range.end_date)
+                next_bill_week: date = get_next_week(date_range.start_date)
+                if date_range.in_range(next_bill_week):
+                    total_bills += recurring_bill.amount * 2
+                else:
+                    total_bills += recurring_bill.amount
+            else:
+                total_bills += recurring_bill.amount
         return total_bills
 
     @staticmethod
