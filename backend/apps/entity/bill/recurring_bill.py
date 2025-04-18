@@ -22,11 +22,11 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
     bill_history: BillHistory = attr(default=None)
 
     @override
-    def save(self) -> 'RecurringBill':
+    async def save(self) -> 'RecurringBill':
         if self.is_initialized():
             self.update()
             return self
-        saved_recurring_date: RecurringDate = self.recurring_date.save()
+        saved_recurring_date: RecurringDate = await self.recurring_date.save()
         saved_bill_history: BillHistory = self.bill_history.save()
         saved_bill_history_orm: BillHistoryOrmModel = saved_bill_history.get_orm_model()
         orm_model: RecurringBillOrmModel = self.get_orm_model()
