@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 if TYPE_CHECKING:
     from backend.apps.entity.bill.bill_history import BillHistory
@@ -24,26 +25,27 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
     @override
     async def save(self) -> 'RecurringBill':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         saved_recurring_date: RecurringDate = await self.recurring_date.save()
         saved_bill_history: BillHistory = self.bill_history.save()
         saved_bill_history_orm: BillHistoryOrmModel = saved_bill_history.get_orm_model()
         orm_model: RecurringBillOrmModel = self.get_orm_model()
-        saved_bill: RecurringBillOrmModel = RecurringBillOrmModel.objects.create(
+        saved_bill: RecurringBillOrmModel = await database_sync_to_async(RecurringBillOrmModel.objects.create)(
             name=orm_model.name,
             amount=orm_model.amount,
-            recurring_date=saved_recurring_date,
+            recurring_date=saved_recurring_date.get_orm_model(),
             bill_history=saved_bill_history_orm
         )
+        self.set_from_orm_model(saved_bill)
         return RecurringBill.from_orm_model(saved_bill)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model: RecurringBillOrmModel = RecurringBillOrmModel.objects.get(id=self.id)
-            self.recurring_date.update()
-            self.bill_history.update()
+            db_model: RecurringBillOrmModel = await database_sync_to_async(RecurringBillOrmModel.objects.get)(id=self.id)
+            await self.recurring_date.update()
+            await self.bill_history.update()
             orm_model: RecurringBillOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
             db_model.save()
@@ -52,6 +54,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
 
     @override
     def set_from_orm_model(self, orm_model: RecurringBillOrmModel) -> None:
+        from backend.apps.entity.bill.bill_history import BillHistory
         self.id = orm_model.id
         self.name = orm_model.name
         self.amount = orm_model.amount
