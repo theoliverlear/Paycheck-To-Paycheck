@@ -1,17 +1,20 @@
-// paycheck-income-fields.component.ts 
-import {Component, Input} from "@angular/core";
-import {Income} from "../../../models/income/Income";
+// paycheck-income-fields.component.ts
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {PaycheckFieldType} from "../paycheck/models/PaycheckFieldType";
 import {
-    PaycheckFieldType
-} from "../paycheck/models/PaycheckFieldType";
+    OneTimeIncome,
+    RecurringIncome,
+    WageIncome
+} from "../../../models/paycheck/types";
 
 @Component({
     selector: 'paycheck-income-fields',
     templateUrl: './paycheck-income-fields.component.html',
-    styleUrls: ['./paycheck-income-fields.component.css']
+    styleUrls: ['./paycheck-income-fields.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaycheckIncomeFieldsComponent {
-    @Input() protected income: Income;
+    @Input() protected income: OneTimeIncome | RecurringIncome | WageIncome;
     constructor() {
         
     }
