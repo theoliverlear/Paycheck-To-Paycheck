@@ -27,6 +27,8 @@ import {
 import {
     WageIncomeWebSocketService
 } from "./server/websocket/wage-income-websocket.service";
+import {HttpPaycheckService} from "./server/http/http-paycheck.service";
+import {HttpSignupService} from "./server/http/http-signup.service";
 
 export const services: any[] = [
     // Guards
@@ -35,6 +37,8 @@ export const services: any[] = [
     HttpClientService,
     LoggedInStatusService,
     LogoutService,
+    HttpPaycheckService,
+    HttpSignupService,
     // Server
     LoginService,
     SignupService,
