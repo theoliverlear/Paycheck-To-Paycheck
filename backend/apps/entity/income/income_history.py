@@ -37,24 +37,24 @@ class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, 
 
 
     @override
-    def save(self) -> 'IncomeHistory':
+    async def save(self) -> 'IncomeHistory':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         else:
-            saved_income_history: IncomeHistoryOrmModel = IncomeHistoryOrmModel.objects.create()
+            saved_income_history: IncomeHistoryOrmModel = await database_sync_to_async(IncomeHistoryOrmModel.objects.create)()
             self.set_from_orm_model(saved_income_history)
             return IncomeHistory.from_orm_model(saved_income_history)
 
-    def save_all(self) -> 'IncomeHistory':
+    async def save_all(self) -> 'IncomeHistory':
         if self.is_initialized():
             self.update_all()
             return self
         else:
-            saved_income_history = IncomeHistoryOrmModel.objects.create()
-            self.set_from_orm_model(saved_income_history)
+            saved_income_history = await database_sync_to_async(IncomeHistoryOrmModel.objects.create)()
             self.save_all_one_time_incomes()
             self.save_all_recurring_incomes()
+            self.set_from_orm_model(saved_income_history)
             return IncomeHistory.from_orm_model(saved_income_history)
 
     @override
