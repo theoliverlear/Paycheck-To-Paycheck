@@ -1,16 +1,22 @@
-// paycheck-total.component.ts 
-import {Component, HostBinding, Input} from "@angular/core";
+// paycheck-total.component.ts
+import {
+    ChangeDetectionStrategy,
+    Component,
+    HostBinding,
+    Input
+} from "@angular/core";
 import {PaycheckTotalType} from "./models/PaycheckTotalType";
 import {TagType} from "../../../models/html/TagType";
 
 @Component({
     selector: 'paycheck-total',
     templateUrl: './paycheck-total.component.html',
-    styleUrls: ['./paycheck-total.component.css']
+    styleUrls: ['./paycheck-total.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaycheckTotalComponent {
-    @Input() protected totalAmount: number;
-    @Input() protected totalType: PaycheckTotalType;
+    @Input() totalAmount: number;
+    @Input() totalType: PaycheckTotalType;
     @HostBinding('class.income') protected get isIncome(): boolean {
         return this.totalType === PaycheckTotalType.INCOME;
     }
@@ -31,7 +37,7 @@ export class PaycheckTotalComponent {
     }
 
     public getPaycheckTotalAmount(): string {
-        return `$${this.totalAmount}`;
+        return `$${this.totalAmount.toFixed(2)}`;
     }
 
     protected readonly TagType = TagType;
