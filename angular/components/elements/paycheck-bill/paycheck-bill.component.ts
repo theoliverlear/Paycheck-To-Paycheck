@@ -2,6 +2,7 @@
 import {Component, Input} from "@angular/core";
 import {Bill} from "../../../models/bill/Bill";
 import {TagType} from "../../../models/html/TagType";
+import {OneTimeBill, RecurringBill} from "../../../models/paycheck/types";
 
 @Component({
     selector: 'paycheck-bill',
@@ -9,7 +10,7 @@ import {TagType} from "../../../models/html/TagType";
     styleUrls: ['./paycheck-bill.component.css']
 })
 export class PaycheckBillComponent {
-    @Input() protected bill: Bill;
+    @Input() protected bill: OneTimeBill | RecurringBill;
     constructor() {
         
     }
