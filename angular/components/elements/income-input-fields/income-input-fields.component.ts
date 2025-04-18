@@ -16,7 +16,7 @@ import {
 export class IncomeInputFieldsComponent {
     @Output() incomeChange: EventEmitter<Income> = new EventEmitter<Income>();
     income: Income = new Income();
-    @Input() protected isHourlyIncome: boolean = false;
+    @Input() isHourlyIncome: boolean = false;
     constructor() {
         
     }
@@ -29,7 +29,7 @@ export class IncomeInputFieldsComponent {
                 this.income.amount = Number(incomeInputContent.inputValue);
                 break;
             case IncomeInputFieldType.HOURS:
-                this.income.hours = Number(incomeInputContent.inputValue);
+                this.income.weeklyHours = Number(incomeInputContent.inputValue);
                 break;
             case IncomeInputFieldType.DATE:
                 this.income.dateReceived = new Date(incomeInputContent.inputValue as string);
