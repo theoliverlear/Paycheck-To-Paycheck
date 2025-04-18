@@ -5,9 +5,9 @@ import {Bill} from "../../../models/bill/Bill";
 @Injectable({
     providedIn: 'root'
 })
-export class BillWebSocketService extends WebSocketService<Bill, any> {
-    private static readonly URL: string = 'ws://localhost:8001/ws/bill';
+export class OneTimeBillWebsocketService extends WebSocketService<Bill, any> {
+    private static readonly URL: string = 'ws://localhost:8001/ws/one-time-bill';
     constructor() {
-        super(BillWebSocketService.URL);
+        super(OneTimeBillWebsocketService.URL);
     }
 }
