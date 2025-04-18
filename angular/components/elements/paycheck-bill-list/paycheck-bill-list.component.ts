@@ -1,6 +1,6 @@
 // paycheck-bill-list.component.ts 
 import {Component, Input} from "@angular/core";
-import {Bill} from "../../../models/bill/Bill";
+import {OneTimeBill, RecurringBill} from "../../../models/paycheck/types";
 
 @Component({
     selector: 'paycheck-bill-list',
@@ -8,7 +8,7 @@ import {Bill} from "../../../models/bill/Bill";
     styleUrls: ['./paycheck-bill-list.component.css']
 })
 export class PaycheckBillListComponent {
-    @Input() protected bills: Bill[];
+    @Input() bills: (OneTimeBill | RecurringBill)[];
     constructor() {
         
     }
