@@ -19,7 +19,8 @@ class OneTimeIncomeOrmModel(models.Model):
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
                                        on_delete=models.CASCADE,
                                        default=None,
-                                       null=False)
+                                       null=False,
+                                       related_name='one_time_incomes')
     class Meta:
         db_table = 'one_time_incomes'
 
@@ -31,7 +32,8 @@ class RecurringIncomeOrmModel(models.Model):
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
                                        on_delete=models.CASCADE,
                                        default=None,
-                                       null=False)
+                                       null=False,
+                                       related_name='recurring_incomes')
     class Meta:
         db_table = 'recurring_incomes'
 
@@ -44,7 +46,8 @@ class WageIncomeOrmModel(models.Model):
     income_history = models.ForeignKey('IncomeHistoryOrmModel',
                                         on_delete=models.CASCADE,
                                         default=None,
-                                        null=False)
+                                        null=False,
+                                       related_name='wage_incomes')
     class Meta:
         db_table = 'wage_incomes'
 
