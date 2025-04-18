@@ -34,10 +34,8 @@ class RecurringIncomeDictParser(DictParser):
         dict_value: str = dict_data[key]
         dict_data['interval'] = dict_value
 
-
     def get_recurring_income(self, dict_data: dict) -> RecurringIncome:
-        dict_data =underscoreize(dict_data)
-        print(dict_data)
+        dict_data = underscoreize(dict_data)
         keys_to_skip: list[str] = ['id', 'income_history', 'recurring_date', 'yearly_income']
         income: dict = {}
         date_received: date = iso_to_django_date(dict_data['date_received'])
