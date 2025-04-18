@@ -13,8 +13,8 @@ import {
 import {Bill} from "../../../models/bill/Bill";
 import {Subscription} from "rxjs";
 import {
-    BillWebSocketService
-} from "../../../services/server/websocket/bill-websocket.service";
+    OneTimeBillWebsocketService
+} from "../../../services/server/websocket/one-time-bill-websocket.service";
 import {WebSocketCapable} from "../../../models/WebSocketCapable";
 import {
     RecurringBillTimeInterval
@@ -33,8 +33,9 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     protected shown: boolean = true;
     bill: Bill = new Bill();
     webSocketSubscription: Subscription;
-    constructor(private billWebSocketService: BillWebSocketService) {
-        console.log(RecurringBillTimeInterval.values())
+    recurringBillSubscription: Subscription;
+    constructor(private billWebSocket: OneTimeBillWebsocketService,
+                private recurringBillWebSocket: OneTimeBillWebsocketService) {
     }
 
     ngOnInit(): void {
@@ -44,8 +45,27 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     }
 
     initializeWebSocket(): void {
-        this.billWebSocketService.connect();
-        this.webSocketSubscription = this.billWebSocketService.getMessages().subscribe(
+        this.initializeOneTimeBillWebSocket();
+        this.initializeRecurringBillWebSocket();
+    }
+
+    private initializeRecurringBillWebSocket(): void {
+        this.recurringBillWebSocket.connect();
+        this.recurringBillSubscription = this.recurringBillWebSocket.getMessages().subscribe(
+            (bill: Bill): void => {
+                if (bill) {
+                    console.log('WebSocket bill:', bill);
+                }
+            },
+            (error) => {
+                console.error('WebSocket error:', error);
+            }
+        )
+    }
+
+    private initializeOneTimeBillWebSocket(): void {
+        this.billWebSocket.connect();
+        this.webSocketSubscription = this.billWebSocket.getMessages().subscribe(
             (bill: Bill): void => {
                 if (bill) {
                     console.log('WebSocket bill:', bill);
@@ -84,7 +104,11 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     }
 
     public confirm(): void {
-        this.billWebSocketService.sendMessage(this.bill);
+        if (this.isRecurringBill()) {
+            this.recurringBillWebSocket.sendMessage(this.bill);
+        } else {
+            this.billWebSocket.sendMessage(this.bill);
+        }
         this.shown = false;
     }
 
