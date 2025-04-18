@@ -8,7 +8,7 @@ from backend.apps.comm.serialize.models.http.payload_status_response_serializer 
     PayloadStatusResponseSerializer
 from backend.apps.models.http.operation_sucess_status import \
     OperationSuccessStatus
-from backend.apps.services.session_service import SessionService
+from backend.apps.services.session.session_service import SessionService
 from backend.apps.services.wallet_service import WalletService
 
 
