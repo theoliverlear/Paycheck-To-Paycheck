@@ -1,13 +1,11 @@
 <!-- paycheck.component.html -->
 <ng-container>
-    <paycheck-pay-period [startDate]="paycheck.startDate"
-                         [endDate]="paycheck.endDate"/>
+    <paycheck-pay-period [dateRange]="paycheck.dateRange"/>
     <hr/>
-    <paycheck-income-list [incomes]="paycheck.incomes"/>
+    <paycheck-income-list [incomes]="incomes"/>
     <paycheck-total [totalType]="PaycheckTotalType.INCOME"
                     [totalAmount]="paycheck.totalIncome"/>
-
-    <paycheck-bill-list [bills]="paycheck.bills"/>
+    <paycheck-bill-list [bills]="bills"/>
     <paycheck-total [totalType]="PaycheckTotalType.BILL"
                     [totalAmount]="paycheck.totalBills"/>
     <hr/>
