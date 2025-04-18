@@ -2,6 +2,7 @@
 import {Component, Input} from "@angular/core";
 import {Bill} from "../../../models/bill/Bill";
 import {PaycheckFieldType} from "../paycheck/models/PaycheckFieldType";
+import {OneTimeBill, RecurringBill} from "../../../models/paycheck/types";
 
 @Component({
     selector: 'paycheck-bill-fields',
@@ -9,7 +10,7 @@ import {PaycheckFieldType} from "../paycheck/models/PaycheckFieldType";
     styleUrls: ['./paycheck-bill-fields.component.css']
 })
 export class PaycheckBillFieldsComponent {
-    @Input() protected bill: Bill;
+    @Input() protected bill: OneTimeBill | RecurringBill;
     constructor() {
         
     }
