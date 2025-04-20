@@ -13,7 +13,10 @@ from backend.apps.entity.income.recurring_income import RecurringIncome
 from backend.apps.entity.income.wage_income import WageIncome
 from backend.apps.entity.time.date_range import DateRange
 from backend.apps.entity.time.year_interval import YearInterval
-from backend.apps.models.date_utilities import get_next_week
+from backend.apps.models.date_utilities import get_next_week, \
+    get_num_weeks_between_dates, get_weeks_after_date, \
+    get_num_bi_weeks_between_dates, get_bi_weeks_after_date, \
+    get_num_months_between_dates, get_months_after_date
 
 if TYPE_CHECKING:
     from backend.apps.entity.user.user import User
@@ -177,16 +180,56 @@ class Paycheck(Identifiable):
 
         updated_recurring_incomes: list[RecurringIncome] = []
         for recurring_income in self.recurring_incomes:
-            contains_income = recurring_income in updated_recurring_incomes
-            if self._date_range.in_range(recurring_income.recurring_date.day) and not contains_income:
-                updated_recurring_incomes.append(recurring_income)
+            match recurring_income.recurring_date.interval:
+                case YearInterval.WEEKLY:
+                    num_weeks_from_start: int = get_num_weeks_between_dates(recurring_income.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_weeks_after_date(recurring_income.recurring_date.day, num_weeks_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        recurring_income.recurring_date.day = adjusted_date
+                        updated_recurring_incomes.append(recurring_income)
+                case YearInterval.BI_WEEKLY:
+                    num_bi_weeks_from_start: int = get_num_bi_weeks_between_dates(recurring_income.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_bi_weeks_after_date(recurring_income.recurring_date.day, num_bi_weeks_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        recurring_income.recurring_date.day = adjusted_date
+                        updated_recurring_incomes.append(recurring_income)
+                case YearInterval.MONTHLY:
+                    num_months_from_start: int = get_num_months_between_dates(recurring_income.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_months_after_date(recurring_income.recurring_date.day, num_months_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        recurring_income.recurring_date.day = adjusted_date
+                        updated_recurring_incomes.append(recurring_income)
+                case YearInterval.YEARLY:
+                    num_weeks_from_start: int = get_num_weeks_between_dates(recurring_income.recurring_date.day, self._date_range.end_date)
+                    if num_weeks_from_start % 2 == 0:
+                        adjusted_date: date = get_weeks_after_date(recurring_income.recurring_date.day, num_weeks_from_start)
+                        if self._date_range.in_range(adjusted_date):
+                            recurring_income.recurring_date.day = adjusted_date
+                            updated_recurring_incomes.append(recurring_income)
         self.recurring_incomes = updated_recurring_incomes
 
         updated_wage_incomes: list[WageIncome] = []
         for wage_income in self.wage_incomes:
-            contains_income = wage_income in updated_wage_incomes
-            if self._date_range.in_range(wage_income.recurring_date.day) and not contains_income:
-                updated_wage_incomes.append(wage_income)
+            match wage_income.recurring_date.interval:
+                case YearInterval.WEEKLY:
+                    num_weeks_from_start: int = get_num_weeks_between_dates(wage_income.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_weeks_after_date(wage_income.recurring_date.day, num_weeks_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        wage_income.recurring_date.day = adjusted_date
+                        updated_wage_incomes.append(wage_income)
+                case YearInterval.BI_WEEKLY:
+                    num_bi_weeks_from_start: int = get_num_bi_weeks_between_dates(wage_income.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_bi_weeks_after_date(wage_income.recurring_date.day, num_bi_weeks_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        wage_income.recurring_date.day = adjusted_date
+                        updated_wage_incomes.append(wage_income)
+                case YearInterval.MONTHLY:
+                    num_months_from_start: int = get_num_months_between_dates(wage_income.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_months_after_date(wage_income.recurring_date.day, num_months_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        wage_income.recurring_date.day = adjusted_date
+                        updated_wage_incomes.append(wage_income)
+
         self.wage_incomes = updated_wage_incomes
         self.update_total_income()
 
@@ -201,9 +244,25 @@ class Paycheck(Identifiable):
 
         updated_recurring_bills: list[RecurringBill] = []
         for recurring_bill in self.recurring_bills:
-            contains_bill = recurring_bill in updated_recurring_bills
-            if self._date_range.in_range(recurring_bill.recurring_date.day) and not contains_bill:
-                updated_recurring_bills.append(recurring_bill)
+            match recurring_bill.recurring_date.interval:
+                case YearInterval.WEEKLY:
+                    num_weeks_from_start: int = get_num_weeks_between_dates(recurring_bill.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_weeks_after_date(recurring_bill.recurring_date.day, num_weeks_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        recurring_bill.recurring_date.day = adjusted_date
+                        updated_recurring_bills.append(recurring_bill)
+                case YearInterval.BI_WEEKLY:
+                    num_bi_weeks_from_start: int = get_num_bi_weeks_between_dates(recurring_bill.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_bi_weeks_after_date(recurring_bill.recurring_date.day, num_bi_weeks_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        recurring_bill.recurring_date.day = adjusted_date
+                        updated_recurring_bills.append(recurring_bill)
+                case YearInterval.MONTHLY:
+                    num_months_from_start: int = get_num_months_between_dates(recurring_bill.recurring_date.day, self._date_range.end_date)
+                    adjusted_date: date = get_months_after_date(recurring_bill.recurring_date.day, num_months_from_start)
+                    if self._date_range.in_range(adjusted_date):
+                        recurring_bill.recurring_date.day = adjusted_date
+                        updated_recurring_bills.append(recurring_bill)
         self.recurring_bills = updated_recurring_bills
         self.update_total_bills()
 
