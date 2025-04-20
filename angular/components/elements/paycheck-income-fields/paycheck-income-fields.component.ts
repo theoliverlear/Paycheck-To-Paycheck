@@ -14,7 +14,7 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaycheckIncomeFieldsComponent {
-    @Input() protected income: OneTimeIncome | RecurringIncome | WageIncome;
+    @Input() income: OneTimeIncome | RecurringIncome | WageIncome;
     constructor() {
         
     }
