@@ -18,7 +18,8 @@ import {
 })
 export class PaycheckComponent implements OnInit {
     // TODO: Create an asset that holds a default paycheck.
-    @Input() protected paycheck: Paycheck = {
+    @Input() paycheckId: number = 0;
+    @Input() paycheck: Paycheck = {
         dateRange: {
             endDate: new Date(),
             startDate: new Date()
@@ -39,7 +40,7 @@ export class PaycheckComponent implements OnInit {
         
     }
     ngOnInit(): void {
-        this.httpPaycheckService.getPaycheck(0).subscribe(paycheck => {
+        this.httpPaycheckService.getPaycheck(this.paycheckId).subscribe(paycheck => {
             if (paycheck) {
                 this.paycheck = paycheck;
                 this.incomes = [...paycheck.oneTimeIncomes, ...paycheck.recurringIncomes, ...paycheck.wageIncomes];
