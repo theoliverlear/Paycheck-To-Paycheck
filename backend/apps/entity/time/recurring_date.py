@@ -18,7 +18,7 @@ from backend.apps.models.date_utilities import get_tomorrow, get_next_week, \
 
 @define
 class RecurringDate(OrmCompatible['RecurringDate', RecurringDateOrmModel], ABC, Identifiable):
-    day: date = attr(default=date.today())
+    day: date = attr(default=date(day=18, month=4, year=2025))
     interval: YearInterval = attr(default=YearInterval.BI_WEEKLY)
 
     def get_next_date(self) -> date:
