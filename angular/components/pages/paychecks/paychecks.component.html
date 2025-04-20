@@ -1,4 +1,4 @@
 <!-- paychecks.component.html -->
 <ng-container>
-    <paycheck/>
+    <paycheck *ngFor="let paycheckId of paycheckIds" [paycheckId]="paycheckId"/>
 </ng-container>
