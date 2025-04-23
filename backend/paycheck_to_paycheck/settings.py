@@ -119,7 +119,7 @@ DATABASES = {
         'NAME': getenv('PTP_DB_NAME'),
         'USER': getenv('PTP_DB_USER'),
         'PASSWORD': getenv('PTP_DB_PW'),
-        'HOST': 'localhost',
+        'HOST': getenv('PTP_DB_HOST'),
         'PORT': '5432',
 
     }
