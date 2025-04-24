@@ -27,7 +27,7 @@ little less stressful by helping you keep track of your finances.
 
 ## Get Started
 
-1. 🌐 Head over to the [Paycheck to Paycheck]() website. (Not yet launched)
+1. 🌐 Head over to the [Paycheck to Paycheck](https://ss-paycheck-to-paycheck.com/) website.
 2. 🤝 Create an account.
 3. 💵 Start tracking your finances!
 
