@@ -11,9 +11,14 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "ss-paycheck-to-paycheck.com",
+    "www.ss-paycheck-to-paycheck.com",
+]
 
 # Application definition
 
@@ -95,6 +100,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://localhost:8001',
     'http://127.0.0.1:8001',
+    "https://ss-paycheck-to-paycheck.com",
+    "https://www.ss-paycheck-to-paycheck.com",
 ]
 
 # SESSION_COOKIE_DOMAIN = "localhost"
@@ -106,6 +113,8 @@ SESSION_COOKIE_NAME = "devsessionid"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://localhost:8001",
+    "https://ss-paycheck-to-paycheck.com",
+    "https://www.ss-paycheck-to-paycheck.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_ALL_ORIGINS = True
