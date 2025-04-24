@@ -5,12 +5,13 @@ import {
 } from "../../../models/auth/types";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoggedInStatusService extends HttpClientService<any, HttpAuthResponse> {
-    static readonly IS_LOGGED_IN_URL: string = 'http://localhost:8000/api/authorize/isloggedin';
+    static readonly IS_LOGGED_IN_URL: string = `${environment.apiUrl}/authorize/isloggedin`;
 
     constructor(httpClient: HttpClient) {
         super(LoggedInStatusService.IS_LOGGED_IN_URL, httpClient);
