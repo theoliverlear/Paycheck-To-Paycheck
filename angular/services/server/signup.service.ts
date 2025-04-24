@@ -3,12 +3,13 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
 import {HashPasswordService} from "../hash-password.service";
 import {ErrorHandlerService} from "../error-handler.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SignupService {
-    private signupUrl: string = 'http://localhost:8080/api/authorize/signup';
+    private signupUrl: string = `${environment.apiUrl}/authorize/signup`;
     constructor(private http: HttpClient,
                 private hashPasswordService: HashPasswordService,
                 private errorHandlerService: ErrorHandlerService) {
