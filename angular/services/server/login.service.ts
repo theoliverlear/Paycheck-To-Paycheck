@@ -4,12 +4,13 @@ import {ErrorHandlerService} from "../error-handler.service";
 import {HashPasswordService} from "../hash-password.service";
 import {httpOptions} from "./httpProperties";
 import {catchError, map, Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginService {
-    static readonly IS_LOGGED_IN_URL: string = 'http://localhost:8000/api/authorize/isloggedin';
+    static readonly IS_LOGGED_IN_URL: string = `${environment.apiUrl}/authorize/isloggedin`;
     constructor(private http: HttpClient,
                 private errorHandlerService: ErrorHandlerService,
                 private hashPasswordService: HashPasswordService) {
