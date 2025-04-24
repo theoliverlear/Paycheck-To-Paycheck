@@ -5,12 +5,13 @@ import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {httpOptionsWithCredentials} from "./httpProperties";
 import {convertToDate} from '../../../models/time/dateTimeHandler';
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class HttpPaycheckService extends HttpClientService<any, Paycheck> {
-    private static readonly URL: string = 'http://localhost:8000/api/paycheck/get/'
+    private static readonly URL: string = `${environment.apiUrl}/paycheck/get/`
     constructor(http: HttpClient) {
         super(HttpPaycheckService.URL, http);
     }
