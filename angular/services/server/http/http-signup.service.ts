@@ -6,12 +6,13 @@ import {
 } from "../../../models/auth/credentials/SignupCredentials";
 import {HttpAuthResponse} from "../../../models/auth/types";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class HttpSignupService extends HttpClientService<SignupCredentials, HttpAuthResponse> {
-    static readonly SIGNUP_URL: string = 'http://localhost:8000/api/authorize/signup';
+    static readonly SIGNUP_URL: string = `${environment.apiUrl}/authorize/signup`;
     constructor(httpClient: HttpClient) {
         super(HttpSignupService.SIGNUP_URL, httpClient);
     }
