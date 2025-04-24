@@ -7,12 +7,13 @@ import {
     LoginCredentials
 } from "../../../models/auth/credentials/LoginCredentials";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class HttpLoginService extends HttpClientService<LoginCredentials, HttpAuthResponse> {
-    static readonly LOGIN_URL: string = 'http://localhost:8000/api/authorize/login';
+    static readonly LOGIN_URL: string = `${environment.apiUrl}/authorize/login`;
     constructor(httpClient: HttpClient) {
         super(HttpLoginService.LOGIN_URL, httpClient);
     }
