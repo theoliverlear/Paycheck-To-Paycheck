@@ -6,12 +6,13 @@ import {
 import {
     WebSocketAuthResponse
 } from "../../../models/auth/types";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginWebSocketService extends WebSocketService<LoginCredentials, WebSocketAuthResponse> {
-    private static readonly URL: string = 'ws://localhost:8001/ws/login';
+    private static readonly URL: string = `${environment.webSocketUrl}/login`;
     constructor() {
         super(LoginWebSocketService.URL);
     }
