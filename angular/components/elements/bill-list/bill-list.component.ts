@@ -10,26 +10,32 @@ import {
     OneTimeBill,
     RecurringBill
 } from "../../../models/paycheck/types";
+import {
+    HttpGetAllBillsService
+} from "../../../services/server/http/http-get-all-bills.service";
 
 @Component({
     selector: 'bill-list',
     templateUrl: './bill-list.component.html',
     styleUrls: ['./bill-list.component.css']
 })
-export class BillListComponent {
+export class BillListComponent implements OnInit {
     @ViewChild(BillInputComponent) billInput: BillInputComponent;
-    @Input() bills: (OneTimeBill | RecurringBill)[] = [
-        // {
-        //     amount: 150,
-        //     dueDate: {
-        //         name: "Joe's Pay Date",
-        //         dueDate: new Date(),
-        //     },
-        //     name: "Joe's Birthday Gift",
-        // }
-    ];
-    constructor() {
+    @Input() bills: (OneTimeBill | RecurringBill)[] = [];
+    constructor(private getAllBillsService: HttpGetAllBillsService) {
         
+    }
+
+    public updateBills(): void {
+        this.getAllBillsService.getAllBills().subscribe(bills => {
+            if (bills) {
+                this.bills = [...bills.recurringBills, ...bills.oneTimeBills];
+            }
+        });
+    }
+
+    ngOnInit(): void {
+        this.updateBills();
     }
 
     showBillInput(): void {
