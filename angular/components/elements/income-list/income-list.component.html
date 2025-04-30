@@ -11,5 +11,5 @@
     <div class="incomes-list">
         <income *ngFor="let income of incomes" [income]="income"/>
     </div>
-    <income-input/>
+    <income-input (incomeAdded)="this.updateIncomes()"/>
 </ng-container>
