@@ -6,6 +6,7 @@ import {
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {httpOptionsWithCredentials} from "./httpProperties";
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,6 @@ export class LoggedInStatusService extends HttpClientService<any, HttpAuthRespon
         super(LoggedInStatusService.IS_LOGGED_IN_URL, httpClient);
     }
     public isLoggedIn(): Observable<HttpAuthResponse> {
-        return this.get();
+        return this.get(httpOptionsWithCredentials);
     }
 }
