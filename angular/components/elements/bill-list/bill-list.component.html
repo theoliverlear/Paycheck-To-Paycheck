@@ -11,5 +11,5 @@
     <div class="bills-list">
         <bill *ngFor="let bill of bills" [bill]="bill"/>
     </div>
-    <bill-input/>
+    <bill-input (billAdded)="this.updateBills()"/>
 </ng-container>
