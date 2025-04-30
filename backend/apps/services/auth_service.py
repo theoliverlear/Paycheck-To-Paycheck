@@ -1,5 +1,5 @@
 # auth_service.py
-
+from asgiref.sync import sync_to_async
 from injector import inject
 from rest_framework.response import Response
 
@@ -123,7 +123,7 @@ class AuthService:
         password_matches: bool = db_user.password.compare_unencoded_password(login_request.password)
 
         if password_matches:
-            self.session_service.save_user_to_session(db_user, http_request)
+            await sync_to_async(self.session_service.save_user_to_session)(db_user, http_request)
             return AuthResponse.AUTHORIZED.value
         else:
             return AuthResponse.UNAUTHORIZED.value
@@ -159,7 +159,8 @@ class AuthService:
 
     async def http_logout(self, http_request) -> PayloadStatusResponse[OperationSuccessResponse]:
         if self.session_service.user_in_session(http_request):
-            self.session_service.remove_user_from_session(http_request)
+            await sync_to_async(self.session_service.remove_user_from_session)(http_request)
+            http_request.session.save()
             return OperationSuccessStatus.OPERATION_SUCCESS.value
         else:
             return OperationSuccessStatus.OPERATION_DENIED.value
