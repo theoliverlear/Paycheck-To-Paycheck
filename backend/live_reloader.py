@@ -9,5 +9,5 @@ application = get_wsgi_application()
 
 server = Server(application)
 server.watch(
-    'path_to_watch/**/*.py')  # Add paths you want to watch, e.g., templates, static files
+    'path_to_watch/**/*.py')
 server.serve(port=8001)
