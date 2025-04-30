@@ -1,18 +1,87 @@
 // nav-bar.component.ts 
-import { Component } from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {
     navBarBudgetElementLink,
     navBarMyAccountElementLink, navBarPaychecksElementLink
 } from "../../../assets/elementLinkAssets";
+import {
+    LoggedInStatusService
+} from "../../../services/server/http/logged-in-status.service";
+import {NavItemComponent} from "../nav-item/nav-item.component";
+import {
+    HttpLogoutService
+} from "../../../services/server/http/http-logout.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'nav-bar',
     templateUrl: './nav-bar.component.html',
     styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent {
-    constructor() {
-        
+export class NavBarComponent implements OnInit {
+    isLoggedIn: boolean = false;
+    @ViewChild('myAccountButton') myAccountButton: NavItemComponent;
+    constructor(private loggedInStatusService: LoggedInStatusService,
+                private logoutService: HttpLogoutService,
+                private router: Router) {
+
+    }
+
+    ngOnInit() {
+        this.createLoggedInListener();
+        this.loggedInStatusService.isLoggedIn();
+    }
+
+    public setAccountText(text: string): void {
+        this.myAccountButton.setText(text);
+    }
+
+    public setAccountButtonFunction(isLoggedIn: boolean) {
+        if (isLoggedIn) {
+            this.myAccountButton.onClick = () => {
+                this.logoutService.logout().subscribe(
+                    (response) => {
+                        console.log('Logout successful:', response);
+                        this.clearSessionCookies();
+                        this.isLoggedIn = false;
+                        this.router.navigate(['/']);
+                    },
+                    (error) => {
+                        console.error('Error during logout:', error);
+                    }
+                );
+            };
+        }
+    }
+
+    private clearSessionCookies(): void {
+        const cookieProperties: string = "=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; SameSite=Lax";
+        const cookiesToClear: string[] = [
+            'sessionid',
+            'devsessionid',
+        ];
+        cookiesToClear.forEach((cookieName: string): void => {
+            document.cookie = `${cookieName}${cookieProperties}`;
+        });
+    }
+
+
+    createLoggedInListener(): void {
+        this.loggedInStatusService.isLoggedIn().subscribe(
+            (response) => {
+                console.log('Logged-in status:', response.payload.isAuthorized);
+                this.isLoggedIn = response.payload.isAuthorized;
+                if (this.isLoggedIn) {
+                    this.setAccountText('Logout');
+                } else {
+                    this.setAccountText('My Account');
+                }
+                this.setAccountButtonFunction(this.isLoggedIn);
+            },
+            (error) => {
+                console.error('Error fetching logged-in status:', error);
+            }
+        );
     }
 
     protected readonly navBarMyAccountElementLink = navBarMyAccountElementLink;
