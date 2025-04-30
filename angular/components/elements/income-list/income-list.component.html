@@ -1,0 +1,15 @@
+<!-- income-list.component.html -->
+<ng-container>
+    <div class="income-list-header">
+        <ss-title [tagType]="TagType.H3" [text]="'Your Income'"/>
+        <ss-button
+                (buttonClicked)="this.showIncomeInput()"
+                [size]="ElementSize.MEDIUM"
+                [text]="ButtonText.ADD_INCOME"/>
+    </div>
+    <hr/>
+    <div class="incomes-list">
+        <income *ngFor="let income of incomes" [income]="income"/>
+    </div>
+    <income-input/>
+</ng-container>
