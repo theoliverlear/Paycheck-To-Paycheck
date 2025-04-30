@@ -8,7 +8,7 @@ income {
     width: 95%;
     @include flex(space-between, center, row);
     padding: $half-percent;
-    background-color: $mint;
+    background-color: $alabaster-stone;
     border-radius: $half-percent;
     margin: $half-percent 0;
     ss-title {
@@ -17,7 +17,7 @@ income {
     > * {
         margin: 0 $half-percent;
         padding: 0 $half-percent;
-        border-right: $pristine-white solid $very-thin-border;
+        border-right: $pristine-white solid $thin-border;
         flex: 1;
         &:last-child {
             border-right: none;
