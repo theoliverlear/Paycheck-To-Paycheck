@@ -49,6 +49,17 @@ export type WageIncome = {
 export type Income = OneTimeIncome | RecurringIncome | WageIncome;
 export type Bill = OneTimeBill | RecurringBill;
 
+export type Bills = {
+    oneTimeBills: OneTimeBill[];
+    recurringBills: RecurringBill[];
+};
+
+export type Incomes = {
+    oneTimeIncomes: OneTimeIncome[];
+    recurringIncomes: RecurringIncome[];
+    wageIncomes: WageIncome[];
+};
+
 export type Paycheck = {
     dateRange: DateRange;
     leftOverIncome: number;
