@@ -1,0 +1,32 @@
+// income-list.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+income-list {
+    @include flex(flex-start, center, column);
+    margin: $one-percent 0;
+    width: $seventy-percent;
+    max-width: 85%;
+    min-height: 30vh;
+    background-color: $thin-neutral-black;
+    @extend %soft-border-radius;
+    .income-list-header {
+        @include flex(space-around, center, row);
+        width: 100%;
+        margin: $third-percent;
+        ss-title {
+            color: $pristine-white;
+        }
+        ss-button {
+            ss-title {
+                color: $neutral-black;
+            }
+        }
+    }
+    .incomes-list {
+        width: 100%;
+        @include flex(space-around, center, column);
+    }
+}
