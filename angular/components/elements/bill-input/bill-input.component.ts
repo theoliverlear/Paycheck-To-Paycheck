@@ -1,5 +1,5 @@
 // bill-input.component.ts
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {InputTimeType} from "../../../models/input/InputTimeType";
 import {
     closeIconImageAsset,
@@ -33,6 +33,7 @@ import {
 })
 export class BillInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
+    @Output() billAdded: EventEmitter<void> = new EventEmitter<void>();
     protected shown: boolean = false;
     bill: Bill = new Bill();
     webSocketSubscription: Subscription;
@@ -113,6 +114,7 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
             this.billWebSocket.sendMessage(this.bill);
         }
         this.shown = false;
+        this.billAdded.emit();
     }
 
     public open(): void {
