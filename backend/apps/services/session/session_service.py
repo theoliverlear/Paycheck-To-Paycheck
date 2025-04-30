@@ -25,9 +25,13 @@ class SessionService:
     def remove_user_from_session(self, http_request):
         if self.user_in_session(http_request):
             del http_request.session['user_id']
+            http_request.session.save()
+        else:
+            logging.warning("User ID not found in session. Cannot remove user from session.")
 
     def save_user_to_session(self, user: User, http_request) -> None:
         http_request.session['user_id'] = user.id
+        http_request.session.save()
 
     def user_in_session(self, http_request) -> bool:
         user_id_key_exists: bool = 'user_id' in http_request.session
