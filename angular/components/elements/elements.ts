@@ -92,21 +92,29 @@ import {
 import {
     PaycheckBillFieldsComponent
 } from "./paycheck-bill-fields/paycheck-bill-fields.component";
+import {BillComponent} from "./bill/bill.component";
+import {IncomeComponent} from "./income/income.component";
+import {BillListComponent} from "./bill-list/bill-list.component";
+import {IncomeListComponent} from "./income-list/income-list.component";
 
 export const elements = [
     AuthConsoleComponent,
     AuthPopupComponent,
     AuthTypeOptionComponent,
     AuthTypeSliderComponent,
+    BillComponent,
     BillInputComponent,
     BillInputFieldComponent,
     BillInputFieldsComponent,
+    BillListComponent,
     ConfirmButtonComponent,
     DropdownComponent,
     HomeAnchorComponent,
+    IncomeComponent,
     IncomeInputComponent,
     IncomeInputFieldComponent,
     IncomeInputFieldsComponent,
+    IncomeListComponent,
     InputPopupComponent,
     InputTimeTypeComponent,
     InputTimeTypeSelectorComponent,
