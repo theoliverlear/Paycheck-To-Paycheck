@@ -1,5 +1,5 @@
 // income-input.component.ts
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {fadeInOutAnimation} from "../../animations/animations";
 import {InputTimeType} from "../../../models/input/InputTimeType";
 import {Income} from "../../../models/income/Income";
@@ -36,6 +36,7 @@ import {
 })
 export class IncomeInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
+    @Output() incomeAdded: EventEmitter<void> = new EventEmitter<void>();
     protected shown: boolean = false;
     income: Income = new Income();
     isHourlyIncome: boolean = false;
@@ -106,21 +107,15 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
     }
 
     public confirm(): void {
-        console.log('income before sending: ', this.income);
         if (this.income.timeType === InputTimeType.ONE_TIME) {
             this.oneTimeIncomeWebSocket.sendMessage(this.income);
+        } else if (this.income.incomeInterval === RecurringIncomeTimeInterval.HOURLY_WAGE) {
+            this.wageIncomeWebSocket.sendMessage(this.income);
         } else {
-            console.log('income before sending: ', this.income);
-            if (this.income.incomeInterval === RecurringIncomeTimeInterval.HOURLY_WAGE) {
-                console.log('Sending a wage income');
-                this.wageIncomeWebSocket.sendMessage(this.income);
-            } else {
-                this.recurringIncomeWebSocket.sendMessage(this.income);
-            }
-
+            this.recurringIncomeWebSocket.sendMessage(this.income);
         }
-        // this.oneTimeIncomeWebSocket.sendMessage(this.income);
         this.shown = false;
+        this.incomeAdded.emit();
     }
 
     public open(): void {
