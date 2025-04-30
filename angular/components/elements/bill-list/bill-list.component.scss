@@ -28,5 +28,6 @@ bill-list {
     .bills-list {
         width: 100%;
         @include flex(space-around, center, column);
+        padding: $half-percent 0;
     }
 }
