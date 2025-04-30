@@ -1,0 +1,15 @@
+<!-- bill-list.component.html -->
+<ng-container>
+    <div class="bill-list-header">
+        <ss-title [tagType]="TagType.H3" [text]="'Your Bills'"/>
+        <ss-button
+                (buttonClicked)="this.showBillInput()"
+                [size]="ElementSize.MEDIUM"
+                [text]="ButtonText.ADD_BILL"/>
+    </div>
+    <hr/>
+    <div class="bills-list">
+        <bill *ngFor="let bill of bills" [bill]="bill"/>
+    </div>
+    <bill-input/>
+</ng-container>
