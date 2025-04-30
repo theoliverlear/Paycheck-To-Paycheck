@@ -15,6 +15,11 @@ export class NavItemComponent {
     constructor() {
 
     }
+
+    public setText(text: string) {
+        this.elementLink.text = text;
+    }
+
     @HostListener('click')
     onClick() {
         this.anchorComponent.onClick();
