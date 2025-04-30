@@ -36,7 +36,7 @@ import {
 })
 export class IncomeInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
-    protected shown: boolean = true;
+    protected shown: boolean = false;
     income: Income = new Income();
     isHourlyIncome: boolean = false;
     webSocketSubscription: Subscription;
@@ -121,6 +121,10 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
         }
         // this.oneTimeIncomeWebSocket.sendMessage(this.income);
         this.shown = false;
+    }
+
+    public open(): void {
+        this.shown = true;
     }
 
     public close(): void {
