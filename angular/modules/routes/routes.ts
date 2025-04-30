@@ -15,7 +15,7 @@ import {
     BudgetComponent
 } from "../../components/pages/budget/budget.component";
 
-const isDevelopment = true;
+const isDevelopment = false;
 export const accountRoute: Route = {
     path: 'account',
     component: AccountComponent,
@@ -29,7 +29,7 @@ export const accountRoute: Route = {
 export const authorizeRoute: Route = {
     path: 'authorize',
     component: AuthorizeComponent,
-    canActivate: isDevelopment ? [] : [AccountGuard],
+    canActivate: isDevelopment ? [] : [],
     data: {
         meta: {
             title: 'Authorize | Paycheck to Paycheck'
