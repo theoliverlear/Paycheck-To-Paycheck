@@ -33,7 +33,7 @@ import {
 })
 export class BillInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
-    protected shown: boolean = true;
+    protected shown: boolean = false;
     bill: Bill = new Bill();
     webSocketSubscription: Subscription;
     recurringBillSubscription: Subscription;
@@ -113,6 +113,10 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
             this.billWebSocket.sendMessage(this.bill);
         }
         this.shown = false;
+    }
+
+    public open(): void {
+        this.shown = true;
     }
 
     public close(): void {
