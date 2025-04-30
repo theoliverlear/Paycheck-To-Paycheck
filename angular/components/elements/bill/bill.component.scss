@@ -1,0 +1,26 @@
+// bill.component.scss
+@import "../../../styles/global-variables";
+@import "../../../styles/global-mixins";
+@import "../../../styles/global-functions";
+@import "../../../styles/global-placeholders";
+
+bill {
+    width: 95%;
+    @include flex(space-between, center, row);
+    padding: $half-percent;
+    background-color: $mint;
+    border-radius: $half-percent;
+    margin: $half-percent 0;
+    ss-title {
+        color: $neutral-black;
+    }
+    > * {
+        margin: 0 $half-percent;
+        padding: 0 $half-percent;
+        border-right: $pristine-white solid $very-thin-border;
+        flex: 1;
+        &:last-child {
+            border-right: none;
+        }
+    }
+}
