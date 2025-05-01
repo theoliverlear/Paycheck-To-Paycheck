@@ -31,18 +31,17 @@ class PaycheckSerializer(serializers.Serializer):
         model = Paycheck
         fields = '__all__'
 
-    def get_one_time_bills(self, obj: Paycheck):
-        return OneTimeBillSerializer(obj.one_time_bills, many=True).data
+    def get_one_time_bills(self, paycheck: Paycheck):
+        return OneTimeBillSerializer(paycheck.one_time_bills, many=True).data
 
-    def get_recurring_bills(self, obj: Paycheck):
-        return RecurringBillSerializer(obj.recurring_bills, many=True).data
+    def get_recurring_bills(self, paycheck: Paycheck):
+        return RecurringBillSerializer(paycheck.recurring_bills, many=True).data
 
-    def get_one_time_incomes(self, obj: Paycheck):
-        return OneTimeIncomeSerializer(obj.one_time_incomes, many=True).data
+    def get_one_time_incomes(self, paycheck: Paycheck):
+        return OneTimeIncomeSerializer(paycheck.one_time_incomes, many=True).data
 
-    def get_recurring_incomes(self, obj: Paycheck):
-        return RecurringIncomeSerializer(obj.recurring_incomes,
-                                         many=True).data
+    def get_recurring_incomes(self, paycheck: Paycheck):
+        return RecurringIncomeSerializer(paycheck.recurring_incomes, many=True).data
 
-    def get_wage_incomes(self, obj: Paycheck):
-        return WageIncomeSerializer(obj.wage_incomes, many=True).data
+    def get_wage_incomes(self, paycheck: Paycheck):
+        return WageIncomeSerializer(paycheck.wage_incomes, many=True).data
