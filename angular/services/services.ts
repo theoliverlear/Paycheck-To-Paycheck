@@ -29,12 +29,22 @@ import {
 } from "./server/websocket/wage-income-websocket.service";
 import {HttpPaycheckService} from "./server/http/http-paycheck.service";
 import {HttpSignupService} from "./server/http/http-signup.service";
+import {
+    HttpGetAllBillsService
+} from "./server/http/http-get-all-bills.service";
+import {
+    HttpGetAllIncomesService
+} from "./server/http/http-get-all-incomes.service";
+import {HttpLoginService} from "./server/http/http-login.service";
 
 export const services: any[] = [
     // Guards
     AuthGuard,
     // HTTP
     HttpClientService,
+    HttpGetAllBillsService,
+    HttpGetAllIncomesService,
+    HttpLoginService,
     LoggedInStatusService,
     LogoutService,
     HttpPaycheckService,
