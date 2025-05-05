@@ -21,4 +21,12 @@ nav-item {
         background-color: $tree-green;
         box-shadow: $mint 0 $eighth-percent $quarter-percent $quarter-percent;
     }
+    @media screen and (min-width: 600px) {
+        padding: $one-percent $three-quarter-percent;
+        ss-anchor {
+            h5 {
+                font-size: calc($h5-font-size * 0.9);
+            }
+        }
+    }
 }
