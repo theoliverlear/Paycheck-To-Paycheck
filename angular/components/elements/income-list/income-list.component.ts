@@ -21,6 +21,7 @@ import {
 export class IncomeListComponent implements OnInit {
     @ViewChild(IncomeInputComponent) incomeInput: IncomeInputComponent;
     @Input() incomes: (OneTimeIncome | RecurringIncome | WageIncome)[] = [];
+    isLoading: boolean = true;
     constructor(private getAllIncomesService: HttpGetAllIncomesService) {
         
     }
@@ -33,6 +34,7 @@ export class IncomeListComponent implements OnInit {
         this.getAllIncomesService.getAllIncomes().subscribe(incomes => {
             if (incomes) {
                 this.incomes = [...incomes.oneTimeIncomes, ...incomes.recurringIncomes, ...incomes.wageIncomes];
+                this.isLoading = false;
             }
         });
     }
