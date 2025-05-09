@@ -1,4 +1,9 @@
 <!-- paychecks.component.html -->
-<ng-container>
-    <paycheck *ngFor="let paycheckId of paycheckIds" [paycheckId]="paycheckId"/>
+<ng-container (window:scroll)="onScroll()">
+    <loading-wheel *ngIf="!isLoaded" [visible]="!isLoaded"/>
+    <paycheck *ngFor="let paycheckId of paycheckIds"
+            [paycheckId]="paycheckId"
+            (isLoaded)="onPaycheckLoaded(paycheckId)"
+            blurOnVisibility/>
+    <loading-wheel [visible]="isFetching"/>
 </ng-container>
