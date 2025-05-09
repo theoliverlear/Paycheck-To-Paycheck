@@ -48,6 +48,7 @@
               "angular/components/elements/input-popup/input-popup.component.css",
               "angular/components/elements/input-time-type-selector/input-time-type-selector.component.css",
               "angular/components/elements/input-time-type/input-time-type.component.css",
+              "angular/components/elements/loading-wheel/loading-wheel.component.css",
               "angular/components/elements/login-console/login-console.component.css",
               "angular/components/elements/login-input/login-input.component.css",
               "angular/components/elements/login-inputs/login-inputs.component.css",
