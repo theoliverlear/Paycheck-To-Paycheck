@@ -96,6 +96,7 @@ import {BillComponent} from "./bill/bill.component";
 import {IncomeComponent} from "./income/income.component";
 import {BillListComponent} from "./bill-list/bill-list.component";
 import {IncomeListComponent} from "./income-list/income-list.component";
+import {LoadingWheelComponent} from "./loading-wheel/loading-wheel.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -118,6 +119,7 @@ export const elements = [
     InputPopupComponent,
     InputTimeTypeComponent,
     InputTimeTypeSelectorComponent,
+    LoadingWheelComponent,
     LoginConsoleComponent,
     LoginInputComponent,
     LoginInputsComponent,
