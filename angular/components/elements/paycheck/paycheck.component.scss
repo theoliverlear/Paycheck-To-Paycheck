@@ -12,4 +12,8 @@ paycheck {
     margin: $one-percent 0;
     @extend %soft-border-radius;
     @extend %softest-raise-above-box-shadow;
+    transition: filter 0.3s ease-in-out;
+    &.blurred {
+        filter: blur($eighth-percent);
+    }
 }
