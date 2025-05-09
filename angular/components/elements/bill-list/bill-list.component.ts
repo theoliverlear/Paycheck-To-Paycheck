@@ -22,6 +22,7 @@ import {
 export class BillListComponent implements OnInit {
     @ViewChild(BillInputComponent) billInput: BillInputComponent;
     @Input() bills: (OneTimeBill | RecurringBill)[] = [];
+    isLoading: boolean = true;
     constructor(private getAllBillsService: HttpGetAllBillsService) {
         
     }
@@ -30,6 +31,7 @@ export class BillListComponent implements OnInit {
         this.getAllBillsService.getAllBills().subscribe(bills => {
             if (bills) {
                 this.bills = [...bills.recurringBills, ...bills.oneTimeBills];
+                this.isLoading = false;
             }
         });
     }
