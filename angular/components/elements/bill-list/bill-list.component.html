@@ -8,6 +8,7 @@
                 [text]="ButtonText.ADD_BILL"/>
     </div>
     <hr/>
+    <loading-wheel [visible]="isLoading" *ngIf="isLoading"/>
     <div class="bills-list">
         <bill *ngFor="let bill of bills" [bill]="bill"/>
     </div>
