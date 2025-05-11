@@ -113,8 +113,8 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
         } else {
             this.billWebSocket.sendMessage(this.bill);
         }
-        this.shown = false;
         this.billAdded.emit();
+        this.shown = false;
     }
 
     public open(): void {
