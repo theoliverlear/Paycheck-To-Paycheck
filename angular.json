@@ -37,6 +37,7 @@
               "angular/components/elements/bill-input/bill-input.component.css",
               "angular/components/elements/bill-list/bill-list.component.css",
               "angular/components/elements/bill/bill.component.css",
+              "angular/components/elements/cancel-button/cancel-button.component.css",
               "angular/components/elements/confirm-button/confirm-button.component.css",
               "angular/components/elements/dropdown/dropdown.component.css",
               "angular/components/elements/home-anchor/home-anchor.component.css",
