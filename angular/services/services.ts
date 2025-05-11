@@ -36,12 +36,36 @@ import {
     HttpGetAllIncomesService
 } from "./server/http/http-get-all-incomes.service";
 import {HttpLoginService} from "./server/http/http-login.service";
+import {DelayService} from "./delay.service";
+import {EmailValidatorService} from "./email-validator.service";
+import {FilledFieldsService} from "./filled-fields.service";
+import {PasswordMatchService} from "./password-match.service";
+import {
+    HttpDeleteOneTimeBillService
+} from "./server/http/http-delete-one-time-bill.service";
+import {
+    HttpDeleteOneTimeIncomeService
+} from "./server/http/http-delete-one-time-income.service";
+import {
+    HttpDeleteRecurringBillService
+} from "./server/http/http-delete-recurring-bill.service";
+import {
+    HttpDeleteRecurringIncomeService
+} from "./server/http/http-delete-recurring-income.service";
+import {
+    HttpDeleteWageIncomeService
+} from "./server/http/http-delete-wage-income.service";
 
 export const services: any[] = [
     // Guards
     AuthGuard,
     // HTTP
     HttpClientService,
+    HttpDeleteOneTimeBillService,
+    HttpDeleteOneTimeIncomeService,
+    HttpDeleteRecurringBillService,
+    HttpDeleteRecurringIncomeService,
+    HttpDeleteWageIncomeService,
     HttpGetAllBillsService,
     HttpGetAllIncomesService,
     HttpLoginService,
@@ -63,6 +87,10 @@ export const services: any[] = [
     SignupWebSocketService,
     WebSocketService,
     // Client Services
+    DelayService,
+    EmailValidatorService,
     ErrorHandlerService,
-    HashPasswordService
+    FilledFieldsService,
+    HashPasswordService,
+    PasswordMatchService
 ]
