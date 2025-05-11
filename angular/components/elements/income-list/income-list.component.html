@@ -10,7 +10,9 @@
     <hr/>
     <loading-wheel [visible]="isLoading" *ngIf="isLoading"/>
     <div class="incomes-list">
-        <income *ngFor="let income of incomes" [income]="income"/>
+        <income *ngFor="let income of incomes"
+                [income]="income"
+                (incomeDeleted)="this.deleteIncome($event)"/>
     </div>
-    <income-input (incomeAdded)="this.updateIncomes()"/>
+    <income-input (incomeAdded)="updateIncomeAfterAdding()"/>
 </ng-container>
