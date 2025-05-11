@@ -2,6 +2,7 @@ import {Paycheck} from "../models/paycheck/types";
 
 export const emptyPaycheck: Paycheck = {
     dateRange: {
+        id: 0,
         endDate: new Date(),
         startDate: new Date()
     },
