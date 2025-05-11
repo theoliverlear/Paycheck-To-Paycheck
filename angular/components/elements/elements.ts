@@ -97,6 +97,7 @@ import {IncomeComponent} from "./income/income.component";
 import {BillListComponent} from "./bill-list/bill-list.component";
 import {IncomeListComponent} from "./income-list/income-list.component";
 import {LoadingWheelComponent} from "./loading-wheel/loading-wheel.component";
+import {CancelButtonComponent} from "./cancel-button/cancel-button.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -108,6 +109,7 @@ export const elements = [
     BillInputFieldComponent,
     BillInputFieldsComponent,
     BillListComponent,
+    CancelButtonComponent,
     ConfirmButtonComponent,
     DropdownComponent,
     HomeAnchorComponent,
