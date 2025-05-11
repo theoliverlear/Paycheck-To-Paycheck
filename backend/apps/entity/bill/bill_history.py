@@ -33,12 +33,12 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
             self.recurring_bills.append(recurring_bill)
 
     @override
-    def save(self) -> 'BillHistory':
+    async def save(self) -> 'BillHistory':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         else:
-            saved_bill_history = BillHistoryOrmModel.objects.create()
+            saved_bill_history = await database_sync_to_async(BillHistoryOrmModel.objects.create)()
             self.set_from_orm_model(saved_bill_history)
             return BillHistory.from_orm_model(saved_bill_history)
 
@@ -46,34 +46,34 @@ class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identi
     async def update(self) -> None:
         try:
             db_model = await database_sync_to_async(BillHistoryOrmModel.objects.get)(id=self.id)
-            self.update_all_one_time_bills()
-            self.update_all_recurring_bills()
+            await self.update_all_one_time_bills()
+            await self.update_all_recurring_bills()
             orm_model: BillHistoryOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
             await database_sync_to_async(db_model.save)()
         except BillHistoryOrmModel.DoesNotExist as exception:
             raise EntityNotFoundException(self)
 
-    def update_all_one_time_bills(self) -> None:
+    async def update_all_one_time_bills(self) -> None:
         for bill in self.one_time_bills:
-            bill.update()
+            await bill.update()
 
-    def update_all_recurring_bills(self) -> None:
+    async def update_all_recurring_bills(self) -> None:
         for bill in self.recurring_bills:
-            bill.update()
+            await bill.update()
 
-    def save_all_one_time_bills(self) -> list[OneTimeBill]:
+    async def save_all_one_time_bills(self) -> list[OneTimeBill]:
         saved_bills = []
         for bill in self.one_time_bills:
-            saved_bill: OneTimeBill = bill.save()
+            saved_bill: OneTimeBill = await bill.save()
             saved_bills.append(saved_bill)
         self.one_time_bills = saved_bills
         return saved_bills
 
-    def save_all_recurring_bills(self) -> list[RecurringBill]:
+    async def save_all_recurring_bills(self) -> list[RecurringBill]:
         saved_bills = []
         for bill in self.recurring_bills:
-            saved_bill: RecurringBill = bill.save()
+            saved_bill: RecurringBill = await bill.save()
             saved_bills.append(saved_bill)
         self.recurring_bills = saved_bills
         return saved_bills
