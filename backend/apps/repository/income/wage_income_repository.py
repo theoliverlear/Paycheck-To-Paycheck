@@ -20,3 +20,8 @@ class WageIncomeRepository:
             wage_income: WageIncome = await database_sync_to_async(WageIncome.from_orm_model)(orm_model)
             wage_incomes.append(wage_income)
         return wage_incomes
+    
+    def delete_by_id(self, wage_income_id: int) -> None:
+        wage_income_orm_model: WageIncomeOrmModel = WageIncomeOrmModel.objects.filter(id=wage_income_id).first()
+        if wage_income_orm_model:
+            wage_income_orm_model.delete()
