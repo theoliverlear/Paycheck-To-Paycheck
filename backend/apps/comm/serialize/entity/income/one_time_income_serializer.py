@@ -4,7 +4,7 @@ from backend.apps.entity.income.one_time_income import OneTimeIncome
 
 
 class OneTimeIncomeSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=False)
+    id = serializers.IntegerField()
     name = serializers.CharField()
     amount = serializers.FloatField()
     date_received = serializers.DateField()
