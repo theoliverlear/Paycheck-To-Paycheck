@@ -50,18 +50,21 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
     @staticmethod
     def from_orm_model(orm_model: OneTimeIncomeOrmModel) -> 'OneTimeIncome':
         income = OneTimeIncome()
+        income.id = orm_model.id
         income.name = orm_model.name
         income.amount = orm_model.amount
         return income
 
     @override
     def set_from_orm_model(self, orm_model: OneTimeIncomeOrmModel) -> None:
+        self.id = orm_model.id
         self.name = orm_model.name
         self.amount = orm_model.amount
 
     @override
     @staticmethod
     def set_orm_model(db_model: OneTimeIncomeOrmModel, model_to_match: OneTimeIncomeOrmModel) -> OneTimeIncomeOrmModel:
+        db_model.id = model_to_match.id
         db_model.name = model_to_match.name
         db_model.amount = model_to_match.amount
         return db_model
@@ -69,6 +72,7 @@ class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeO
     @override
     def get_orm_model(self) -> OneTimeIncomeOrmModel:
         return OneTimeIncomeOrmModel(
+            id=self.id,
             name=self.name,
             amount=self.amount,
             date_received=self.date_received,
