@@ -12,6 +12,7 @@ import {
     HttpLogoutService
 } from "../../../services/server/http/http-logout.service";
 import {Router} from "@angular/router";
+import {OperationSuccessResponse} from "../../../models/http/types";
 
 @Component({
     selector: 'nav-bar',
@@ -27,7 +28,7 @@ export class NavBarComponent implements OnInit {
 
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.createLoggedInListener();
         this.loggedInStatusService.isLoggedIn();
     }
@@ -38,9 +39,9 @@ export class NavBarComponent implements OnInit {
 
     public setAccountButtonFunction(isLoggedIn: boolean) {
         if (isLoggedIn) {
-            this.myAccountButton.onClick = () => {
+            this.myAccountButton.onClick = (): void => {
                 this.logoutService.logout().subscribe(
-                    (response) => {
+                    (response: OperationSuccessResponse): void => {
                         console.log('Logout successful:', response);
                         this.clearSessionCookies();
                         this.isLoggedIn = false;
@@ -64,7 +65,6 @@ export class NavBarComponent implements OnInit {
             document.cookie = `${cookieName}${cookieProperties}`;
         });
     }
-
 
     createLoggedInListener(): void {
         this.loggedInStatusService.isLoggedIn().subscribe(
