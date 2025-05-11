@@ -1,49 +1,62 @@
 export type DateRange = {
+    id: number;
     endDate: Date;
     startDate: Date;
 };
 
 export type DueDate = {
+    id: number;
     name: string;
     dueDate: Date;
 };
 
 export type RecurringDate = {
+    id: number;
     day: Date;
     interval: number;
 }
 
 export type OneTimeBill = {
+    id: number;
     amount: number;
     dueDate: DueDate;
     name: string;
+    type: 'OneTimeBill';
 };
 
 export type RecurringBill = {
+    id: number;
     amount: number;
     recurringDate: RecurringDate;
     name: string;
+    type: 'RecurringBill';
 };
 
 export type OneTimeIncome = {
+    id: number;
     amount: number;
     dateReceived: Date;
     name: string;
+    type: 'OneTimeIncome';
 };
 
 export type RecurringIncome = {
+    id: number;
     amount: number;
     recurringDate: RecurringDate;
     name: string;
     yearlyIncome: number;
+    type: 'RecurringIncome';
 };
 
 export type WageIncome = {
+    id: number;
     amount: number;
     recurringDate: RecurringDate;
     name: string;
     yearlyIncome: number;
     weeklyHours: number;
+    type: 'WageIncome';
 };
 
 export type Income = OneTimeIncome | RecurringIncome | WageIncome;
