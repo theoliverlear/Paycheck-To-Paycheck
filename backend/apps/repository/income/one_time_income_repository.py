@@ -23,3 +23,8 @@ class OneTimeIncomeRepository:
             one_time_income: OneTimeIncome = await database_sync_to_async(OneTimeIncome.from_orm_model)(orm_model)
             one_time_incomes.append(one_time_income)
         return one_time_incomes
+
+    def delete_by_id(self, income_id: int) -> None:
+        one_time_income_orm_model: OneTimeIncomeOrmModel = OneTimeIncomeOrmModel.objects.filter(id=income_id).first()
+        if one_time_income_orm_model:
+            one_time_income_orm_model.delete()
