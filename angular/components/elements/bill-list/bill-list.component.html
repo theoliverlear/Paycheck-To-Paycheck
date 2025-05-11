@@ -10,7 +10,9 @@
     <hr/>
     <loading-wheel [visible]="isLoading" *ngIf="isLoading"/>
     <div class="bills-list">
-        <bill *ngFor="let bill of bills" [bill]="bill"/>
+        <bill *ngFor="let bill of bills"
+              [bill]="bill"
+              (billDeleted)="this.deleteBill($event)"/>
     </div>
     <bill-input (billAdded)="this.updateBills()"/>
 </ng-container>
