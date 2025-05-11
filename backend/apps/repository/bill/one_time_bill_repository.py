@@ -10,6 +10,11 @@ class OneTimeBillRepository:
     def get_by_id(self, one_time_bill_id: int) -> OneTimeBill:
         return OneTimeBillOrmModel.objects.filter(id=one_time_bill_id).first()
 
+    def delete_by_id(self, one_time_bill_id: int) -> None:
+        one_time_bill_orm_model: OneTimeBillOrmModel = OneTimeBillOrmModel.objects.filter(id=one_time_bill_id).first()
+        if one_time_bill_orm_model:
+            one_time_bill_orm_model.delete()
+
     async def get_all_by_bill_history(self, bill_history: BillHistory) -> list[OneTimeBill]:
         bill_history_orm_model: BillHistoryOrmModel = bill_history.get_orm_model()
         orm_models: list[OneTimeBillOrmModel] = await database_sync_to_async(lambda: list(OneTimeBillOrmModel.objects.filter(
