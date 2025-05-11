@@ -25,7 +25,7 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
             return self
         else:
             saved_due_date: DueDate = await self.due_date.save()
-            saved_bill_history: BillHistory = self.bill_history.save()
+            saved_bill_history: BillHistory = await self.bill_history.save()
             orm_model: OneTimeBillOrmModel = self.get_orm_model()
             saved_bill: OneTimeBillOrmModel = await database_sync_to_async(OneTimeBillOrmModel.objects.create)(
                 name=orm_model.name,
@@ -39,11 +39,11 @@ class OneTimeBill(UndatedBill, OrmCompatible['OneTimeBill', OneTimeBillOrmModel]
     async def update(self) -> None:
         try:
             db_model: OneTimeBillOrmModel = await database_sync_to_async(OneTimeBillOrmModel.objects.get)(id=self.id)
-            self.due_date.update()
+            await self.due_date.update()
             await self.bill_history.update()
             orm_model: OneTimeBillOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except OneTimeBillOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
