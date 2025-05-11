@@ -22,3 +22,9 @@ class RecurringIncomeRepository:
             recurring_income: RecurringIncome = await database_sync_to_async(RecurringIncome.from_orm_model)(orm_model)
             recurring_incomes.append(recurring_income)
         return recurring_incomes
+
+    def delete_by_id(self, income_id: int) -> None:
+        from backend.apps.entity.income.models import RecurringIncomeOrmModel
+        recurring_income_orm_model: RecurringIncomeOrmModel = RecurringIncomeOrmModel.objects.filter(id=income_id).first()
+        if recurring_income_orm_model:
+            recurring_income_orm_model.delete()
