@@ -34,12 +34,12 @@ class DueDate(Identifiable, OrmCompatible['DueDate', DueDateOrmModel]):
         return DueDate.from_orm_model(saved_due_date)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model: DueDateOrmModel = DueDateOrmModel.objects.get(id=self.id)
+            db_model: DueDateOrmModel = await database_sync_to_async(DueDateOrmModel.objects.get)(id=self.id)
             orm_model: DueDateOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except DueDateOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
