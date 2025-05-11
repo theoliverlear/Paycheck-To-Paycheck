@@ -114,8 +114,8 @@ export class IncomeInputComponent implements OnInit, WebSocketCapable {
         } else {
             this.recurringIncomeWebSocket.sendMessage(this.income);
         }
-        this.shown = false;
         this.incomeAdded.emit();
+        this.shown = false;
     }
 
     public open(): void {
