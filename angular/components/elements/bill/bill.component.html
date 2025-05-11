@@ -2,5 +2,6 @@
 <ng-container>
     <ss-title [tagType]="TagType.H5" [text]="bill.name"/>
     <ss-title [tagType]="TagType.H5" [text]="this.getAmountString()"/>
-    <ss-title [tagType]="TagType.H5" [text]="this.getDateString()"/>
+    <ss-title [tagType]="TagType.H5" [text]="getRecurringString()"/>
+    <cancel-button (buttonClicked)="deleteBill()"/>
 </ng-container>
