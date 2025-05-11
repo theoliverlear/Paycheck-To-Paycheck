@@ -48,7 +48,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
             await self.bill_history.update()
             orm_model: RecurringBillOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except RecurringBillOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
