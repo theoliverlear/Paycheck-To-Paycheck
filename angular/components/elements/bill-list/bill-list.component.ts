@@ -27,10 +27,24 @@ export class BillListComponent implements OnInit {
         
     }
 
+    public deleteBill(billToDelete: OneTimeBill | RecurringBill): void {
+        this.bills = this.bills.filter(bill => {
+            if (bill.type === billToDelete.type) {
+                return bill.id !== billToDelete.id;
+            } else {
+                return true;
+            }
+        });
+    }
+
     public updateBills(): void {
         this.getAllBillsService.getAllBills().subscribe(bills => {
             if (bills) {
-                this.bills = [...bills.recurringBills, ...bills.oneTimeBills];
+                console.log(bills);
+                this.bills = [
+                    ...bills.recurringBills.map(item => ({ ...item, type: "RecurringBill" as "RecurringBill" })),
+                    ...bills.oneTimeBills.map(item => ({ ...item, type: "OneTimeBill" as "OneTimeBill" }))
+                ];
                 this.isLoading = false;
             }
         });
