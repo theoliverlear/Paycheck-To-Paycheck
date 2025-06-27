@@ -8,6 +8,7 @@ from backend.apps.comm.serialize.comm.response.incomes_response_serializer impor
     IncomesResponseSerializer
 from backend.apps.comm.serialize.models.http.payload_status_response_serializer import \
     PayloadStatusResponseSerializer
+from backend.apps.entity.income.wage_income import WageIncome
 from backend.apps.entity.user.user import User
 from backend.apps.models.http.communication_type import CommunicationType
 from backend.apps.models.http.operation_sucess_status import \
@@ -32,6 +33,8 @@ class GetAllIncomesView(APIView):
         )
         if user_in_session:
             user: User = await self.session_service.get_user_from_session(http_request)
+            for wage_income in user.user_income_history.wage_incomes:
+                wage_income.amount = wage_income.calculate_paycheck_income()
             incomes_response: IncomesResponse = IncomesResponse(
                 one_time_incomes=user.user_income_history.one_time_incomes,
                 recurring_incomes=user.user_income_history.recurring_incomes,
