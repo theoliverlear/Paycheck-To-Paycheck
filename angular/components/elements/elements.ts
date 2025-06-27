@@ -13,7 +13,7 @@ import {SsInputComponent} from "./ss-input/ss-input.component";
 import {SsParagraphComponent} from "./ss-paragraph/ss-paragraph.component";
 import {SubtitleComponent} from "./subtitle/subtitle.component";
 import {HomeAnchorComponent} from "./home-anchor/home-anchor.component";
-import {BillInputComponent} from "./bill-input/bill-input.component";
+import {BillInputComponent} from "./element-group-bill/bill-input/bill-input.component";
 import {
     InputTimeTypeSelectorComponent
 } from "./input-time-type-selector/input-time-type-selector.component";
@@ -22,13 +22,13 @@ import {
 } from "./input-time-type/input-time-type.component";
 import {
     BillInputFieldComponent
-} from "./bill-input-field/bill-input-field.component";
+} from "./element-group-bill/bill-input-field/bill-input-field.component";
 import {
     IncomeInputFieldComponent
 } from "./income-input-field/income-input-field.component";
 import {
     BillInputFieldsComponent
-} from "./bill-input-fields/bill-input-fields.component";
+} from "./element-group-bill/bill-input-fields/bill-input-fields.component";
 import {
     IncomeInputFieldsComponent
 } from "./income-input-fields/income-input-fields.component";
@@ -37,7 +37,7 @@ import {DropdownComponent} from "./dropdown/dropdown.component";
 import {SsSelectComponent} from "./ss-select/ss-select.component";
 import {
     RecurringBillDropdownComponent
-} from "./recurring-bill-dropdown/recurring-bill-dropdown.component";
+} from "./element-group-bill/recurring-bill-dropdown/recurring-bill-dropdown.component";
 import {
     RecurringIncomeDropdownComponent
 } from "./recurring-income-dropdown/recurring-income-dropdown.component";
@@ -92,9 +92,9 @@ import {
 import {
     PaycheckBillFieldsComponent
 } from "./paycheck-bill-fields/paycheck-bill-fields.component";
-import {BillComponent} from "./bill/bill.component";
+import {BillComponent} from "./element-group-bill/bill/bill.component";
 import {IncomeComponent} from "./income/income.component";
-import {BillListComponent} from "./bill-list/bill-list.component";
+import {BillListComponent} from "./element-group-bill/bill-list/bill-list.component";
 import {IncomeListComponent} from "./income-list/income-list.component";
 import {LoadingWheelComponent} from "./loading-wheel/loading-wheel.component";
 import {CancelButtonComponent} from "./cancel-button/cancel-button.component";

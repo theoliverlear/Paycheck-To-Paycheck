@@ -1,27 +1,27 @@
 // bill-input.component.ts
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {InputTimeType} from "../../../models/input/InputTimeType";
+import {InputTimeType} from "../../../../models/input/InputTimeType";
 import {
     closeIconImageAsset,
     confirmIconImageAsset
-} from "../../../assets/imageAssets";
-import {TagType} from "../../../models/html/TagType";
-import {fadeInOutAnimation} from "../../animations/animations";
+} from "../../../../assets/imageAssets";
+import {TagType} from "../../../../models/html/TagType";
+import {fadeInOutAnimation} from "../../../animations/animations";
 import {
     quickFadeInAnimationProperties
-} from "../../animations/animationProperties";
-import {Bill} from "../../../models/bill/Bill";
+} from "../../../animations/animationProperties";
+import {Bill} from "../../../../models/bill/Bill";
 import {Subscription} from "rxjs";
 import {
     OneTimeBillWebsocketService
-} from "../../../services/server/websocket/one-time-bill-websocket.service";
-import {WebSocketCapable} from "../../../models/WebSocketCapable";
+} from "../../../../services/server/websocket/one-time-bill-websocket.service";
+import {WebSocketCapable} from "../../../../models/WebSocketCapable";
 import {
     RecurringBillTimeInterval
 } from "../recurring-bill-dropdown/models/RecurringBillTimeInterval";
 import {
     RecurringBillWebSocketService
-} from "../../../services/server/websocket/recurring-bill-websocket.service";
+} from "../../../../services/server/websocket/recurring-bill-websocket.service";
 
 @Component({
     selector: 'bill-input',

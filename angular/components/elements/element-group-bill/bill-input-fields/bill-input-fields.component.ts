@@ -3,7 +3,7 @@ import {Component, EventEmitter, Output} from "@angular/core";
 import {
     BillInputFieldType
 } from "../bill-input-field/models/BillInputFieldType";
-import {Bill} from "../../../models/bill/Bill";
+import {Bill} from "../../../../models/bill/Bill";
 import {BillInputContent} from "../bill-input-field/models/BillInputContent";
 
 @Component({

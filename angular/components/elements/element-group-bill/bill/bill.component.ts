@@ -1,14 +1,14 @@
 // bill.component.ts 
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {OneTimeBill, RecurringBill} from "../../../models/paycheck/types";
-import {TagType} from "../../../models/html/TagType";
+import {OneTimeBill, RecurringBill} from "../../../../models/paycheck/types";
+import {TagType} from "../../../../models/html/TagType";
 import {BillEmitter} from "./models/types";
 import {
     HttpDeleteOneTimeBillService
-} from "../../../services/server/http/http-delete-one-time-bill.service";
+} from "../../../../services/server/http/http-delete-one-time-bill.service";
 import {
     HttpDeleteRecurringBillService
-} from "../../../services/server/http/http-delete-recurring-bill.service";
+} from "../../../../services/server/http/http-delete-recurring-bill.service";
 
 @Component({
     selector: 'bill',

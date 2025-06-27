@@ -1,7 +1,7 @@
 // input-popup.component.ts 
 import {Component, Input} from "@angular/core";
 import {TagType} from "../../../models/html/TagType";
-import {BillInputPopupType} from "../bill-input/models/BillInputPopupType";
+import {BillInputPopupType} from "../element-group-bill/bill-input/models/BillInputPopupType";
 import {IncomeInputPopupType} from "../income-input/models/IncomeInputPopupType";
 
 @Component({

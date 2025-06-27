@@ -1,18 +1,18 @@
 // bill-list.component.ts 
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
-import {ElementSize} from "../../../models/ElementSize";
-import {ButtonText} from "../ss-button/models/ButtonText";
-import {SsButtonComponent} from "../ss-button/ss-button.component";
+import {ElementSize} from "../../../../models/ElementSize";
+import {ButtonText} from "../../ss-button/models/ButtonText";
+import {SsButtonComponent} from "../../ss-button/ss-button.component";
 import {BillInputComponent} from "../bill-input/bill-input.component";
-import {TagType} from "../../../models/html/TagType";
+import {TagType} from "../../../../models/html/TagType";
 import {
     Bill,
     OneTimeBill,
     RecurringBill
-} from "../../../models/paycheck/types";
+} from "../../../../models/paycheck/types";
 import {
     HttpGetAllBillsService
-} from "../../../services/server/http/http-get-all-bills.service";
+} from "../../../../services/server/http/http-get-all-bills.service";
 
 @Component({
     selector: 'bill-list',

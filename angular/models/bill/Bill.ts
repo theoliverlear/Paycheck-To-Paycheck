@@ -1,7 +1,7 @@
 import {InputTimeType} from "../input/InputTimeType";
 import {
     RecurringBillTimeInterval
-} from "../../components/elements/recurring-bill-dropdown/models/RecurringBillTimeInterval";
+} from "../../components/elements/element-group-bill/recurring-bill-dropdown/models/RecurringBillTimeInterval";
 
 export class Bill {
     public name: string;
