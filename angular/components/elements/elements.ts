@@ -41,28 +41,28 @@ import {
 import {
     RecurringIncomeDropdownComponent
 } from "./recurring-income-dropdown/recurring-income-dropdown.component";
-import {AuthConsoleComponent} from "./auth-console/auth-console.component";
+import {AuthConsoleComponent} from "./element-group-auth/auth-console/auth-console.component";
 import {
     AuthTypeSliderComponent
-} from "./auth-type-slider/auth-type-slider.component";
-import {LoginConsoleComponent} from "./login-console/login-console.component";
+} from "./element-group-auth/auth-type-slider/auth-type-slider.component";
+import {LoginConsoleComponent} from "./element-group-auth/login-console/login-console.component";
 import {
     SignupConsoleComponent
-} from "./signup-console/signup-console.component";
-import {LoginInputsComponent} from "./login-inputs/login-inputs.component";
-import {LoginInputComponent} from "./login-input/login-input.component";
-import {SignupInputsComponent} from "./signup-inputs/signup-inputs.component";
-import {SignupInputComponent} from "./signup-input/signup-input.component";
+} from "./element-group-auth/signup-console/signup-console.component";
+import {LoginInputsComponent} from "./element-group-auth/login-inputs/login-inputs.component";
+import {LoginInputComponent} from "./element-group-auth/login-input/login-input.component";
+import {SignupInputsComponent} from "./element-group-auth/signup-inputs/signup-inputs.component";
+import {SignupInputComponent} from "./element-group-auth/signup-input/signup-input.component";
 import {
     ServiceTermsInputComponent
-} from "./service-terms-input/service-terms-input.component";
-import {AuthPopupComponent} from "./auth-popup/auth-popup.component";
+} from "./element-group-auth/service-terms-input/service-terms-input.component";
+import {AuthPopupComponent} from "./element-group-auth/auth-popup/auth-popup.component";
 import {
     ConfirmButtonComponent
 } from "./confirm-button/confirm-button.component";
 import {
     AuthTypeOptionComponent
-} from "./auth-type-option/auth-type-option.component";
+} from "./element-group-auth/auth-type-option/auth-type-option.component";
 import {PaycheckComponent} from "./paycheck/paycheck.component";
 import {
     PaycheckPayPeriodComponent
