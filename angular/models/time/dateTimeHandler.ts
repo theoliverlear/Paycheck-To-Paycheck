@@ -1,3 +1,5 @@
+// TODO: Move to 'scripts' directory.
+
 export function convertToDate(object: any): any {
     let isInvalidObject: boolean = !object || typeof object !== 'object';
     if (isInvalidObject) {
