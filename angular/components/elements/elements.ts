@@ -59,7 +59,7 @@ import {
 import {AuthPopupComponent} from "./element-group-auth/auth-popup/auth-popup.component";
 import {
     ConfirmButtonComponent
-} from "./confirm-button/confirm-button.component";
+} from "./element-group-button/confirm-button/confirm-button.component";
 import {
     AuthTypeOptionComponent
 } from "./element-group-auth/auth-type-option/auth-type-option.component";
@@ -97,7 +97,7 @@ import {IncomeComponent} from "./income/income.component";
 import {BillListComponent} from "./element-group-bill/bill-list/bill-list.component";
 import {IncomeListComponent} from "./income-list/income-list.component";
 import {LoadingWheelComponent} from "./loading-wheel/loading-wheel.component";
-import {CancelButtonComponent} from "./cancel-button/cancel-button.component";
+import {CancelButtonComponent} from "./element-group-button/cancel-button/cancel-button.component";
 
 export const elements = [
     AuthConsoleComponent,

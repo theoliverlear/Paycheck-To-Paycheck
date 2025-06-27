@@ -1,0 +1,13 @@
+// cancel-button.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+cancel-button {
+    @include flex(center, center, row);
+    ss-button {
+        margin: 0 $half-percent;
+        padding: $quarter-percent;
+    }
+}

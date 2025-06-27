@@ -1,6 +1,6 @@
 // cancel-button.component.ts 
 import {Component, EventEmitter, Output} from "@angular/core";
-import {closeIconImageAsset} from "../../../assets/imageAssets";
+import {closeIconImageAsset} from "../../../../assets/imageAssets";
 
 @Component({
     selector: 'cancel-button',

@@ -7,8 +7,8 @@ import {
     Input,
     Output
 } from "@angular/core";
-import {confirmIconImageAsset} from "../../../assets/imageAssets";
-import {ButtonTriggerType} from "../ss-button/models/ButtonTriggerType";
+import {confirmIconImageAsset} from "../../../../assets/imageAssets";
+import {ButtonTriggerType} from "../../ss-button/models/ButtonTriggerType";
 
 @Component({
     selector: 'confirm-button',
