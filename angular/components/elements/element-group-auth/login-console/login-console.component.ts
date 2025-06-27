@@ -7,7 +7,7 @@ import {
     Output
 } from "@angular/core";
 import {TagType} from "../../../../models/html/TagType";
-import {ButtonText} from "../../ss-button/models/ButtonText";
+import {ButtonText} from "../../element-group-native/ss-button/models/ButtonText";
 import {ElementSize} from "../../../../models/ElementSize";
 import {
     LoginCredentials

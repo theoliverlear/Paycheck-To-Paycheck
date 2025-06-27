@@ -1,16 +1,16 @@
-import {SsAnchorComponent} from "./ss-anchor/ss-anchor.component";
-import {SsButtonComponent} from "./ss-button/ss-button.component";
-import {SsFooterComponent} from "./ss-footer/ss-footer.component";
-import {SsHeadComponent} from "./ss-head/ss-head.component";
-import {SsImgComponent} from "./ss-img/ss-img.component";
+import {SsAnchorComponent} from "./element-group-native/ss-anchor/ss-anchor.component";
+import {SsButtonComponent} from "./element-group-native/ss-button/ss-button.component";
+import {SsFooterComponent} from "./element-group-native/ss-footer/ss-footer.component";
+import {SsHeadComponent} from "./element-group-native/ss-head/ss-head.component";
+import {SsImgComponent} from "./element-group-native/ss-img/ss-img.component";
 import {NavBarComponent} from "./element-group-nav/nav-bar/nav-bar.component";
 import {NavItemComponent} from "./element-group-nav/nav-item/nav-item.component";
 import {NameInputComponent} from "./element-group-input/name-input/name-input.component";
 import {WorkInputComponent} from "./element-group-input/work-input/work-input.component";
 import {IncomeInputComponent} from "./element-group-income/income-input/income-input.component";
-import {SsTitleComponent} from "./ss-title/ss-title.component";
-import {SsInputComponent} from "./ss-input/ss-input.component";
-import {SsParagraphComponent} from "./ss-paragraph/ss-paragraph.component";
+import {SsTitleComponent} from "./element-group-native/ss-title/ss-title.component";
+import {SsInputComponent} from "./element-group-native/ss-input/ss-input.component";
+import {SsParagraphComponent} from "./element-group-native/ss-paragraph/ss-paragraph.component";
 import {SubtitleComponent} from "./subtitle/subtitle.component";
 import {HomeAnchorComponent} from "./element-group-nav/home-anchor/home-anchor.component";
 import {BillInputComponent} from "./element-group-bill/bill-input/bill-input.component";
@@ -34,7 +34,7 @@ import {
 } from "./element-group-income/income-input-fields/income-input-fields.component";
 import {InputPopupComponent} from "./element-group-input/input-popup/input-popup.component";
 import {DropdownComponent} from "./element-group-input/dropdown/dropdown.component";
-import {SsSelectComponent} from "./ss-select/ss-select.component";
+import {SsSelectComponent} from "./element-group-native/ss-select/ss-select.component";
 import {
     RecurringBillDropdownComponent
 } from "./element-group-bill/recurring-bill-dropdown/recurring-bill-dropdown.component";

@@ -2,7 +2,7 @@
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {TagType} from "../../../../models/html/TagType";
 import {ElementSize} from "../../../../models/ElementSize";
-import {ButtonText} from "../../ss-button/models/ButtonText";
+import {ButtonText} from "../../element-group-native/ss-button/models/ButtonText";
 import {
     OneTimeIncome,
     RecurringIncome,

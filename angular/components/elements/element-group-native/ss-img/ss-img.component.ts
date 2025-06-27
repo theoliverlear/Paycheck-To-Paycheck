@@ -6,7 +6,7 @@ import {
     Input,
     ViewChild
 } from "@angular/core";
-import {ImageAsset} from "../../../assets/imageAssets";
+import {ImageAsset} from "../../../../assets/imageAssets";
 
 
 @Component({

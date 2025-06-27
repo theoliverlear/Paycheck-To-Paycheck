@@ -1,7 +1,7 @@
 // nav-item.component.ts 
 import {Component, HostListener, Input, ViewChild} from "@angular/core";
 import {TextElementLink} from "../../../../models/link/TextElementLink";
-import {SsAnchorComponent} from "../../ss-anchor/ss-anchor.component";
+import {SsAnchorComponent} from "../../element-group-native/ss-anchor/ss-anchor.component";
 import {navBarHomeElementLink} from "../../../../assets/elementLinkAssets";
 
 @Component({

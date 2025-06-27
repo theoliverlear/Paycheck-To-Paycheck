@@ -2,9 +2,9 @@ import {
     Component, HostListener,
     Input, OnInit
 } from "@angular/core";
-import {TagType} from "../../../models/html/TagType";
-import {TextElementLink} from "../../../models/link/TextElementLink";
-import {ElementLink} from "../../../models/link/ElementLink";
+import {TagType} from "../../../../models/html/TagType";
+import {TextElementLink} from "../../../../models/link/TextElementLink";
+import {ElementLink} from "../../../../models/link/ElementLink";
 import {Router} from "@angular/router";
 
 @Component({

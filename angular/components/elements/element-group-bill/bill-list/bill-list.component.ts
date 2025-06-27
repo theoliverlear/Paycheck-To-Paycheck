@@ -1,8 +1,8 @@
 // bill-list.component.ts 
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {ElementSize} from "../../../../models/ElementSize";
-import {ButtonText} from "../../ss-button/models/ButtonText";
-import {SsButtonComponent} from "../../ss-button/ss-button.component";
+import {ButtonText} from "../../element-group-native/ss-button/models/ButtonText";
+import {SsButtonComponent} from "../../element-group-native/ss-button/ss-button.component";
 import {BillInputComponent} from "../bill-input/bill-input.component";
 import {TagType} from "../../../../models/html/TagType";
 import {

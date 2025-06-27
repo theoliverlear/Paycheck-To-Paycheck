@@ -2,7 +2,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {IncomeInputFieldType} from "./models/IncomeInputFieldType";
 import {IncomeInputContent} from "./models/IncomeInputContent";
-import {InputType} from "../../ss-input/models/InputType";
+import {InputType} from "../../element-group-native/ss-input/models/InputType";
 import {TagType} from "../../../../models/html/TagType";
 
 @Component({

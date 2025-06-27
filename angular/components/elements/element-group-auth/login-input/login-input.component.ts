@@ -10,8 +10,8 @@ import {AuthInputType} from "../../../../models/auth/AuthInputType";
 import {
     LoginCredentials
 } from "../../../../models/auth/credentials/LoginCredentials";
-import {SsInputComponent} from "../../ss-input/ss-input.component";
-import {InputType} from "../../ss-input/models/InputType";
+import {SsInputComponent} from "../../element-group-native/ss-input/ss-input.component";
+import {InputType} from "../../element-group-native/ss-input/models/InputType";
 import {TagType} from "../../../../models/html/TagType";
 
 @Component({

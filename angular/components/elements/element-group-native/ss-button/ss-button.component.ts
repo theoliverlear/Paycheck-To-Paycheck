@@ -7,11 +7,11 @@ import {
     OnInit,
     Output
 } from "@angular/core";
-import {ElementSize} from "../../../models/ElementSize";
+import {ElementSize} from "../../../../models/ElementSize";
 import {ButtonText} from "./models/ButtonText";
 import {ButtonPosition} from "./models/ButtonPosition";
-import {ImageAsset} from "../../../assets/imageAssets";
-import {TagType} from "../../../models/html/TagType";
+import {ImageAsset} from "../../../../assets/imageAssets";
+import {TagType} from "../../../../models/html/TagType";
 
 @Component({
     selector: 'ss-button',

@@ -8,11 +8,11 @@ import {
 } from "@angular/core";
 import {AuthInputType} from "../../../../models/auth/AuthInputType";
 import {TagType} from "../../../../models/html/TagType";
-import {InputType} from "../../ss-input/models/InputType";
+import {InputType} from "../../element-group-native/ss-input/models/InputType";
 import {
     SignupCredentials
 } from "../../../../models/auth/credentials/SignupCredentials";
-import {SsInputComponent} from "../../ss-input/ss-input.component";
+import {SsInputComponent} from "../../element-group-native/ss-input/ss-input.component";
 
 @Component({
     selector: 'signup-input',

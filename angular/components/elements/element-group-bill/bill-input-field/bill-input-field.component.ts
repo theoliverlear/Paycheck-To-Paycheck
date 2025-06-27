@@ -2,7 +2,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {TagType} from "../../../../models/html/TagType";
 import {BillInputFieldType} from "./models/BillInputFieldType";
-import {InputType} from "../../ss-input/models/InputType";
+import {InputType} from "../../element-group-native/ss-input/models/InputType";
 import {BillInputContent} from "./models/BillInputContent";
 
 @Component({

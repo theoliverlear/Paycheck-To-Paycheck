@@ -1,7 +1,7 @@
 // service-terms-input.component.ts
 import {Component, EventEmitter, Output} from "@angular/core";
 import {TagType} from "../../../../models/html/TagType";
-import {ButtonTriggerType} from "../../ss-button/models/ButtonTriggerType";
+import {ButtonTriggerType} from "../../element-group-native/ss-button/models/ButtonTriggerType";
 
 @Component({
     selector: 'service-terms-input',
