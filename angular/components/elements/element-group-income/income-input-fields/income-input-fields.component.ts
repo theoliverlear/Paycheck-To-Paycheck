@@ -1,6 +1,6 @@
 // income-input-fields.component.ts
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {Income} from "../../../models/income/Income";
+import {Income} from "../../../../models/income/Income";
 import {
     IncomeInputContent
 } from "../income-input-field/models/IncomeInputContent";

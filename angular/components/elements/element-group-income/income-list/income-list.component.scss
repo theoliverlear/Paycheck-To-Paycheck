@@ -1,8 +1,8 @@
 // income-list.component.scss
-@import "../../../styles/global-variables";
-@import "../../../styles/global-mixins";
-@import "../../../styles/global-functions";
-@import "../../../styles/global-placeholders";
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
 
 income-list {
     @include flex(flex-start, center, column);

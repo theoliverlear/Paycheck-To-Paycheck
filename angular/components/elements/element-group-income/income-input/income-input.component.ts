@@ -1,30 +1,30 @@
 // income-input.component.ts
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {fadeInOutAnimation} from "../../animations/animations";
-import {InputTimeType} from "../../../models/input/InputTimeType";
-import {Income} from "../../../models/income/Income";
-import {TagType} from "../../../models/html/TagType";
+import {fadeInOutAnimation} from "../../../animations/animations";
+import {InputTimeType} from "../../../../models/input/InputTimeType";
+import {Income} from "../../../../models/income/Income";
+import {TagType} from "../../../../models/html/TagType";
 import {
     closeIconImageAsset,
     confirmIconImageAsset
-} from "../../../assets/imageAssets";
+} from "../../../../assets/imageAssets";
 import {
     quickFadeInAnimationProperties
-} from "../../animations/animationProperties";
+} from "../../../animations/animationProperties";
 import {
     RecurringIncomeTimeInterval
 } from "../recurring-income-dropdown/models/RecurringIncomeTimeInterval";
-import {WebSocketCapable} from "../../../models/WebSocketCapable";
+import {WebSocketCapable} from "../../../../models/WebSocketCapable";
 import {Subscription} from "rxjs";
 import {
     OneTimeIncomeWebSocketService
-} from "../../../services/server/websocket/one-time-income-websocket.service";
+} from "../../../../services/server/websocket/one-time-income-websocket.service";
 import {
     RecurringIncomeWebSocketService
-} from "../../../services/server/websocket/recurring-income-websocket.service";
+} from "../../../../services/server/websocket/recurring-income-websocket.service";
 import {
     WageIncomeWebSocketService
-} from "../../../services/server/websocket/wage-income-websocket.service";
+} from "../../../../services/server/websocket/wage-income-websocket.service";
 
 @Component({
     selector: 'income-input',

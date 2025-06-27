@@ -4,18 +4,18 @@ import {
     OneTimeIncome,
     RecurringIncome,
     WageIncome
-} from "../../../models/paycheck/types";
-import {TagType} from "../../../models/html/TagType";
+} from "../../../../models/paycheck/types";
+import {TagType} from "../../../../models/html/TagType";
 import {IncomeEmitter} from "./models/types";
 import {
     HttpDeleteOneTimeIncomeService
-} from "../../../services/server/http/http-delete-one-time-income.service";
+} from "../../../../services/server/http/http-delete-one-time-income.service";
 import {
     HttpDeleteRecurringIncomeService
-} from "../../../services/server/http/http-delete-recurring-income.service";
+} from "../../../../services/server/http/http-delete-recurring-income.service";
 import {
     HttpDeleteWageIncomeService
-} from "../../../services/server/http/http-delete-wage-income.service";
+} from "../../../../services/server/http/http-delete-wage-income.service";
 
 @Component({
     selector: 'income',

@@ -1,18 +1,18 @@
 // income-list.component.ts 
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
-import {TagType} from "../../../models/html/TagType";
-import {ElementSize} from "../../../models/ElementSize";
-import {ButtonText} from "../ss-button/models/ButtonText";
+import {TagType} from "../../../../models/html/TagType";
+import {ElementSize} from "../../../../models/ElementSize";
+import {ButtonText} from "../../ss-button/models/ButtonText";
 import {
     OneTimeIncome,
     RecurringIncome,
     WageIncome
-} from "../../../models/paycheck/types";
+} from "../../../../models/paycheck/types";
 import {IncomeInputComponent} from "../income-input/income-input.component";
 import {
     HttpGetAllIncomesService
-} from "../../../services/server/http/http-get-all-incomes.service";
-import {DelayService} from "../../../services/delay.service";
+} from "../../../../services/server/http/http-get-all-incomes.service";
+import {DelayService} from "../../../../services/delay.service";
 
 @Component({
     selector: 'income-list',

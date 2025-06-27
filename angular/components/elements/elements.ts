@@ -7,7 +7,7 @@ import {NavBarComponent} from "./element-group-nav/nav-bar/nav-bar.component";
 import {NavItemComponent} from "./element-group-nav/nav-item/nav-item.component";
 import {NameInputComponent} from "./name-input/name-input.component";
 import {WorkInputComponent} from "./work-input/work-input.component";
-import {IncomeInputComponent} from "./income-input/income-input.component";
+import {IncomeInputComponent} from "./element-group-income/income-input/income-input.component";
 import {SsTitleComponent} from "./ss-title/ss-title.component";
 import {SsInputComponent} from "./ss-input/ss-input.component";
 import {SsParagraphComponent} from "./ss-paragraph/ss-paragraph.component";
@@ -25,13 +25,13 @@ import {
 } from "./element-group-bill/bill-input-field/bill-input-field.component";
 import {
     IncomeInputFieldComponent
-} from "./income-input-field/income-input-field.component";
+} from "./element-group-income/income-input-field/income-input-field.component";
 import {
     BillInputFieldsComponent
 } from "./element-group-bill/bill-input-fields/bill-input-fields.component";
 import {
     IncomeInputFieldsComponent
-} from "./income-input-fields/income-input-fields.component";
+} from "./element-group-income/income-input-fields/income-input-fields.component";
 import {InputPopupComponent} from "./input-popup/input-popup.component";
 import {DropdownComponent} from "./dropdown/dropdown.component";
 import {SsSelectComponent} from "./ss-select/ss-select.component";
@@ -40,7 +40,7 @@ import {
 } from "./element-group-bill/recurring-bill-dropdown/recurring-bill-dropdown.component";
 import {
     RecurringIncomeDropdownComponent
-} from "./recurring-income-dropdown/recurring-income-dropdown.component";
+} from "./element-group-income/recurring-income-dropdown/recurring-income-dropdown.component";
 import {AuthConsoleComponent} from "./element-group-auth/auth-console/auth-console.component";
 import {
     AuthTypeSliderComponent
@@ -93,9 +93,9 @@ import {
     PaycheckBillFieldsComponent
 } from "./paycheck-bill-fields/paycheck-bill-fields.component";
 import {BillComponent} from "./element-group-bill/bill/bill.component";
-import {IncomeComponent} from "./income/income.component";
+import {IncomeComponent} from "./element-group-income/income/income.component";
 import {BillListComponent} from "./element-group-bill/bill-list/bill-list.component";
-import {IncomeListComponent} from "./income-list/income-list.component";
+import {IncomeListComponent} from "./element-group-income/income-list/income-list.component";
 import {LoadingWheelComponent} from "./loading-wheel/loading-wheel.component";
 import {CancelButtonComponent} from "./element-group-button/cancel-button/cancel-button.component";
 

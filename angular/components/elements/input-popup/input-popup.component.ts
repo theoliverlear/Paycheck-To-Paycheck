@@ -2,7 +2,7 @@
 import {Component, Input} from "@angular/core";
 import {TagType} from "../../../models/html/TagType";
 import {BillInputPopupType} from "../element-group-bill/bill-input/models/BillInputPopupType";
-import {IncomeInputPopupType} from "../income-input/models/IncomeInputPopupType";
+import {IncomeInputPopupType} from "../element-group-income/income-input/models/IncomeInputPopupType";
 
 @Component({
     selector: 'input-popup',

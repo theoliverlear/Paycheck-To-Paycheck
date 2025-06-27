@@ -2,8 +2,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {IncomeInputFieldType} from "./models/IncomeInputFieldType";
 import {IncomeInputContent} from "./models/IncomeInputContent";
-import {InputType} from "../ss-input/models/InputType";
-import {TagType} from "../../../models/html/TagType";
+import {InputType} from "../../ss-input/models/InputType";
+import {TagType} from "../../../../models/html/TagType";
 
 @Component({
     selector: 'income-input-field',
