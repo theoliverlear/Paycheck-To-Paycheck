@@ -96,7 +96,7 @@ import {BillComponent} from "./element-group-bill/bill/bill.component";
 import {IncomeComponent} from "./element-group-income/income/income.component";
 import {BillListComponent} from "./element-group-bill/bill-list/bill-list.component";
 import {IncomeListComponent} from "./element-group-income/income-list/income-list.component";
-import {LoadingWheelComponent} from "./loading-wheel/loading-wheel.component";
+import {LoadingWheelComponent} from "./element-group-loading/loading-wheel/loading-wheel.component";
 import {CancelButtonComponent} from "./element-group-button/cancel-button/cancel-button.component";
 
 export const elements = [
