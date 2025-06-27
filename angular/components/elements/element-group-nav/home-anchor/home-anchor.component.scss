@@ -1,8 +1,8 @@
  // home-anchor.component.scss
-@import "../../../styles/global-variables";
-@import "../../../styles/global-mixins";
-@import "../../../styles/global-functions";
-@import "../../../styles/global-placeholders";
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
 
 home-anchor {
     //@include square-size(calc($two-half-percent * 1.03));

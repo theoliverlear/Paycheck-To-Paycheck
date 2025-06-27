@@ -3,8 +3,8 @@ import {SsButtonComponent} from "./ss-button/ss-button.component";
 import {SsFooterComponent} from "./ss-footer/ss-footer.component";
 import {SsHeadComponent} from "./ss-head/ss-head.component";
 import {SsImgComponent} from "./ss-img/ss-img.component";
-import {NavBarComponent} from "./nav-bar/nav-bar.component";
-import {NavItemComponent} from "./nav-item/nav-item.component";
+import {NavBarComponent} from "./element-group-nav/nav-bar/nav-bar.component";
+import {NavItemComponent} from "./element-group-nav/nav-item/nav-item.component";
 import {NameInputComponent} from "./name-input/name-input.component";
 import {WorkInputComponent} from "./work-input/work-input.component";
 import {IncomeInputComponent} from "./income-input/income-input.component";
@@ -12,7 +12,7 @@ import {SsTitleComponent} from "./ss-title/ss-title.component";
 import {SsInputComponent} from "./ss-input/ss-input.component";
 import {SsParagraphComponent} from "./ss-paragraph/ss-paragraph.component";
 import {SubtitleComponent} from "./subtitle/subtitle.component";
-import {HomeAnchorComponent} from "./home-anchor/home-anchor.component";
+import {HomeAnchorComponent} from "./element-group-nav/home-anchor/home-anchor.component";
 import {BillInputComponent} from "./element-group-bill/bill-input/bill-input.component";
 import {
     InputTimeTypeSelectorComponent

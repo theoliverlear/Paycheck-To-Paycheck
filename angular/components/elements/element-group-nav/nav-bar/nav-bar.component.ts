@@ -3,16 +3,16 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {
     navBarBudgetElementLink,
     navBarMyAccountElementLink, navBarPaychecksElementLink
-} from "../../../assets/elementLinkAssets";
+} from "../../../../assets/elementLinkAssets";
 import {
     LoggedInStatusService
-} from "../../../services/server/http/logged-in-status.service";
+} from "../../../../services/server/http/logged-in-status.service";
 import {NavItemComponent} from "../nav-item/nav-item.component";
 import {
     HttpLogoutService
-} from "../../../services/server/http/http-logout.service";
+} from "../../../../services/server/http/http-logout.service";
 import {Router} from "@angular/router";
-import {OperationSuccessResponse} from "../../../models/http/types";
+import {OperationSuccessResponse} from "../../../../models/http/types";
 
 @Component({
     selector: 'nav-bar',

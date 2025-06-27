@@ -1,9 +1,9 @@
 // home-anchor.component.ts 
 import { Component } from "@angular/core";
-import {navBarHomeElementLink} from "../../../assets/elementLinkAssets";
+import {navBarHomeElementLink} from "../../../../assets/elementLinkAssets";
 import {
     logoTransparentImageAsset
-} from "../../../assets/imageAssets";
+} from "../../../../assets/imageAssets";
 
 @Component({
     selector: 'home-anchor',
