@@ -1,0 +1,19 @@
+// paycheck.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+paycheck {
+    width: 90%;
+    @include flex(center, center, column);
+    background-color: $pristine-white;
+    padding: $half-percent;
+    margin: $one-percent 0;
+    @extend %soft-border-radius;
+    @extend %softest-raise-above-box-shadow;
+    transition: filter 0.3s ease-in-out;
+    &.blurred {
+        filter: blur($eighth-percent);
+    }
+}

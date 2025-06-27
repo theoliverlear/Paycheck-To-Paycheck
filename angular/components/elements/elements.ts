@@ -63,35 +63,35 @@ import {
 import {
     AuthTypeOptionComponent
 } from "./element-group-auth/auth-type-option/auth-type-option.component";
-import {PaycheckComponent} from "./paycheck/paycheck.component";
+import {PaycheckComponent} from "./element-group-paycheck/paycheck/paycheck.component";
 import {
     PaycheckPayPeriodComponent
-} from "./paycheck-pay-period/paycheck-pay-period.component";
-import {PaycheckBillComponent} from "./paycheck-bill/paycheck-bill.component";
+} from "./element-group-paycheck/paycheck-pay-period/paycheck-pay-period.component";
+import {PaycheckBillComponent} from "./element-group-paycheck/paycheck-bill/paycheck-bill.component";
 import {
     PaycheckBillListComponent
-} from "./paycheck-bill-list/paycheck-bill-list.component";
+} from "./element-group-paycheck/paycheck-bill-list/paycheck-bill-list.component";
 import {
     PaycheckIncomeComponent
-} from "./paycheck-income/paycheck-income.component";
+} from "./element-group-paycheck/paycheck-income/paycheck-income.component";
 import {
     PaycheckIncomeListComponent
-} from "./paycheck-income-list/paycheck-income-list.component";
+} from "./element-group-paycheck/paycheck-income-list/paycheck-income-list.component";
 import {
     PaycheckIncomeFieldComponent
-} from "./paycheck-income-field/paycheck-income-field.component";
+} from "./element-group-paycheck/paycheck-income-field/paycheck-income-field.component";
 import {
     PaycheckIncomeFieldsComponent
-} from "./paycheck-income-fields/paycheck-income-fields.component";
+} from "./element-group-paycheck/paycheck-income-fields/paycheck-income-fields.component";
 import {
     PaycheckTotalComponent
-} from "./paycheck-total/paycheck-total.component";
+} from "./element-group-paycheck/paycheck-total/paycheck-total.component";
 import {
     PaycheckBillFieldComponent
-} from "./paycheck-bill-field/paycheck-bill-field.component";
+} from "./element-group-paycheck/paycheck-bill-field/paycheck-bill-field.component";
 import {
     PaycheckBillFieldsComponent
-} from "./paycheck-bill-fields/paycheck-bill-fields.component";
+} from "./element-group-paycheck/paycheck-bill-fields/paycheck-bill-fields.component";
 import {BillComponent} from "./element-group-bill/bill/bill.component";
 import {IncomeComponent} from "./element-group-income/income/income.component";
 import {BillListComponent} from "./element-group-bill/bill-list/bill-list.component";

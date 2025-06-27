@@ -1,0 +1,10 @@
+// paycheck-bill-list.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+paycheck-bill-list {
+    width: 100%;
+    @include flex(center, center, column);
+}

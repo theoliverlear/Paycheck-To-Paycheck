@@ -1,0 +1,23 @@
+// paycheck-income.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+paycheck-income {
+    @include flex(flex-start, center, row);
+    margin: $three-quarter-percent 0;
+    width: 95%;
+    background-color: $faded-neutral-black;
+    padding: $half-percent;
+    transition: background-color 0.11s ease-in-out;
+    @extend %soft-border-radius;
+    .income-name {
+        text-decoration: underline;
+        border-right: gray $thin-border solid;
+        width: $twenty-percent;
+    }
+    &:hover {
+        background-color: $mint;
+    }
+}
