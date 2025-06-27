@@ -11,7 +11,7 @@ import {IncomeInputComponent} from "./element-group-income/income-input/income-i
 import {SsTitleComponent} from "./element-group-native/ss-title/ss-title.component";
 import {SsInputComponent} from "./element-group-native/ss-input/ss-input.component";
 import {SsParagraphComponent} from "./element-group-native/ss-paragraph/ss-paragraph.component";
-import {SubtitleComponent} from "./subtitle/subtitle.component";
+import {SubtitleComponent} from "./element-group-text/subtitle/subtitle.component";
 import {HomeAnchorComponent} from "./element-group-nav/home-anchor/home-anchor.component";
 import {BillInputComponent} from "./element-group-bill/bill-input/bill-input.component";
 import {
