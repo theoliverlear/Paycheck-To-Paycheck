@@ -1,0 +1,32 @@
+// nav-item.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+nav-item {
+    @include flex(center, center, row);
+    padding: $one-percent;
+    border-radius: $one-percent;
+    background-color: $tea-green;
+    flex-basis: calc($eight-percent * 1.02);
+    box-shadow: none;
+    transition: box-shadow, background-color 0.15s;
+    &:hover {
+        background-color: $alabaster-stone;
+        box-shadow: $mint 0 $eighth-percent $eighth-percent $eighth-percent;
+    }
+    &:active {
+        cursor: pointer;
+        background-color: $tree-green;
+        box-shadow: $mint 0 $eighth-percent $quarter-percent $quarter-percent;
+    }
+    @media screen and (min-width: 600px) {
+        padding: $one-percent $three-quarter-percent;
+        ss-anchor {
+            h5 {
+                font-size: calc($h5-font-size * 0.9);
+            }
+        }
+    }
+}

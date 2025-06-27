@@ -1,0 +1,44 @@
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+ss-footer {
+    width: 100%;
+    margin-top: auto;
+    box-sizing: border-box;
+    //background-color: transparent;
+    background: radial-gradient(at bottom, $pristine-white 70%, $tea-green);
+    border-top: $thinnest-border solid;
+    border-image: radial-gradient(at center, $pristine-white 50%, $tea-green) 1;
+    //box-shadow: $navy-blue 0 0 $fifteen-percent simplest-calc(0.25);
+    @extend %raise-above-box-shadow;
+}
+footer {
+    width: 100%;
+    padding: 0;
+    @include flex(center, center, row);
+    margin-bottom: 0;
+    #footer-small-text-section {
+        @include size(100%, 100%);
+        padding: $half-percent $zero;
+        @include flex(center, center, row);
+        h6 {
+            @include basic-margin-padding(0, 0);
+            color: $charcoal;
+        }
+        div {
+            @include flex(center, center, row);
+            @include size(100%, 100%);
+            flex: 1;
+            padding: $zero $one-percent;
+            .footer-item {
+                text-align: center;
+                @include flex(center, center, row);
+            }
+        }
+        #footer-left-text-item {
+            border-right: $thin-border solid $navy-blue;
+        }
+    }
+}

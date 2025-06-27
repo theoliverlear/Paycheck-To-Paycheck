@@ -1,0 +1,15 @@
+// paycheck-income-field.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+paycheck-income-field {
+    @include flex(flex-start, center, column);
+    margin: 0 $half-percent;
+    &.income-text {
+        subtitle {
+            color: green;
+        }
+    }
+}

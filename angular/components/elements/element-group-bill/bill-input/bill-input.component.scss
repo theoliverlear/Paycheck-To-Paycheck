@@ -1,0 +1,50 @@
+// bill-input.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+bill-input {
+    position: absolute;
+    top: 50%;
+    .bill-input-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        //@extend %fill-container;
+        @include flex(center, center, column);
+        //background-color: $pristine-white;
+        background-image: radial-gradient(at center, $alabaster-stone 30%, $pristine-white);
+        padding: $one-percent;
+        width: $thirty-five-percent;
+        margin: $one-percent 0;
+        @extend %soft-border-radius;
+        @extend %soft-raise-above-box-shadow;
+
+        .bill-input-headline {
+            width: 100%;
+            @include flex(flex-start, center, column);
+            .bill-input-headline-top {
+                width: 100%;
+                @include flex(flex-start, center, row);
+                ss-button {
+                    margin: 0 $half-percent;
+                    padding: $quarter-percent;
+                }
+            }
+            hr {
+                width: 95%;
+            }
+        }
+        .bill-input-bottom-row {
+            width: 100%;
+            @include flex(space-between, center, row);
+            .confirm-button {
+                ss-img {
+                    @include square-size($two-half-percent);
+                }
+            }
+        }
+    }
+}

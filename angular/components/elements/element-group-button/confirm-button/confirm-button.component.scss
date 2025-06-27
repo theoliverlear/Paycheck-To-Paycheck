@@ -1,0 +1,40 @@
+// confirm-button.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+confirm-button {
+    @include flex(center, center, row);
+    padding: 0;
+    //box-shadow: $mint 0 0 calc($eighth-percent / 2) calc($eighth-percent / 2);
+    background-color: transparent;
+    border: $thin-border solid transparent;
+    transition: background-color, box-shadow, border 0.15s;
+    @include square-size(calc($three-percent * 0.9));
+    @extend %circle-border-radius;
+    ss-img {
+        @include square-size(calc($three-percent * 0.9));
+        @extend %circle-border-radius;
+    }
+    &:hover {
+        cursor: pointer;
+        box-shadow: $faded-neutral-black 0 $eighth-percent $eighth-percent $eighth-percent;
+        border: $alabaster-stone solid $thin-border;
+    }
+    &:active {
+        cursor: pointer;
+        box-shadow: $faded-neutral-black 0 $eighth-percent $quarter-percent $quarter-percent;
+    }
+    &.selected {
+        box-shadow: $faded-neutral-black 0 $eighth-percent $eighth-percent $eighth-percent;
+        border: $modern-green solid $thin-border;
+    }
+    &.trigger-type {
+
+        &:active {
+            cursor: pointer;
+            box-shadow: $faded-neutral-black 0 $eighth-percent $quarter-percent $quarter-percent;
+        }
+    }
+}

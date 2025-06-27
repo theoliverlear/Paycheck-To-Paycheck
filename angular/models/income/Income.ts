@@ -1,7 +1,7 @@
 import {InputTimeType} from "../input/InputTimeType";
 import {
     RecurringIncomeTimeInterval
-} from "../../components/elements/recurring-income-dropdown/models/RecurringIncomeTimeInterval";
+} from "../../components/elements/element-group-income/recurring-income-dropdown/models/RecurringIncomeTimeInterval";
 
 export class Income {
     public name: string;

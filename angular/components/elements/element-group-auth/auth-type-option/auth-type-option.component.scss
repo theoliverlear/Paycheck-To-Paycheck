@@ -1,0 +1,27 @@
+// auth-type-option.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+auth-type-option {
+    @include flex(center, center, row);
+    font-size: $h3-font-size;
+    background-color: $modern-green;
+    padding: $one-percent;
+    margin: $one-percent 0;
+    min-width: 6ch;
+    border-radius: 0 $one-percent $one-percent 0;
+    ss-title {
+        color: $charcoal;
+    }
+    &:first-child {
+        border-radius: $one-percent 0 0 $one-percent;
+    }
+    &.selected {
+        background-color: $mint;
+        ss-title {
+            color: $absolute-black;
+        }
+    }
+}
