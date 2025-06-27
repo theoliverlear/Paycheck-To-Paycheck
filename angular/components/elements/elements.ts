@@ -5,8 +5,8 @@ import {SsHeadComponent} from "./ss-head/ss-head.component";
 import {SsImgComponent} from "./ss-img/ss-img.component";
 import {NavBarComponent} from "./element-group-nav/nav-bar/nav-bar.component";
 import {NavItemComponent} from "./element-group-nav/nav-item/nav-item.component";
-import {NameInputComponent} from "./name-input/name-input.component";
-import {WorkInputComponent} from "./work-input/work-input.component";
+import {NameInputComponent} from "./element-group-input/name-input/name-input.component";
+import {WorkInputComponent} from "./element-group-input/work-input/work-input.component";
 import {IncomeInputComponent} from "./element-group-income/income-input/income-input.component";
 import {SsTitleComponent} from "./ss-title/ss-title.component";
 import {SsInputComponent} from "./ss-input/ss-input.component";
@@ -16,10 +16,10 @@ import {HomeAnchorComponent} from "./element-group-nav/home-anchor/home-anchor.c
 import {BillInputComponent} from "./element-group-bill/bill-input/bill-input.component";
 import {
     InputTimeTypeSelectorComponent
-} from "./input-time-type-selector/input-time-type-selector.component";
+} from "./element-group-input/input-time-type-selector/input-time-type-selector.component";
 import {
     InputTimeTypeComponent
-} from "./input-time-type/input-time-type.component";
+} from "./element-group-input/input-time-type/input-time-type.component";
 import {
     BillInputFieldComponent
 } from "./element-group-bill/bill-input-field/bill-input-field.component";
@@ -32,8 +32,8 @@ import {
 import {
     IncomeInputFieldsComponent
 } from "./element-group-income/income-input-fields/income-input-fields.component";
-import {InputPopupComponent} from "./input-popup/input-popup.component";
-import {DropdownComponent} from "./dropdown/dropdown.component";
+import {InputPopupComponent} from "./element-group-input/input-popup/input-popup.component";
+import {DropdownComponent} from "./element-group-input/dropdown/dropdown.component";
 import {SsSelectComponent} from "./ss-select/ss-select.component";
 import {
     RecurringBillDropdownComponent

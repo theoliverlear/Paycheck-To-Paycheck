@@ -1,6 +1,6 @@
 // input-time-type-selector.component.ts 
 import {Component, EventEmitter, Output, ViewChild} from "@angular/core";
-import {InputTimeType} from "../../../models/input/InputTimeType";
+import {InputTimeType} from "../../../../models/input/InputTimeType";
 import {
     InputTimeTypeComponent
 } from "../input-time-type/input-time-type.component";

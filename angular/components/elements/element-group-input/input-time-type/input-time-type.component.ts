@@ -6,8 +6,8 @@ import {
     Input,
     OnInit, Output
 } from "@angular/core";
-import {InputTimeType} from "../../../models/input/InputTimeType";
-import {TagType} from "../../../models/html/TagType";
+import {InputTimeType} from "../../../../models/input/InputTimeType";
+import {TagType} from "../../../../models/html/TagType";
 
 @Component({
     selector: 'input-time-type',
