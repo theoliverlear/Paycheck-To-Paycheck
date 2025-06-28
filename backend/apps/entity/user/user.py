@@ -20,7 +20,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
+class User(OrmCompatible['User', UserOrmModel], Identifiable):
     first_name: str = attr(default="")
     last_name: str = attr(default="")
     email: str = attr(default="")
@@ -30,6 +30,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
     user_bill_history: BillHistory = attr(default=None)
     wallet: Wallet = attr(default=None)
     payday: RecurringDate = attr(factory=RecurringDate)
+    completed_welcome: bool = attr(default=False)
 
     def handle_uninstantiated_fields(self):
         if self.user_income_history is None:
@@ -50,8 +51,8 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             self.handle_uninstantiated_fields()
             saved_password: SafePassword = await self.password.save()
             user_income_history: IncomeHistory = await self.user_income_history.save()
-            user_bill_history: BillHistory = await database_sync_to_async(self.user_bill_history.save)()
-            wallet: Wallet = await database_sync_to_async(self.wallet.save)()
+            user_bill_history: BillHistory = await self.user_bill_history.save()
+            wallet: Wallet = await self.wallet.save()
             payday: RecurringDate = await self.payday.save()
             # TODO: Add wallet saving.
             orm_model: UserOrmModel = self.get_orm_model()
@@ -65,6 +66,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
                 bill_history=user_bill_history.get_orm_model(),
                 wallet=wallet.get_orm_model(),
                 payday=payday.get_orm_model(),
+                completed_welcome=self.completed_welcome,
             )
             self.set_from_orm_model(saved_user)
             return User.from_orm_model(saved_user)
@@ -97,6 +99,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         self.user_bill_history = BillHistory.from_orm_model(orm_model.bill_history)
         self.wallet = Wallet.from_orm_model(orm_model.wallet)
         self.payday = RecurringDate.from_orm_model(orm_model.payday)
+        self.completed_welcome = orm_model.completed_welcome
 
     @staticmethod
     @override
@@ -111,6 +114,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
         db_model.bill_history = model_to_match.bill_history
         db_model.wallet = model_to_match.wallet
         db_model.payday = model_to_match.payday
+        db_model.completed_welcome = model_to_match.completed_welcome
 
     @override
     def get_orm_model(self) -> UserOrmModel:
@@ -125,6 +129,7 @@ class User(OrmCompatible['User', UserOrmModel], ABC, Identifiable):
             bill_history=self.user_bill_history.get_orm_model(),
             wallet=self.wallet.get_orm_model(),
             payday=self.payday.get_orm_model(),
+            completed_welcome=self.completed_welcome,
         )
 
     @staticmethod
