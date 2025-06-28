@@ -3,6 +3,7 @@ from typing import override
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.holding.holding import Holding
 from backend.apps.entity.holding.saving.models import SavingOrmModel
@@ -12,26 +13,27 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class Saving(Holding, OrmCompatible['Saving', SavingOrmModel], ABC):
+class Saving(Holding, OrmCompatible['Saving', SavingOrmModel]):
     @override
-    def save(self) -> 'Saving':
+    async def save(self) -> 'Saving':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         else:
-            saved_model: SavingOrmModel = SavingOrmModel.objects.create(
+            saved_model: SavingOrmModel = await database_sync_to_async(SavingOrmModel.objects.create)(
                 name=self.name,
                 amount=self.amount
             )
+            self.set_from_orm_model(saved_model)
             return Saving.from_orm_model(saved_model)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model: SavingOrmModel = SavingOrmModel.objects.get(id=self.id)
+            db_model: SavingOrmModel = await database_sync_to_async(SavingOrmModel.objects.get)(id=self.id)
             orm_model: SavingOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except SavingOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
