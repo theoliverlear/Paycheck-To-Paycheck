@@ -31,6 +31,7 @@ class UserOrmModel(models.Model):
                                   related_name='user_payday',
                                   null=True,
                                   blank=True)
+    completed_welcome = models.BooleanField(default=False)
     class Meta:
         db_table = 'users'
         abstract = False
