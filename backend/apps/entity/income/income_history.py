@@ -18,7 +18,7 @@ from backend.apps.exception.entity_not_found_exception import \
     EntityNotFoundException
 
 @define
-class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], ABC, Identifiable):
+class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], Identifiable):
     one_time_incomes: list[OneTimeIncome] = attr(default=[])
     recurring_incomes: list[RecurringIncome] = attr(default=[])
     wage_incomes: list[WageIncome] = attr(default=[])
