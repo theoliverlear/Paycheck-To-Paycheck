@@ -4,29 +4,49 @@ import {ErrorHandlerService} from "../error-handler.service";
 import {UserService} from "./user.service";
 import {httpOptions} from "./httpProperties";
 import {catchError, map, Observable, switchMap} from "rxjs";
+import {
+    HttpHasCompletedWelcomeService
+} from "./http/http-has-completed-welcome.service";
+import {HasCompletedWelcome} from "../../models/welcome/types";
+import {Router} from "@angular/router";
+import {HttpWelcomeSurveyService} from "./http/http-welcome-survey.service";
+import {
+    LastPaycheck
+} from "../../components/elements/element-group-welcome/last-paycheck-input/models/LastPaycheck";
+import {OperationSuccessResponse} from "../../models/http/types";
 
 @Injectable({
     providedIn: 'root'
 })
 export class WelcomeService {
-    private getWelcomeCompletedUrl: string = 'http://localhost:8080/api/welcome/get/completed';
-    constructor(private http: HttpClient,
-                private errorHandlerService: ErrorHandlerService,
-                private userService: UserService) {
-        console.log('WelcomeService loaded');
+    constructor(private hasCompletedWelcomeService: HttpHasCompletedWelcomeService,
+                private welcomeSurveyService: HttpWelcomeSurveyService,
+                private router: Router) {
+
     }
-    getWelcomeCompletedFromServer(): Observable<boolean> {
-        return this.userService.getCurrentUserIdFromServer().pipe(
-            switchMap(userId => {
-                const welcomeRequest = {
-                    userId: userId
-                };
-                return this.http.post<{welcomeCompleted: boolean}>(this.getWelcomeCompletedUrl, welcomeRequest, httpOptions)
-                    .pipe(
-                        map(response => response.welcomeCompleted),
-                        catchError(this.errorHandlerService.handleError<boolean>('getWelcomeCompletedFromServer'))
-                    );
-            })
-        );
+
+    submitWelcomeSurvey(lastPaycheck: LastPaycheck): Observable<OperationSuccessResponse> {
+        return this.welcomeSurveyService.submitWelcomeSurvey(lastPaycheck);
+    }
+
+    handleWelcomeRedirect(): void {
+        this.hasCompletedWelcomeService.hasCompletedWelcome().subscribe(
+            (hasCompleted: HasCompletedWelcome) => {
+                if (!hasCompleted.hasCompletedWelcome) {
+                    this.routeToWelcome();
+                }
+            },
+            (error: any) => {
+                console.error('Error checking welcome completion:', error);
+            }
+        )
+    }
+
+    routeToWelcome(): void {
+        this.router.navigate(['/welcome']);
+    }
+
+    hasCompletedWelcome(): Observable<HasCompletedWelcome> {
+        return this.hasCompletedWelcomeService.hasCompletedWelcome();
     }
 }
