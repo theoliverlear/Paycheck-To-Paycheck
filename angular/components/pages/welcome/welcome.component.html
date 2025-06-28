@@ -1,1 +1,7 @@
 <!-- welcome.component.html -->
+<ng-container>
+    <ss-title class="welcome-title"
+              [text]="'Let\'s get started'"
+              [tagType]="TagType.H2"/>
+    <last-paycheck-input (confirmEvent)="submitWelcomeSurvey($event)"/>
+</ng-container>
