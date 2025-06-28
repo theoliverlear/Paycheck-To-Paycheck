@@ -9,12 +9,15 @@ import {
 import {catchError, map, Observable, of} from "rxjs";
 import {LoggedInStatusService} from "../server/http/logged-in-status.service";
 import {HttpAuthResponse} from "../../models/auth/types";
+import {WelcomeService} from "../server/welcome.service";
+import {HasCompletedWelcome} from "../../models/welcome/types";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
     constructor(private loggedInStatusService: LoggedInStatusService,
+                private welcomeService: WelcomeService,
                 private router: Router) {
 
     }
@@ -22,12 +25,19 @@ export class AuthGuard implements CanActivate {
         return this.loggedInStatusService.isLoggedIn().pipe(
             map((response: HttpAuthResponse): boolean => {
                 if (response.payload.isAuthorized) {
-                    return true;
+                    this.welcomeService.hasCompletedWelcome().subscribe((hasCompletedWelcome: HasCompletedWelcome) => {
+                        if (hasCompletedWelcome.hasCompletedWelcome) {
+                            return true;
+                        } else {
+                            this.welcomeService.routeToWelcome();
+                            return true;
+                        }
+                    });
                 } else {
                     this.router.navigate(['/authorize'], {
-                        queryParams: { returnUrl: state.url } 
+                        queryParams: { returnUrl: state.url }
                     });
-                    return false; 
+                    return false;
                 }
             }),
             catchError((error) => {
