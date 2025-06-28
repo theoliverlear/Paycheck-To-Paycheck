@@ -5,5 +5,14 @@
 @import "../../../styles/global-placeholders";
 
 welcome {
-
+    @include flex(flex-start, center, column);
+    .welcome-title {
+        background-color: $alabaster-stone;
+        padding: $one-percent;
+        @extend %soft-border-radius;
+        margin: $half-percent 0;
+        h2 {
+            text-shadow: $faded-neutral-black 0 0 $quarter-percent;
+        }
+    }
 }
