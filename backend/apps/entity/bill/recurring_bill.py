@@ -28,7 +28,7 @@ class RecurringBill(UndatedBill, OrmCompatible['RecurringBill', RecurringBillOrm
             await self.update()
             return self
         saved_recurring_date: RecurringDate = await self.recurring_date.save()
-        saved_bill_history: BillHistory = self.bill_history.save()
+        saved_bill_history: BillHistory = await self.bill_history.save()
         saved_bill_history_orm: BillHistoryOrmModel = saved_bill_history.get_orm_model()
         orm_model: RecurringBillOrmModel = self.get_orm_model()
         saved_bill: RecurringBillOrmModel = await database_sync_to_async(RecurringBillOrmModel.objects.create)(
