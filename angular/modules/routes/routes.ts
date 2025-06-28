@@ -14,6 +14,9 @@ import {AccountGuard} from "../../services/guard/account.guard";
 import {
     BudgetComponent
 } from "../../components/pages/budget/budget.component";
+import {
+    WelcomeComponent
+} from "../../components/pages/welcome/welcome.component";
 
 const isDevelopment = false;
 export const accountRoute: Route = {
@@ -67,7 +70,7 @@ export const paychecksRoute: Route = {
 };
 export const welcomeRoute: Route = {
     path: 'welcome',
-    component: HomeComponent,
+    component: WelcomeComponent,
     canActivate: isDevelopment ? [] : [AuthGuard],
     data: {
         meta: {
