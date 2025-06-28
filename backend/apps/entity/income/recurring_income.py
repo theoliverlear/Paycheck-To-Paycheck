@@ -17,7 +17,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringIncomeOrmModel], ABC):
+class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringIncomeOrmModel]):
     _recurring_date: RecurringDate = attr(factory=RecurringDate)
     yearly_income: float = attr(default=0.0)
     income_history: IncomeHistory = attr(default=None)
@@ -67,9 +67,9 @@ class RecurringIncome(UndatedIncome, OrmCompatible['RecurringIncome', RecurringI
             return RecurringIncome.from_orm_model(saved_recurring_income)
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
-            db_model = RecurringIncomeOrmModel.objects.get(id=self.id)
+            db_model = await database_sync_to_async(RecurringIncomeOrmModel.objects.get)(id=self.id)
             self._recurring_date.update()
             orm_model: RecurringIncomeOrmModel = self.get_orm_model()
             current_model: RecurringIncomeOrmModel = RecurringIncome.set_orm_model(db_model, orm_model)
