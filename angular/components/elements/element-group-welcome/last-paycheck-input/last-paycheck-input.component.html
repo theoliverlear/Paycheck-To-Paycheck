@@ -1,0 +1,34 @@
+<!-- last-paycheck-input.component.html -->
+<ng-container>
+    <ss-title [text]="'Tell us about your last paycheck.'"
+              [tagType]="TagType.H4"/>
+    <hr/>
+    <div class="inputs-div">
+        <div class="last-paycheck-input-div">
+            <ss-title [text]="'Last Paycheck Date: '"
+                      [tagType]="TagType.H5"/>
+            <ss-input [inputType]="InputType.DATE"
+                      (inputEvent)="setDate($event)"/>
+        </div>
+        <div class="last-paycheck-input-div">
+            <ss-title [text]="'Paycheck Amount: '"
+                      [tagType]="TagType.H5"/>
+            <ss-input [inputType]="InputType.NUMBER"
+                      [placeholder]="'Ex. 1500.00'"
+                      (inputEvent)="setPaycheckAmount($event)"/>
+        </div>
+        <div class="last-paycheck-input-div">
+            <div class="input-text-div">
+                <ss-title [text]="'Checking Account Amount: '"
+                          [tagType]="TagType.H5"/>
+                <subtitle [text]="'(On Date of Payment)'" [tagType]="TagType.H6"/>
+            </div>
+            <ss-input [inputType]="InputType.NUMBER"
+                      [placeholder]="'Ex. 1000.00'"
+                      (inputEvent)="setCheckingAccountAmount($event)"/>
+        </div>
+    </div>
+    <div class="bottom-row">
+        <confirm-button (buttonClicked)="emitConfirm()"/>
+    </div>
+</ng-container>
