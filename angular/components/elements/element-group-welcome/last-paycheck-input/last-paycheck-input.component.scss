@@ -1,0 +1,52 @@
+// last-paycheck-input.component.scss
+@import "../../../../styles/global-variables";
+@import "../../../../styles/global-mixins";
+@import "../../../../styles/global-functions";
+@import "../../../../styles/global-placeholders";
+
+last-paycheck-input {
+    @include flex(center, center, column);
+    width: $forty-five-percent;
+    @extend %soft-border-radius;
+    @extend %softer-raise-above-box-shadow;
+    padding: $one-percent;
+    margin: $one-percent 0;
+    background-color: $alabaster-stone;
+    .inputs-div {
+        width: 100%;
+        .last-paycheck-input-div {
+            //background-color: $mint;
+            margin: $half-percent 0;
+            padding: $half-percent;
+            @extend %soft-border-radius;
+            @include flex(center, center, row);
+            .input-text-div {
+                @include flex(center, flex-start, column);
+                flex: 4;
+
+                ss-title, subtitle {
+                    //margin: 0 0 0 $one-percent;
+                    h5, h6 {
+                        text-align: left;
+                    }
+                }
+            }
+            ss-title {
+                flex: 4;
+                @include flex(flex-start, center, row);
+                //margin: 0 0 0 $one-percent;
+                h5 {
+                    text-align: left;
+                }
+            }
+            ss-input {
+                flex: 3;
+                //margin: 0 $one-percent 0 0;
+            }
+        }
+    }
+    .bottom-row {
+        width: 100%;
+        @include flex(flex-end, center, row);
+    }
+}
