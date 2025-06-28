@@ -18,7 +18,7 @@ from backend.apps.entity.identifiable import Identifiable
 from backend.apps.entity.orm_compatible import OrmCompatible
 
 @define
-class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], ABC, Identifiable):
+class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], Identifiable):
     one_time_bills: list[OneTimeBill] = attr(default=[])
     recurring_bills: list[RecurringBill] = attr(default=[])
 
