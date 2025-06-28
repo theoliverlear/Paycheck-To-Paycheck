@@ -98,6 +98,9 @@ import {BillListComponent} from "./element-group-bill/bill-list/bill-list.compon
 import {IncomeListComponent} from "./element-group-income/income-list/income-list.component";
 import {LoadingWheelComponent} from "./element-group-loading/loading-wheel/loading-wheel.component";
 import {CancelButtonComponent} from "./element-group-button/cancel-button/cancel-button.component";
+import {
+    LastPaycheckInputComponent
+} from "./element-group-welcome/last-paycheck-input/last-paycheck-input.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -121,6 +124,7 @@ export const elements = [
     InputPopupComponent,
     InputTimeTypeComponent,
     InputTimeTypeSelectorComponent,
+    LastPaycheckInputComponent,
     LoadingWheelComponent,
     LoginConsoleComponent,
     LoginInputComponent,
