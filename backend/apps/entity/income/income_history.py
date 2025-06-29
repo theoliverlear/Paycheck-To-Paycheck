@@ -19,20 +19,41 @@ from backend.apps.exception.entity_not_found_exception import \
 
 @define
 class IncomeHistory(OrmCompatible['IncomeHistory', IncomeHistoryOrmModel], Identifiable):
-    one_time_incomes: list[OneTimeIncome] = attr(default=[])
-    recurring_incomes: list[RecurringIncome] = attr(default=[])
-    wage_incomes: list[WageIncome] = attr(default=[])
+    one_time_incomes: list[OneTimeIncome] = attr(factory=list)
+    recurring_incomes: list[RecurringIncome] = attr(factory=list)
+    wage_incomes: list[WageIncome] = attr(factory=list)
 
     def add_one_time_income(self, income: OneTimeIncome) -> None:
-        if income not in self.one_time_incomes:
+        # if income not in self.one_time_incomes:
+        #     self.one_time_incomes.append(income)
+        income_name: str = income.name
+        contains_income: bool = any(
+            existing_income.name == income_name
+            for existing_income in self.one_time_incomes
+        )
+        if not contains_income:
             self.one_time_incomes.append(income)
 
     def add_recurring_income(self, recurring_income: RecurringIncome) -> None:
-        if recurring_income not in self.recurring_incomes:
+        # if recurring_income not in self.recurring_incomes:
+        #     self.recurring_incomes.append(recurring_income)
+        recurring_income_name: str = recurring_income.name
+        contains_recurring_income: bool = any(
+            existing_income.name == recurring_income_name
+            for existing_income in self.recurring_incomes
+        )
+        if not contains_recurring_income:
             self.recurring_incomes.append(recurring_income)
 
     def add_wage_income(self, wage_income: WageIncome) -> None:
-        if wage_income not in self.wage_incomes:
+        # if wage_income not in self.wage_incomes:
+        #     self.wage_incomes.append(wage_income)
+        wage_income_name: str = wage_income.name
+        contains_wage_income: bool = any(
+            existing_income.name == wage_income_name
+            for existing_income in self.wage_incomes
+        )
+        if not contains_wage_income:
             self.wage_incomes.append(wage_income)
 
 
