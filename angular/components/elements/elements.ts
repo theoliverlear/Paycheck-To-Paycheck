@@ -101,6 +101,9 @@ import {CancelButtonComponent} from "./element-group-button/cancel-button/cancel
 import {
     LastPaycheckInputComponent
 } from "./element-group-welcome/last-paycheck-input/last-paycheck-input.component";
+import {WalletComponent} from "./element-group-wallet/wallet/wallet.component";
+import {WalletListComponent} from "./element-group-wallet/wallet-list/wallet-list.component";
+import {WalletInputComponent} from "./element-group-wallet/wallet-input/wallet-input.component";
 
 export const elements = [
     AuthConsoleComponent,
@@ -159,5 +162,8 @@ export const elements = [
     SsSelectComponent,
     SsTitleComponent,
     SubtitleComponent,
+    WalletComponent,
+    WalletInputComponent,
+    WalletListComponent,
     WorkInputComponent,
 ];
