@@ -1,0 +1,14 @@
+<!-- wallet-list.component.html -->
+<ng-container>
+    <div class="wallet-list-header">
+        <ss-title [tagType]="TagType.H3" [text]="'Your Wallets'"/>
+        <ss-button
+                   [size]="ElementSize.MEDIUM"
+                   [text]="ButtonText.ADD_BILL"/>
+    </div>
+    <hr/>
+<!--    <loading-wheel [visible]="isLoading" *ngIf="isLoading"/>-->
+    <div class="wallets-list">
+        <wallet #checkingAccount/>
+    </div>
+</ng-container>
