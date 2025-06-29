@@ -55,7 +55,15 @@ def get_num_months_between_dates(start_date: date, end_date: date) -> int:
 def get_next_friday_from_now() -> date:
     today = date.today()
     while today.weekday() != 4:
-        today = today.replace(day=today.day + 1)
+        next_day: int = today.day + 1
+        num_days_in_month: int = monthrange(today.year, today.month)[1]
+        if next_day > num_days_in_month:
+            next_day = 1
+            if today.month == 12:
+                today = today.replace(year=today.year + 1, month=1)
+            else:
+                today = today.replace(month=today.month + 1)
+        today = today.replace(day=next_day)
     return today
 
 #-------------------------Get-Second-Friday-From-Now--------------------------
