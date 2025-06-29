@@ -2,10 +2,9 @@
 <ng-container>
     <div class="bill-list-header">
         <ss-title [tagType]="TagType.H3" [text]="'Your Bills'"/>
-        <ss-button
-                (buttonClicked)="this.showBillInput()"
-                [size]="ElementSize.MEDIUM"
-                [text]="ButtonText.ADD_BILL"/>
+        <ss-button (buttonClicked)="this.showBillInput()"
+                   [size]="ElementSize.MEDIUM"
+                   [text]="ButtonText.ADD_BILL"/>
     </div>
     <hr/>
     <loading-wheel [visible]="isLoading" *ngIf="isLoading"/>
@@ -14,5 +13,5 @@
               [bill]="bill"
               (billDeleted)="this.deleteBill($event)"/>
     </div>
-    <bill-input (billAdded)="this.updateBills()"/>
+    <bill-input (billAdded)="this.addWebsocketBill($event)"/>
 </ng-container>
