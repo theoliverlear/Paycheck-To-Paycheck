@@ -19,6 +19,9 @@ from backend.apps.models.dict.entity.income.one_time_income_dict_parser import \
     OneTimeIncomeDictParser
 from backend.apps.models.dict.entity.income.recurring_income_dict_parser import \
     RecurringIncomeDictParser
+from backend.apps.models.dict.models.welcome.welcome_survey_dict_parser import \
+    WelcomeSurveyDictParser
+from backend.apps.models.welcome.welcome_survey import WelcomeSurvey
 from backend.apps.repository.bill.one_time_bill_repository import \
     OneTimeBillRepository
 from backend.apps.repository.income.income_history_repository import \
@@ -73,10 +76,10 @@ class AppModule(Module):
                     OneTimeIncomeService, RecurringIncomeService, WageIncomeService,
                     BillHistoryService, OneTimeBillService, RecurringBillService,]
         dict_parsers = [DictParser, OneTimeBillDictParser, OneTimeIncomeDictParser,
-                        RecurringIncomeDictParser]
+                        RecurringIncomeDictParser, WelcomeSurveyDictParser]
         class_parser_targets = [OneTimeBill, OneTimeIncome, RecurringIncome,
                                 SignupRequest, LoginRequest, RecurringBill,
-                                WageIncome]
+                                WageIncome, WelcomeSurvey]
         self.simple_bind(ClassFieldParser, binder)
 
         self.simple_bind_all(repositories, binder)
