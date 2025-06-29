@@ -1,3 +1,5 @@
+# paycheck.py
+import copy
 import logging
 from datetime import date
 from typing import TYPE_CHECKING
@@ -25,14 +27,17 @@ if TYPE_CHECKING:
 @define
 class Paycheck(Identifiable):
     _date_range: DateRange = attr(factory=DateRange)
-    one_time_incomes: list[OneTimeIncome] = attr(default=[])
-    recurring_incomes: list[RecurringIncome] = attr(default=[])
-    wage_incomes: list[WageIncome] = attr(default=[])
-    one_time_bills: list[OneTimeBill] = attr(default=[])
-    recurring_bills: list[RecurringBill] = attr(default=[])
+    one_time_incomes: list[OneTimeIncome] = attr(factory=list)
+    recurring_incomes: list[RecurringIncome] = attr(factory=list)
+    wage_incomes: list[WageIncome] = attr(factory=list)
+    one_time_bills: list[OneTimeBill] = attr(factory=list)
+    recurring_bills: list[RecurringBill] = attr(factory=list)
     total_income: float = attr(default=0.0)
     total_bills: float = attr(default=0.0)
     left_over_income: float = attr(default=0.0)
+
+    def __attrs_post_init__(self):
+        self.purge_outdated_items()
 
     def calculate_leftover_income(self):
         self.left_over_income = self.total_income - self.total_bills
@@ -46,20 +51,17 @@ class Paycheck(Identifiable):
         self._date_range = date_range
         self.purge_outdated_items()
 
-    def __attrs_post_init__(self):
-        self.update_totals()
-
     @staticmethod
     def from_user(user: 'User',
                   start_date=date.today()):
         paycheck: Paycheck = Paycheck()
         date_range: DateRange = DateRange().get_paycheck_range(start_date)
         paycheck.date_range = date_range
-        paycheck.one_time_incomes = user.user_income_history.one_time_incomes
-        paycheck.recurring_incomes = user.user_income_history.recurring_incomes
-        paycheck.wage_incomes = user.user_income_history.wage_incomes
-        paycheck.one_time_bills = user.user_bill_history.one_time_bills
-        paycheck.recurring_bills = user.user_bill_history.recurring_bills
+        paycheck.one_time_incomes = copy.deepcopy(user.user_income_history.one_time_incomes)
+        paycheck.recurring_incomes =copy.deepcopy( user.user_income_history.recurring_incomes)
+        paycheck.wage_incomes = copy.deepcopy(user.user_income_history.wage_incomes)
+        paycheck.one_time_bills = copy.deepcopy(user.user_bill_history.one_time_bills)
+        paycheck.recurring_bills = copy.deepcopy(user.user_bill_history.recurring_bills)
         paycheck.purge_outdated_items()
         return paycheck
 
@@ -85,18 +87,41 @@ class Paycheck(Identifiable):
     def get_num_bills(self) -> int:
         return len(self.one_time_bills) + len(self.recurring_bills)
 
+    def add_all_one_time_incomes(self, one_time_incomes: list[OneTimeIncome]) -> None:
+        for one_time_income in one_time_incomes:
+            self.add_one_time_income(one_time_income)
+
+    def add_all_recurring_incomes(self, recurring_incomes: list[RecurringIncome]) -> None:
+        for recurring_income in recurring_incomes:
+            self.add_recurring_income(recurring_income)
+
+    def add_all_wage_incomes(self, wage_incomes: list[WageIncome]) -> None:
+        for wage_income in wage_incomes:
+            self.add_wage_income(wage_income)
+
     def add_one_time_income(self, one_time_income: OneTimeIncome) -> None:
-        contains_income: bool = one_time_income in self.one_time_incomes
+        # contains_income: bool = one_time_income in self.one_time_incomes
+        contains_income: bool = any(
+            existing_income.name == one_time_income.name
+            for existing_income in self.one_time_incomes
+        )
         self._date_range.print_in_range(one_time_income.date_received)
         in_range: bool = self._date_range.in_range(one_time_income.date_received)
-        logging.info(f'One time income --- In range: {in_range}, Contains income {contains_income}')
         if not contains_income and in_range:
             self.one_time_incomes.append(one_time_income)
             self.update_total_income()
             self.purge_outdated_incomes()
 
     def add_recurring_income(self, recurring_income: RecurringIncome) -> None:
-        contains_income: bool = recurring_income in self.recurring_incomes
+        # contains_income: bool = recurring_income in self.recurring_incomes
+        contains_income: bool = any(
+            existing_income.name == recurring_income.name
+            for existing_income in self.recurring_incomes
+        )
+        for income in self.recurring_incomes:
+            logging.info(f'Existing income: {income.name}')
+
+        logging.info(f"Contains income for {recurring_income.name}: {contains_income}")
         in_range: bool = self._date_range.in_range(recurring_income.recurring_date.day)
         if not contains_income and in_range:
             self.recurring_incomes.append(recurring_income)
@@ -104,7 +129,11 @@ class Paycheck(Identifiable):
             self.purge_outdated_incomes()
 
     def add_wage_income(self, wage_income: WageIncome):
-        contains_income: bool = wage_income in self.wage_incomes
+        # contains_income: bool = wage_income in self.wage_incomes
+        contains_income: bool = any(
+            existing_income.name == wage_income.name
+            for existing_income in self.wage_incomes
+        )
         in_range: bool = self._date_range.in_range(wage_income.recurring_date.day)
         if not contains_income and in_range:
             self.wage_incomes.append(wage_income)
@@ -112,7 +141,11 @@ class Paycheck(Identifiable):
             self.purge_outdated_incomes()
 
     def add_one_time_bill(self, one_time_bill: OneTimeBill) -> None:
-        contains_bill: bool = one_time_bill in self.one_time_bills
+        # contains_bill: bool = one_time_bill in self.one_time_bills
+        contains_bill: bool = any(
+            existing_bill.name == one_time_bill.name
+            for existing_bill in self.one_time_bills
+        )
         in_range: bool = self._date_range.in_range(one_time_bill.due_date.due_date)
         if not contains_bill and in_range:
             self.one_time_bills.append(one_time_bill)
@@ -120,7 +153,11 @@ class Paycheck(Identifiable):
             self.purge_outdated_bills()
 
     def add_recurring_bill(self, recurring_bill: RecurringBill) -> None:
-        contains_bill: bool = recurring_bill in self.recurring_bills
+        # contains_bill: bool = recurring_bill in self.recurring_bills
+        contains_bill: bool = any(
+            existing_bill.name == recurring_bill.name
+            for existing_bill in self.recurring_bills
+        )
         in_range: bool = self._date_range.in_range(recurring_bill.recurring_date.day)
         if not contains_bill and in_range:
             self.recurring_bills.append(recurring_bill)
@@ -173,7 +210,11 @@ class Paycheck(Identifiable):
         #       method.
         updated_one_time_incomes: list[OneTimeIncome] = []
         for one_time_income in self.one_time_incomes:
-            contains_income = one_time_income in updated_one_time_incomes
+            # contains_income = one_time_income in updated_one_time_incomes
+            contains_income: bool = any(
+                existing_income.name == one_time_income.name
+                for existing_income in updated_one_time_incomes
+            )
             if self._date_range.in_range(one_time_income.date_received) and not contains_income:
                 updated_one_time_incomes.append(one_time_income)
         self.one_time_incomes = updated_one_time_incomes
@@ -237,7 +278,11 @@ class Paycheck(Identifiable):
     def purge_outdated_bills(self):
         updated_one_time_bills: list[OneTimeBill] = []
         for one_time_bill in self.one_time_bills:
-            contains_bill = one_time_bill in updated_one_time_bills
+            # contains_bill = one_time_bill in updated_one_time_bills
+            contains_bill: bool = any(
+                existing_bill.name == one_time_bill.name
+                for existing_bill in updated_one_time_bills
+            )
             if self._date_range.in_range(one_time_bill.due_date.due_date) and not contains_bill:
                 updated_one_time_bills.append(one_time_bill)
         self.one_time_bills = updated_one_time_bills
