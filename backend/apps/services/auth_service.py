@@ -76,7 +76,7 @@ class AuthService:
             return AuthResponse.CONFLICT.value
         else:
             user: User = await user.save()
-            self.session_service.save_user_to_session(user, http_request)
+            await self.session_service.save_user_to_session(user, http_request)
             return AuthResponse.AUTHORIZED.value
 
     async def websocket_signup(self,
@@ -123,7 +123,7 @@ class AuthService:
         password_matches: bool = db_user.password.compare_unencoded_password(login_request.password)
 
         if password_matches:
-            await sync_to_async(self.session_service.save_user_to_session)(db_user, http_request)
+            await self.session_service.save_user_to_session(db_user, http_request)
             return AuthResponse.AUTHORIZED.value
         else:
             return AuthResponse.UNAUTHORIZED.value
