@@ -1,18 +1,24 @@
 // bill-list.component.ts 
-import {Component, Input, OnInit, ViewChild} from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnInit,
+    ViewChild
+} from "@angular/core";
 import {ElementSize} from "../../../../models/ElementSize";
 import {ButtonText} from "../../element-group-native/ss-button/models/ButtonText";
-import {SsButtonComponent} from "../../element-group-native/ss-button/ss-button.component";
 import {BillInputComponent} from "../bill-input/bill-input.component";
 import {TagType} from "../../../../models/html/TagType";
 import {
     Bill,
     OneTimeBill,
-    RecurringBill
+    RecurringBill, WebSocketBill
 } from "../../../../models/paycheck/types";
 import {
     HttpGetAllBillsService
 } from "../../../../services/server/http/http-get-all-bills.service";
+import {DelayService} from "../../../../services/delay.service";
 
 @Component({
     selector: 'bill-list',
@@ -23,7 +29,8 @@ export class BillListComponent implements OnInit {
     @ViewChild(BillInputComponent) billInput: BillInputComponent;
     @Input() bills: (OneTimeBill | RecurringBill)[] = [];
     isLoading: boolean = true;
-    constructor(private getAllBillsService: HttpGetAllBillsService) {
+    constructor(private getAllBillsService: HttpGetAllBillsService,
+                private delayService: DelayService) {
         
     }
 
@@ -37,7 +44,27 @@ export class BillListComponent implements OnInit {
         });
     }
 
-    public updateBills(): void {
+    public addWebsocketBill(webSocketBill: WebSocketBill): void {
+        if ('recurringDate' in webSocketBill.message) {
+            const recurringBill: RecurringBill = webSocketBill.message;
+            this.bills.push({
+                ...recurringBill,
+                type: "RecurringBill" as "RecurringBill"
+            });
+        } else {
+            const oneTimeBill: OneTimeBill = webSocketBill.message;
+            this.bills.push({
+                ...oneTimeBill,
+                type: "OneTimeBill" as "OneTimeBill"
+            });
+        }
+        // this.isLoading = false;
+    }
+
+    public updateBills(isInit: boolean = true): void {
+        if (!isInit) {
+            this.delayService.delay(1000);
+        }
         this.getAllBillsService.getAllBills().subscribe(bills => {
             if (bills) {
                 console.log(bills);
