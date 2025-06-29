@@ -2,6 +2,7 @@
 import logging
 from typing import Optional
 
+from asgiref.sync import async_to_sync, sync_to_async
 from injector import inject
 
 from backend.apps.entity.user.user import User
@@ -29,9 +30,9 @@ class SessionService:
         else:
             logging.warning("User ID not found in session. Cannot remove user from session.")
 
-    def save_user_to_session(self, user: User, http_request) -> None:
+    async def save_user_to_session(self, user: User, http_request) -> None:
         http_request.session['user_id'] = user.id
-        http_request.session.save()
+        await sync_to_async(http_request.session.save)()
 
     def user_in_session(self, http_request) -> bool:
         user_id_key_exists: bool = 'user_id' in http_request.session
