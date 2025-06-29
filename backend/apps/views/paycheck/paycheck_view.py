@@ -51,7 +51,6 @@ class PaycheckView(APIView):
             for income in paycheck.recurring_incomes:
                 if income.recurring_date.interval == YearInterval.YEARLY:
                     income.amount = income.yearly_income / YearInterval.BI_WEEKLY.value
-            paycheck_serializer: PaycheckSerializer = PaycheckSerializer(instance=paycheck)
             for bill in paycheck.recurring_bills:
                 if bill.recurring_date.interval == YearInterval.WEEKLY:
                     date_range: DateRange = DateRange(start_date=bill.recurring_date.day, end_date=paycheck.date_range.end_date)
@@ -61,6 +60,9 @@ class PaycheckView(APIView):
 
             for wage_income in paycheck.wage_incomes:
                 wage_income._amount = wage_income.calculate_paycheck_income()
+            paycheck.left_over_income = self.paycheck_service.get_wallet_from_future_paychecks(user, paycheck_num)
+            print("Left over income: ", paycheck.left_over_income)
+            paycheck_serializer: PaycheckSerializer = PaycheckSerializer(instance=paycheck)
             return Response(paycheck_serializer.data, status=200)
         else:
             serializer: PayloadStatusResponseSerializer = (
