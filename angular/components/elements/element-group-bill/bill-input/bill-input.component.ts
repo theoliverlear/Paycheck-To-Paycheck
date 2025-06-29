@@ -22,6 +22,10 @@ import {
 import {
     RecurringBillWebSocketService
 } from "../../../../services/server/websocket/recurring-bill-websocket.service";
+import {
+    WebSocketBill, WebSocketOneTimeBill,
+    WebSocketRecurringBill
+} from "../../../../models/paycheck/types";
 
 @Component({
     selector: 'bill-input',
@@ -33,7 +37,7 @@ import {
 })
 export class BillInputComponent implements OnInit, WebSocketCapable {
     @Input() inputTimeType: InputTimeType = InputTimeType.ONE_TIME;
-    @Output() billAdded: EventEmitter<void> = new EventEmitter<void>();
+    @Output() billAdded: EventEmitter<WebSocketBill> = new EventEmitter<WebSocketBill>();
     protected shown: boolean = false;
     bill: Bill = new Bill();
     webSocketSubscription: Subscription;
@@ -56,8 +60,9 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     private initializeRecurringBillWebSocket(): void {
         this.recurringBillWebSocket.connect();
         this.recurringBillSubscription = this.recurringBillWebSocket.getMessages().subscribe(
-            (bill: Bill): void => {
+            (bill: WebSocketRecurringBill): void => {
                 if (bill) {
+                    this.billAdded.emit(bill);
                     console.log('WebSocket bill:', bill);
                 }
             },
@@ -70,8 +75,9 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
     private initializeOneTimeBillWebSocket(): void {
         this.billWebSocket.connect();
         this.webSocketSubscription = this.billWebSocket.getMessages().subscribe(
-            (bill: Bill): void => {
+            (bill: WebSocketOneTimeBill): void => {
                 if (bill) {
+                    this.billAdded.emit(bill);
                     console.log('WebSocket bill:', bill);
                 }
             },
@@ -94,17 +100,14 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
         const originalTimeType: InputTimeType = this.bill.timeType;
         this.bill = bill;
         this.bill.timeType = originalTimeType;
-        console.log(this.bill);
     }
 
     public updateBillInterval(billInterval: RecurringBillTimeInterval): void {
         this.bill.billInterval = billInterval;
-        console.log(this.bill);
     }
 
     public updateInputTimeType(inputTimeType: InputTimeType): void {
         this.bill.timeType = inputTimeType;
-        console.log(this.bill);
     }
 
     public confirm(): void {
@@ -113,7 +116,6 @@ export class BillInputComponent implements OnInit, WebSocketCapable {
         } else {
             this.billWebSocket.sendMessage(this.bill);
         }
-        this.billAdded.emit();
         this.shown = false;
     }
 
