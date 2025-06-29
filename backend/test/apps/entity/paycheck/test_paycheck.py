@@ -1,3 +1,4 @@
+# test_paycheck.py
 import logging
 import unittest
 from datetime import date
@@ -17,52 +18,16 @@ from backend.apps.models.date_utilities import get_next_friday_from_now, \
     get_next_bi_week, get_next_month, get_next_week, get_next_year, \
     get_tomorrow
 from backend.test.apps.entity.user.test_user import setup_user
+from backend.test.setup.setup import get_test_paycheck, setup_income_history, \
+    get_test_one_time_income, get_test_recurring_income
 from backend.test.test_logging import log_test_class, log_test_results
 
-
-def setup_income_history() -> IncomeHistory:
-    bonus: OneTimeIncome = OneTimeIncome(
-        name="Bonus",
-        amount=800,
-        date_received=date.today()
-    )
-    payday: RecurringDate = RecurringDate(interval=YearInterval.BI_WEEKLY,
-                                          day=get_next_friday_from_now())
-    job: RecurringIncome = RecurringIncome(
-        amount=1570,
-        recurring_date=payday,
-        name="Primary Job"
-    )
-    side_job: RecurringIncome = RecurringIncome(
-        amount=210,
-        recurring_date=payday,
-        name="Second Job"
-    )
-    wage_job: WageIncome = WageIncome(
-        name="Volunteer Stipend",
-        amount=13,
-        recurring_date=payday,
-        weekly_hours=10
-    )
-    income_history: IncomeHistory = IncomeHistory()
-    income_history.add_one_time_income(bonus)
-    income_history.add_recurring_income(job)
-    income_history.add_recurring_income(side_job)
-    income_history.add_wage_income(wage_job)
-    return income_history
-
-def get_test_paycheck():
-    income_history = setup_income_history()
-    user = setup_user()
-    user.user_income_history = income_history
-    return Paycheck(
-        one_time_incomes=income_history.one_time_incomes,
-        recurring_incomes=income_history.recurring_incomes,
-        wage_incomes=income_history.wage_incomes
-    )
-
 @log_test_class(class_tested="Paycheck")
-class PaycheckTest(unittest.TestCase):
+class PaycheckTest(unittest.IsolatedAsyncioTestCase):
+
+    def setUp(self):
+        self.test_paycheck = get_test_paycheck()
+        logging.info(f'Setup paycheck ID: {id(self.test_paycheck)}')
 
     @log_test_results
     def test_total_income(self):
@@ -88,8 +53,8 @@ class PaycheckTest(unittest.TestCase):
     @log_test_results
     def test_purge_outdated_items(self):
         paycheck: Paycheck = get_test_paycheck()
-        paycheck.date_range.start_date = date.today()
-        paycheck.date_range.end_date = get_next_bi_week(date.today())
+        # paycheck.date_range.start_date = date.today()
+        # paycheck.date_range.end_date = get_next_bi_week(date.today())
         paycheck.add_one_time_bill(OneTimeBill(
             due_date=DueDate(due_date=get_next_month(date.today())),
             name="Tires",
@@ -123,24 +88,45 @@ class PaycheckTest(unittest.TestCase):
         num_bills: int = paycheck.get_num_bills()
         expected_incomes: int = 6
         expected_bills: int = 1
-        income_history = setup_income_history()
-        user = setup_user()
-        user.user_income_history = income_history
-        paycheck = Paycheck(
-            one_time_incomes=income_history.one_time_incomes,
-            recurring_incomes=income_history.recurring_incomes,
-            wage_incomes=income_history.wage_incomes
-        )
+        paycheck.print_all_incomes()
+        logging.info("-" * 50)
+        # for income in setup_income_history().recurring_incomes:
+            # logging.info(f"Recurring Income: {income}")
         self.assertEqual(num_incomes, expected_incomes)
         self.assertEqual(num_bills, expected_bills)
+
+
+    @log_test_results
+    def test_add_one_time_income(self):
+        paycheck: Paycheck = get_test_paycheck()
+        income_history: IncomeHistory = IncomeHistory()
+        test_one_time_income: OneTimeIncome = get_test_one_time_income()
+        test_one_time_income.income_history = income_history
+        paycheck.add_one_time_income(test_one_time_income)
+        paycheck.add_one_time_income(test_one_time_income)
+        paycheck.add_one_time_income(test_one_time_income)
+        self.assertEqual(len(paycheck.one_time_incomes), 2)
+
+    @log_test_results
+    def test_add_recurring_income(self):
+        logging.info('=' * 50)
+        self.test_paycheck.print_all_incomes()
+        logging.info('=' * 50)
+        income_history: IncomeHistory = IncomeHistory()
+        test_recurring_income: RecurringIncome = get_test_recurring_income()
+        test_recurring_income.income_history = income_history
+        self.assertEqual(len(self.test_paycheck.recurring_incomes), 2)
+        self.test_paycheck.add_recurring_income(test_recurring_income)
+        self.test_paycheck.add_recurring_income(test_recurring_income)
+        self.assertEqual(len(self.test_paycheck.recurring_incomes), 3)
 
     @log_test_results
     def test_paycheck_date_differences(self):
         base_paycheck: Paycheck = get_test_paycheck()
         test_paycheck: Paycheck = get_test_paycheck()
         test_paycheck.date_range = DateRange.get_paycheck_range(get_next_year(date.today()))
-        logging.info(f'Base paycheck: {base_paycheck}')
-        logging.info(f'Test paycheck: {test_paycheck}')
+        # logging.info(f'Base paycheck: {base_paycheck}')
+        # logging.info(f'Test paycheck: {test_paycheck}')
         self.assertNotEqual(base_paycheck, test_paycheck)
 
 if __name__ == '__main__':
