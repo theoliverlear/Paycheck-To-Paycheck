@@ -18,14 +18,12 @@ class TestPaycheckService(unittest.TestCase):
     def test_get_current_user_paycheck_exists(self):
         user: User = setup_user()
         paycheck: Paycheck = self.paycheck_service.get_current_user_paycheck(user)
-        logging.info(f'Paycheck: {paycheck}')
         self.assertIsNotNone(paycheck)
 
     @log_test_results
     def test_get_paycheck_from_now_exists(self):
         user: User = setup_user()
         future_paycheck: Paycheck = self.paycheck_service.get_paycheck_from_now(user, 1)
-        logging.info(f"Future paycheck: {future_paycheck}")
         self.assertIsNotNone(future_paycheck)
 
     @log_test_results
@@ -33,8 +31,6 @@ class TestPaycheckService(unittest.TestCase):
         user: User = setup_user()
         current_paycheck: Paycheck = self.paycheck_service.get_current_user_paycheck(user)
         future_paycheck: Paycheck = self.paycheck_service.get_paycheck_from_now(user, 2)
-        logging.info(f"Current paycheck: {current_paycheck}")
-        logging.info(f"Future paycheck: {future_paycheck}")
         self.assertNotEqual(current_paycheck, future_paycheck)
 
 
