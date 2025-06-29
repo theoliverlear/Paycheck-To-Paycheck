@@ -19,12 +19,11 @@ from backend.apps.entity.orm_compatible import OrmCompatible
 
 @define
 class BillHistory(OrmCompatible['BillHistory', BillHistoryOrmModel], Identifiable):
-    one_time_bills: list[OneTimeBill] = attr(default=[])
-    recurring_bills: list[RecurringBill] = attr(default=[])
+    one_time_bills: list[OneTimeBill] = attr(factory=list)
+    recurring_bills: list[RecurringBill] = attr(factory=list)
 
     def add_one_time_bill(self, bill: OneTimeBill) -> None:
         bill_in_list: bool = bill not in self.one_time_bills
-        print(f'Bill not in list: {bill_in_list}')
         if bill_in_list:
             self.one_time_bills.append(bill)
 
