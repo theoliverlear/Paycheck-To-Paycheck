@@ -18,7 +18,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeOrmModel], ABC, Identifiable):
+class OneTimeIncome(UndatedIncome, OrmCompatible['OneTimeIncome', OneTimeIncomeOrmModel], Identifiable):
     date_received: date = attr(default=date.today())
     income_history: IncomeHistory = attr(default=None)
 
