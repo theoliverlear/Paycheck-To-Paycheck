@@ -62,6 +62,18 @@ export type WageIncome = {
 export type Income = OneTimeIncome | RecurringIncome | WageIncome;
 export type Bill = OneTimeBill | RecurringBill;
 
+export type WebSocketOneTimeBill = {
+    message: OneTimeBill,
+    type: 'OneTimeBill';
+};
+
+export type WebSocketRecurringBill = {
+    message: RecurringBill,
+    type: 'RecurringBill';
+};
+
+export type WebSocketBill = WebSocketOneTimeBill | WebSocketRecurringBill;
+
 export type Bills = {
     oneTimeBills: OneTimeBill[];
     recurringBills: RecurringBill[];
