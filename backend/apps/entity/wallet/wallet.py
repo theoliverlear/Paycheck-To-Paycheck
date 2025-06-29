@@ -3,6 +3,7 @@ from typing import override, TYPE_CHECKING
 
 from attr import attr
 from attrs import define
+from channels.db import database_sync_to_async
 
 from backend.apps.entity.bill.undated_bill import UndatedBill
 if TYPE_CHECKING:
@@ -18,7 +19,7 @@ from backend.apps.exception.entity_not_found_exception import \
 
 
 @define
-class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
+class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel]):
     checking_account: 'Saving' = attr(default=None)
     savings: list['Saving'] = attr(default=[])
     debts: list['Debt'] = attr(default=[])
@@ -47,45 +48,45 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
             debt.wallet = self
 
     @override
-    def save(self) -> 'Wallet':
+    async def save(self) -> 'Wallet':
         if self.is_initialized():
-            self.update()
+            await self.update()
             return self
         else:
             self.handle_uninitialized_fields()
-            checking_account: Saving = self.checking_account.save()
-            saved_wallet: WalletOrmModel = WalletOrmModel.objects.create(
+            checking_account: Saving = await self.checking_account.save()
+            saved_wallet: WalletOrmModel = await database_sync_to_async(WalletOrmModel.objects.create)(
                 checking_account=checking_account.get_orm_model()
             )
             self.set_from_orm_model(saved_wallet)
             return Wallet.from_orm_model(saved_wallet)
 
 
-    def save_all(self) -> 'Wallet':
+    async def save_all(self) -> 'Wallet':
         if self.is_initialized():
-            self.update_all()
+            await self.update_all()
         else:
             self.handle_uninitialized_fields()
-            checking_account: Saving = self.checking_account.save()
-            saved_wallet: WalletOrmModel = WalletOrmModel.objects.create(
+            checking_account: Saving = await self.checking_account.save()
+            saved_wallet: WalletOrmModel = await database_sync_to_async(WalletOrmModel.objects.create)(
                 checking_account=checking_account.get_orm_model()
             )
             self.set_from_orm_model(saved_wallet)
-            self.save_checking()
-            self.save_all_savings()
+            await self.save_checking()
+            await self.save_all_savings()
             self.save_all_debts()
             return Wallet.from_orm_model(saved_wallet)
 
 
-    def save_checking(self) -> 'Saving':
-        checking_account: Saving = self.checking_account.save()
+    async def save_checking(self) -> 'Saving':
+        checking_account: Saving = await self.checking_account.save()
         self.checking_account = checking_account
         return checking_account
 
-    def save_all_savings(self) -> list['Saving']:
+    async def save_all_savings(self) -> list['Saving']:
         saved_savings: list['Saving'] = []
         for saving in self.savings:
-            saved_saving: Saving = saving.save()
+            saved_saving: Saving = await saving.save()
             saved_savings.append(saved_saving)
         self.savings = saved_savings
         return saved_savings
@@ -98,35 +99,35 @@ class Wallet(Identifiable, OrmCompatible['Wallet', WalletOrmModel], ABC):
         return saved_debts
 
     @override
-    def update(self) -> None:
+    async def update(self) -> None:
         try:
             self.handle_uninitialized_fields()
-            db_model: WalletOrmModel = WalletOrmModel.objects.get(id=self.id)
+            db_model: WalletOrmModel = await database_sync_to_async(WalletOrmModel.objects.get)(id=self.id)
             orm_model: WalletOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except WalletOrmModel.DoesNotExist:
             raise EntityNotFoundException(self)
 
-    def update_all(self) -> None:
+    async def update_all(self) -> None:
         try:
             self.handle_uninitialized_fields()
-            db_model: WalletOrmModel = WalletOrmModel.objects.get(id=self.id)
-            self.update_checking()
-            self.update_all_savings()
+            db_model: WalletOrmModel = await database_sync_to_async(WalletOrmModel.objects.get)(id=self.id)
+            await self.update_checking()
+            await self.update_all_savings()
             self.save_all_debts()
             orm_model: WalletOrmModel = self.get_orm_model()
             self.set_orm_model(db_model, orm_model)
-            db_model.save()
+            await database_sync_to_async(db_model.save)()
         except WalletOrmModel.DoesNotExist as exception:
             raise EntityNotFoundException(self)
 
-    def update_checking(self):
-        self.checking_account.update()
+    async def update_checking(self):
+        await self.checking_account.update()
 
-    def update_all_savings(self):
+    async def update_all_savings(self):
         for saving in self.savings:
-            saving.update()
+            await saving.update()
 
     def update_all_debts(self):
         for debt in self.debts:
